@@ -1,0 +1,19 @@
+<header>
+  <div class="header-container">
+    <a routerLink="/" routerLinkActive="router-link-active">
+      <img src="assets/F1.svg.webp" alt="F1 logo" />
+    </a>
+    <nav>
+      <a routerLink="/teams" routerLinkActive="router-link-active">Teams</a>
+      <a routerLink="/coureurs" routerLinkActive="router-link-active">Coureurs</a>
+      <a routerLink="/races" routerLinkActive="router-link-active">Races</a>
+      <mat-slide-toggle [checked]="theme() === 'dark-theme'" (change)="toggleTheme($event)" class="theme-toggle">
+        <!-- @if (theme() === 'dark-theme') {
+          <mat-icon class="toggle-icon">light_mode</mat-icon>
+        } @else {
+          <mat-icon class="toggle-icon">mode_night</mat-icon>
+        } -->
+      </mat-slide-toggle>
+    </nav>
+  </div>
+</header>

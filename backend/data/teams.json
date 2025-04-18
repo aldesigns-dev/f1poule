@@ -1,0 +1,172 @@
+[
+  {
+    "id": 1,
+    "teamName": "Alpine",
+    "teamPosition": 10,
+    "teamPoints": 0,
+    "teamColor": "oklch(67.4% 0.150963 238.6408)",
+    "teamLogoUrl": "assets/team-logos/logo-alpine.png",
+    "carImageUrl": "assets/cars/car-alpine.png",
+    "drivers": [
+      {
+        "id": 9
+      },
+      {
+        "id": 19
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "teamName": "Aston Martin",
+    "teamPosition": 7,
+    "teamPoints": 10,
+    "teamColor": "oklch(60.95% 0.1187 164.97)",
+    "teamLogoUrl": "assets/team-logos/logo-aston-martin.png",
+    "carImageUrl": "assets/cars/car-aston-martin.png",
+    "drivers": [
+      {
+        "id": 5
+      },
+      {
+        "id": 11
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "teamName": "Ferrari",
+    "teamPosition": 4,
+    "teamPoints": 35,
+    "teamColor": "oklch(58.6% 0.2382 26.09)",
+    "teamLogoUrl": "assets/team-logos/logo-ferrari.png",
+    "carImageUrl": "assets/cars/car-ferrari.png",
+    "drivers": [
+      {
+        "id": 3
+      },
+      {
+        "id": 13
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "teamName": "Haas",
+    "teamPosition": 6,
+    "teamPoints": 15,
+    "teamColor": "oklch(78.66% 0.0062 239.84)",
+    "teamLogoUrl": "assets/team-logos/logo-haas.png",
+    "carImageUrl": "assets/cars/car-haas.png",
+    "drivers": [
+      {
+        "id": 4
+      },
+      {
+        "id": 17
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "teamName": "Kick Sauber",
+    "teamPosition": 9,
+    "teamPoints": 6,
+    "teamColor": "oklch(80.64% 0.2223 143.17)",
+    "teamLogoUrl": "assets/team-logos/logo-kick-sauber.png",
+    "carImageUrl": "assets/cars/car-kick-sauber.png",
+    "drivers": [
+      {
+        "id": 6
+      },
+      {
+        "id": 16
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "teamName": "McLaren",
+    "teamPosition": 1,
+    "teamPoints": 111,
+    "teamColor": "oklch(73.19% 0.1858 52.98)",
+    "teamLogoUrl": "assets/team-logos/logo-mclaren.png",
+    "carImageUrl": "assets/cars/car-mclaren.png",
+    "drivers": [
+      {
+        "id": 12
+      },
+      {
+        "id": 18
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "teamName": "Mercedes",
+    "teamPosition": 2,
+    "teamPoints": 75,
+    "teamColor": "oklch(86.75% 0.1552 177.28)",
+    "teamLogoUrl": "assets/team-logos/logo-mercedes.png",
+    "carImageUrl": "assets/cars/car-mercedes.png",
+    "drivers": [
+      {
+        "id": 7
+      },
+      {
+        "id": 10
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "teamName": "Racing Bulls",
+    "teamPosition": 8,
+    "teamPoints": 7,
+    "teamColor": "oklch(67.98% 0.1681 265.61)",
+    "teamLogoUrl": "assets/team-logos/logo-racing-bulls.png",
+    "carImageUrl": "assets/cars/car-racing-bulls.png",
+    "drivers": [
+      {
+        "id": 8
+      },
+      {
+        "id": 14
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "teamName": "Red Bull Racing",
+    "teamPosition": 3,
+    "teamPoints": 61,
+    "teamColor": "oklch(55.32% 0.1459 257.86)",
+    "teamLogoUrl": "assets/team-logos/logo-red-bull-racing.png",
+    "carImageUrl": "assets/cars/car-red-bull-racing.png",
+    "drivers": [
+      {
+        "id": 15
+      },
+      {
+        "id": 20
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "teamName": "Williams",
+    "teamPosition": 5,
+    "teamPoints": 19,
+    "teamColor": "oklch(54.05% 0.1913 258.97)",
+    "teamLogoUrl": "assets/team-logos/logo-williams.png",
+    "carImageUrl": "assets/cars/car-williams.png",
+    "drivers": [
+      {
+        "id": 1
+      },
+      {
+        "id": 2
+      }
+    ]
+  }
+]

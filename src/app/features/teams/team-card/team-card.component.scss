@@ -1,0 +1,139 @@
+.team-card {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  padding: 1.25rem 2.25rem;
+  width: 100%;
+  max-width: 100%;
+
+  .tc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 900;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: .5rem;
+
+    .tc-team-position{
+      font-size: 3.5rem;
+      font-style: italic;
+      color: var(--text);
+    }
+
+    .tc-team-points {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 2rem;
+      font-weight: 900;
+
+      .tc-team-points-number {
+        line-height: 1;
+        color: var(--text);
+      }
+      
+      .tc-team-points-label {
+        font-size: .65rem;
+        font-weight: 600;
+        line-height: 1;
+        text-transform: uppercase;
+        color: var(--card-bg);
+        background-color: var(--text);
+        border-radius: 16px;
+        padding: .25rem .5rem;
+      }
+    }
+  }
+
+  .tc-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+
+    .tc-team-name {
+      position: relative;
+      font-size: 1.5rem;
+      font-weight: 900;
+      line-height: 1.5;
+      padding-left: 1rem;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: .325rem;
+        height: 100%;
+        background-color: var(--team-color);
+      }
+    }
+
+    .tc-team-logo {
+      width: auto;
+      height: 30px;
+    }
+  }
+
+  .tc-drivers {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .tc-driver {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      background-color: var(--card-accent);
+      padding: .5rem;
+      border-radius: 8px;
+      gap: 1rem;
+      width: 100%;
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--card-accent-hover);
+      }
+
+      & img {
+        width: 60px;
+        height: 60px;
+      }
+
+      .tc-driver-info {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+
+        .tc-driver-name {
+          font-weight: 700;
+
+          span {
+            font-weight: 400;
+            font-style: italic;
+            margin-left: 0.25rem;
+            color: var(--primary-350);
+          }
+        }
+
+        .tc-driver-points {
+          font-size: .85rem;
+          color: var(--primary-red);
+        }
+
+        .tc-driver-flag {
+          width: 45px;
+          height: auto;
+          border-radius: 4px;
+        }
+      }
+    }
+  }
+}
+
+.tc-car-image img {
+  width: 100%;
+  margin-top: 1rem;
+}

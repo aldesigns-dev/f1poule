@@ -1,0 +1,9 @@
+<main>
+  <h1>{{ pageTitle() }}</h1>
+  @for (race of races; track race) {
+    <div>
+      <h3>{{ race.raceName }}</h3>
+      <p>{{ race.Circuit.circuitName }} - {{ race.date }}</p>
+    </div>
+  }
+</main>

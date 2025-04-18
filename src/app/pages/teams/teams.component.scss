@@ -1,0 +1,21 @@
+.teams-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem; 
+  justify-content: space-between;
+
+  .team-card-wrapper {
+    flex: 0 1 calc((100% - 2rem) / 2);
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 800px) {
+  .teams-container {
+    flex-direction: column; 
+
+    .team-card-wrapper {
+      flex: 1 1 100%;  
+    }
+  }
+}

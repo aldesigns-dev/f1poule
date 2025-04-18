@@ -1,0 +1,73 @@
+.driver-details-header {
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 8px;
+  overflow: hidden;
+
+  .dd-driver-image-container {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    min-width: 400px;
+    height: auto;
+
+    .dd-driver-image {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .dd-driver-info-container {
+    flex: 2;
+    padding: 3rem 1rem 3rem 3rem;
+    background-color: var(--team-card-bg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .dd-driver-info {
+      display: flex;
+      align-items: center;
+
+      .dd-driver-number {
+        font-size: 3.3rem;
+        font-style: italic;
+        margin-right: 1rem;
+        color: var(--primary-350);
+      }
+
+      .dd-driver-flag {
+        height: 2.5rem;
+        border-radius: 4px;
+      }
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 2rem;
+    }
+  }
+}
+
+
+.mat-mdc-table {
+  background-color: transparent;
+  min-width: 200px;
+}
+.mat-mdc-row {
+  height: 2rem;
+}
+.mat-column-label {
+  font-weight: 700;
+}
+.mat-mdc-cell {
+  border: none;
+  letter-spacing: 0;
+}
+.mdc-data-table__cell, .mdc-data-table__header-cell {
+  padding: 0;
+}
+.mdc-data-table__content {
+  font-size: 1rem;
+}

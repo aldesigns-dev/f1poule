@@ -1,0 +1,50 @@
+<!-- <main>
+  @if (driver) {
+    <div class="driver-details-header">
+      <div class="dd-driver-image-container" [ngStyle]="{ 'background-color': teamColor }">
+        <img [src]="driver.imageUrl" alt="{{ driver.name }}" class="dd-driver-image" />
+      </div>
+      
+      <div class="dd-driver-info-container">
+        <div class="dd-driver-info">
+          <div class="dd-driver-number">{{ driver.number }}</div>
+          <img [src]="driver.flagUrl" alt="Land vlag" class="dd-driver-flag" />
+        </div>
+        <h1>{{ driver.name }}</h1>
+        <table mat-table [dataSource]="driverInfo">
+          <ng-container matColumnDef="label">
+            <td mat-cell *matCellDef="let element"> {{ element.label }} </td>
+          </ng-container>
+          <ng-container matColumnDef="value">
+            <td mat-cell *matCellDef="let element">
+              {{ element.label === 'Geboortedatum' ? (element.value | date:'dd-MM-yyyy') : element.value }}
+            </td>
+          </ng-container>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+    </div>
+      
+        <h2>F1 Seizoen 2025</h2>
+        <table mat-table [dataSource]="driverCurrentSeason">
+          <ng-container matColumnDef="label">
+            <td mat-cell *matCellDef="let element"> {{ element.label }} </td>
+          </ng-container>
+          <ng-container matColumnDef="value">
+            <td mat-cell *matCellDef="let element"> {{ element.value }} </td>
+          </ng-container>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <h2>F1 Carriere</h2>
+        <table mat-table [dataSource]="driverCareer">
+          <ng-container matColumnDef="label">
+            <td mat-cell *matCellDef="let element"> {{ element.label }} </td>
+          </ng-container>
+          <ng-container matColumnDef="value">
+            <td mat-cell *matCellDef="let element"> {{ element.value }} </td>
+          </ng-container>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+  }
+</main> -->

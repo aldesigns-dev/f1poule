@@ -1,1 +1,125 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+:root {
+  --primary-900: oklch(0.22 0.0157 256.82); // Rich-black #161B22
+  --primary-800: oklch(0.25 0.0178 259.76); // Raisin-black #1C2129
+  --primary-700: oklch(0.27 0.0189 258.36); // Gunmetal #212730
+  --primary-600: oklch(0.32 0.0258 260.06); // Gunmetal #2b3340
+  --primary-575: oklch(0.37 0.0285 260.06);
+  --primary-550: oklch(0.42 0.0285 260.06); 
+  --primary-500: oklch(0.42 0.0205 259.41); // Charcoal #464D58
+  --primary-450: oklch(0.47 0.0185 257.25); // Davy's-gray #535A64
+  --primary-400: oklch(0.51 0.0161 258.37); // Dim-gray #60666F
+  --primary-350: oklch(0.59 0.0135 259.82); // Gray #7A7F87
+  --primary-300: oklch(0.68 0.01 258.35); // Cadet-gray #94989E
+  --primary-250: oklch(0.76 0.0079 260.73); // French-gray #AEB1B6
+  --primary-200: oklch(0.84 0.0047 258.33); // Silver #C8CACD
+  --primary-150: oklch(0.88 0.0035 247.86); // Platinum #D5D7D9
+  --primary-100: oklch(0.92 0.0029 264.54); // Platinum #E2E3E5
+  --primary-50: oklch(0.95 0.0017 247.84); // Anti-flash-white #EFF0F1
+  --primary-0:  oklch(0.99 0 0); // White #FCFCFC
+
+  --primary-red: oklch(0.6 0.244572 29.2339);
+  --primary-green: oklch(0.65 0.2189 145.07);
+
+  --team-alpine: oklch(67.4% 0.150963 238.6408);
+  --team-astonmartin: oklch(60.95% 0.1187 164.97);
+  --team-ferrari: oklch(58.6% 0.2382 26.09);
+  --team-haas: oklch(78.66% 0.0062 239.84);
+  --team-kicksauber: oklch(80.64% 0.2223 143.17);
+  --team-mclaren: oklch(73.19% 0.1858 52.98);
+  --team-mercedes: oklch(86.75% 0.1552 177.28);
+  --team-racingbulls: oklch(67.98% 0.1681 265.61);
+  --team-redbullracing: oklch(55.32% 0.1459 257.86);
+  --team-williams: oklch(54.05% 0.1913 258.97);
+
+  --transition-speed: .2s;
+}
+
+.dark-theme {
+  --background: var(--primary-700);
+  --text: var(--primary-0);
+  --link: var(--primary-0);
+  --border: var(--primary-350);
+  --card-bg: var(--primary-600);
+  --card-accent: var(--primary-575);
+  --card-accent-hover: var(--primary-550);
+  --toggle-icon:  oklch(0.84 0.1967 79.88);
+}
+
+.light-theme {
+  --background: var(--primary-0);
+  --text: var(--primary-600);
+  --link: var(--primary-600);
+  --border: var(--primary-550);
+  --card-bg: var(--primary-50);
+  --card-accent: var(--primary-100);
+  --card-accent-hover: var(--primary-150);
+  --toggle-icon: oklch(0.32 0.0258 260.06);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+body, header {
+  transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+body {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 400;
+  background-color: var(--background);
+  color: var(--text);
+}
+
+main {
+  width: 100%;
+  max-width: 1320px;
+  margin: auto;
+  padding: 100px 5%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text);
+}
+
+h1 {
+  font-size: 3.5rem;
+  font-weight: 900;
+  font-style: italic;
+  margin-bottom: 2.5rem;
+}
+
+h2 {
+  font-size: 2.5rem;
+  font-weight: 900;
+}
+
+h3 {
+  font-size: 1.7rem;
+  letter-spacing: 2px;
+}
+
+a {
+  color: var(--link);
+  text-decoration: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}

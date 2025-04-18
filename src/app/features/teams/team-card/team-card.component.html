@@ -1,0 +1,40 @@
+<mat-card class="team-card">
+  <div class="tc-header">
+    <div class="tc-team-position">{{ constructorStanding().position }}</div>
+    <div class="tc-team-points">
+      <span class="tc-team-points-number">{{ constructorStanding().points }}</span>
+      <span class="tc-team-points-label">punten</span>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <div class="tc-info">
+    <div class="tc-team-name" [ngStyle]="{ 'border-left': '6px solid var(--team-color)' }">
+      {{ constructorStanding().Constructor.name }}
+    </div>
+    <img src="assets/team-logos/logo-{{ constructorStanding().Constructor.constructorId }}.png" alt="{{ constructorStanding().Constructor.name }} logo" class="tc-team-logo"/>
+  </div>
+
+  <div class="tc-drivers">
+    @for (driverStanding of drivers(); track driverStanding.Driver.driverId) {
+      <a matRipple [routerLink]="getDriverLink(driverStanding.Driver.driverId)" class="tc-driver">
+        <div class="tc-driver-info">
+          <img [src]="getDriverImage(driverStanding.Driver.driverId)" alt="{{ driverStanding.Driver.givenName }} {{ driverStanding.Driver.familyName }}" class="tc-driver-image" />
+          <div class="tc-driver-name">
+            {{ driverStanding.Driver.givenName }} {{ driverStanding.Driver.familyName }}
+            <span>{{ driverStanding.Driver.permanentNumber }}</span>
+          </div>
+          <div class="tc-driver-points"> punten</div>
+          <img class="tc-driver-flag"
+               [src]="'assets/country-flags-main/svg/' + driverStanding.Driver.nationality + '.svg'"
+               alt="Land vlag" />
+        </div>
+      </a>
+    }
+  </div>
+
+  <div class="tc-car-image">
+    <img [src]="'assets/cars/car-' + constructorStanding().Constructor.constructorId + '.png'" alt="F1 auto" />
+  </div>
+</mat-card>
