@@ -8,32 +8,57 @@ import { Observable } from "rxjs";
 export class JolpicaF1Service {
   private httpClient = inject(HttpClient);
   private baseUrl = 'https://api.jolpi.ca/ergast/f1';
+  private season = '2025';
 
-  getDrivers(season: string): Observable<any> {
-    return this.httpClient.get<any>(`${this.baseUrl}/${season}/drivers.json`);
+  getDrivers(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/drivers.json`);
   }
 
-  getDriverStandings(season: string): Observable<any> {
-    return this.httpClient.get(`${this.baseUrl}/${season}/driverstandings.json`);
+  getDriversSeason(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/${this.season}/drivers.json`);
   }
 
-  getConstructors(season: string): Observable<any> {
-    return this.httpClient.get<any>(`${this.baseUrl}/${season}/constructors.json`);
+  getDriverStandings(): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/driverstandings.json`);
   }
 
-  getConstructorStandings(season: string) : Observable<any> {
-    return this.httpClient.get(`${this.baseUrl}/${season}/constructorstandings.json`);
+  getDriverStandingsSeason(): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/${this.season}/driverstandings.json`);
   }
 
-  getRaces(season: string): Observable<any> {
-    return this.httpClient.get<any>(`${this.baseUrl}/${season}/races.json`);
+  getDriverResults(driverId: string): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/drivers/${driverId}/results.json`);
   }
 
-  getCircuits(season: string): Observable<any> {
-    return this.httpClient.get<any>(`${this.baseUrl}/${season}/circuits.json`);
+  getDriverResultsSeason(driverId: string): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/${this.season}/drivers/${driverId}/results.json`);
   }
 
-  getResults(season: string): Observable<any> {
-    return this.httpClient.get<any>(`${this.baseUrl}/${season}/results.json`);
+  getConstructors(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/constructors.json`);
+  }
+
+  getConstructorsSeason(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/${this.season}/constructors.json`);
+  }
+
+  getConstructorStandings() : Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/constructorstandings.json`);
+  }
+
+  getConstructorStandingsSeason() : Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/${this.season}/constructorstandings.json`);
+  }
+
+  getRaces(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/races.json`);
+  }
+
+  getRacesSeason(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/${this.season}/races.json`);
+  }
+
+  getCircuits(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/${this.season}/circuits.json`);
   }
 }

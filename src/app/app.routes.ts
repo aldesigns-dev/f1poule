@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { TeamsComponent } from './pages/teams/teams.component';
 import { RacesComponent } from './pages/races/races.component';
-import { DriverDetailComponent } from './features/drivers/driver-details/driver-details.component';
+import { DriverDetailComponent } from './pages/drivers/driver-details/driver-details.component';
 import { DriversComponent } from './pages/drivers/drivers.component';
 
 export const routes: Routes = [

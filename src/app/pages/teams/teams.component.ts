@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { TeamCardComponent } from "../../features/teams/team-card/team-card.component";
+import { TeamCardComponent } from "./team-card/team-card.component";
 import { JolpicaF1Service } from '../../core/services/jolpica-f1.service';
 import { ConstructorStanding } from '../../core/models/constructor-standing.model';
 import { DriverStanding } from '../../core/models/driver-standing.model';
@@ -24,15 +24,15 @@ export class TeamsComponent implements OnInit {
   constructorStandings: ConstructorStanding[] = [];
   driverStandings: DriverStanding[] = [];
   driversByTeam: { [constructorId: string]: DriverStanding[] } = {};
-  season = '2025';
-
+ 
   ngOnInit(): void {
     this.loadConstructorStandings();
     this.loadDriverStandings();
   }
 
+  // Ophalen teamstanden.
   loadConstructorStandings() {
-    this.jolpicaF1Service.getConstructorStandings(this.season)
+    this.jolpicaF1Service.getConstructorStandingsSeason()
     .pipe(takeUntilDestroyed(this.destroyRef))
     .subscribe({
       next: (data) => {
@@ -46,8 +46,9 @@ export class TeamsComponent implements OnInit {
     });
   }
 
+  // Ophalen coureursstanden. 
   loadDriverStandings() {
-    this.jolpicaF1Service.getDriverStandings(this.season)
+    this.jolpicaF1Service.getDriverStandingsSeason()
     .pipe(takeUntilDestroyed(this.destroyRef))
     .subscribe({
       next: (data) => {
@@ -62,25 +63,22 @@ export class TeamsComponent implements OnInit {
     });
   }
 
+  // Coureurs koppelen aan teams.
   linkDriversToTeams() {
-    this.driversByTeam = {}; // Reset de mapping.
-    // Loop door alle drivers in de driverStandings.
+    this.driversByTeam = {}; // Reset mapping.
     for (const driver of this.driverStandings) {
-      // Ophalen meest recente constructor.
       const mostRecentConstructor = driver.Constructors[driver.Constructors.length - 1]; 
       const constructorId = mostRecentConstructor.constructorId;
-      // Als het team nog niet in het object zit, voeg het toe als lege array.
       if (!this.driversByTeam[constructorId]) {
         this.driversByTeam[constructorId] = [];
       }
-      // Toevoegen driver aan juiste team.
       this.driversByTeam[constructorId].push(driver);
     }
-    console.log('Drivers by Team:', this.driversByTeam);
+    console.log('Drivers per team:', this.driversByTeam);
   }
 
-  getDriversForTeam(constructorId: string): any[] {
-    // Haal de drivers voor een specifiek team op
+  // Coureurs ophalen voor een bepaald team. 
+  getDriversForTeam(constructorId: string): DriverStanding[] {
     return this.driversByTeam[constructorId] || [];
   }
 }

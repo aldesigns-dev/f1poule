@@ -82,10 +82,9 @@ body {
 }
 
 main {
-  width: 100%;
-  max-width: 1320px;
-  margin: auto;
-  padding: 100px 5%;
+  width: min(90%, 1320px);
+  margin-inline: auto;
+  padding-block: 100px;
 }
 
 h1, h2, h3, h4, h5, h6 {

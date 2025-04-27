@@ -10,10 +10,10 @@
   <mat-divider></mat-divider>
 
   <div class="tc-info">
-    <div class="tc-team-name" [ngStyle]="{ 'border-left': '6px solid var(--team-color)' }">
-      {{ constructorStanding().Constructor.name }}
+    <div class="tc-team-name" [ngStyle]="{ 'border-left': '6px solid ' + getConstructorColor(constructorStanding().Constructor.constructorId) }">
+      {{ getConstructorName(constructorStanding().Constructor.constructorId) }}
     </div>
-    <img src="assets/team-logos/logo-{{ constructorStanding().Constructor.constructorId }}.png" alt="{{ constructorStanding().Constructor.name }} logo" class="tc-team-logo"/>
+    <img [src]="getConstructorLogo(constructorStanding().Constructor.constructorId)" alt="Teamlogo" class="tc-team-logo"/>
   </div>
 
   <div class="tc-drivers">
@@ -25,10 +25,10 @@
             {{ driverStanding.Driver.givenName }} {{ driverStanding.Driver.familyName }}
             <span>{{ driverStanding.Driver.permanentNumber }}</span>
           </div>
-          <div class="tc-driver-points"> punten</div>
+          <div class="tc-driver-points">{{ driverStanding.points }} punten</div>
           <img class="tc-driver-flag"
-               [src]="'assets/country-flags-main/svg/' + driverStanding.Driver.nationality + '.svg'"
-               alt="Land vlag" />
+              [src]="getFlagImage(driverStanding.Driver.nationality)"
+              alt="{{ driverStanding.Driver.nationality }} vlag" />
         </div>
       </a>
     }

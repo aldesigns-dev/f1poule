@@ -22,12 +22,34 @@ const driverSlugMap: { [key: string]: string } = {
 };
 
 export function getDriverSlug(driverId: string): string {
-  // Controleer of de driverId in de driverSlugMap staat.
   if (driverSlugMap[driverId]) {
-    // Als de driverId bestaat in de map, geef de slug terug.
     return driverSlugMap[driverId];
   } else {
-    // Als de driverId niet bestaat, geef de originele driverId terug.
     return driverId;
   }
+};
+
+export function getDriverImage(driverId: string): string {
+  return `assets/drivers/${getDriverSlug(driverId)}.png`;
 }
+
+const nationalityFlagMap: { [key: string]: string } = {
+  'Australian': 'au',
+  'Brazilian': 'br',
+  'British': 'gb',
+  'Canadian': 'ca',
+  'Dutch': 'nl',
+  'French': 'fr',
+  'German': 'de',
+  'Italian': 'it',
+  'Japanese': 'jp',
+  'Monegasque': 'mc',
+  'New Zealander': 'nz',
+  'Spanish': 'es',
+  'Thai': 'th',
+};
+
+export function getFlagImage(nationality: string): string {
+  const fileName = nationalityFlagMap[nationality] ?? 'default';
+  return `assets/country-flags-main/svg/${fileName}.svg`;
+};

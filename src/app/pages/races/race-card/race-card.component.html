@@ -1,0 +1,17 @@
+<mat-card class="race-card">
+  <div class="rc-header">
+    <span>{{ race().date | date:'dd-MM-yyyy' }}</span>
+    <img [src]="" alt="vlag" />
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <div class="rc-info">
+    <div class="rc-track-name">{{ race().Circuit.Location.country }}</div>
+    <p>{{ race().Circuit.circuitName }}</p>
+  </div>
+
+  <div class="race-circuit-image">
+    <img [src]="" alt="Circuit img" />
+  </div>
+</mat-card>

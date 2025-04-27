@@ -7,7 +7,8 @@ import { MatRipple } from '@angular/material/core';
 
 import { ConstructorStanding } from '../../../core/models/constructor-standing.model';
 import { DriverStanding } from '../../../core/models/driver-standing.model';
-import { getDriverSlug } from '../../../shared/utils/driver-utils';
+import { getDriverSlug, getDriverImage, getFlagImage } from '../../../shared/utils/driver-utils';
+import { getConstructorColor, getConstructorLogo, getConstructorName } from '../../../shared/utils/constructor-utils';
 
 @Component({
   selector: 'app-team-card',
@@ -19,11 +20,12 @@ import { getDriverSlug } from '../../../shared/utils/driver-utils';
 export class TeamCardComponent {
   readonly constructorStanding = input.required<ConstructorStanding>();
   readonly drivers = input.required<DriverStanding[]>();
+  getConstructorLogo = getConstructorLogo;
+  getConstructorColor = getConstructorColor;
+  getConstructorName = getConstructorName;
+  getDriverImage = getDriverImage;
+  getFlagImage = getFlagImage;
 
-  getDriverImage(driverId: string): string {
-    return `assets/drivers/${getDriverSlug(driverId)}.png`;
-  }
-  
   getDriverLink(driverId: string): string[] {
     return ['/drivers', getDriverSlug(driverId)];
   }

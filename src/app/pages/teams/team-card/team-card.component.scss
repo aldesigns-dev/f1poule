@@ -56,17 +56,6 @@
       font-weight: 900;
       line-height: 1.5;
       padding-left: 1rem;
-
-      &::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: .325rem;
-        height: 100%;
-        background-color: var(--team-color);
-      }
     }
 
     .tc-team-logo {

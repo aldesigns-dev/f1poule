@@ -1,0 +1,26 @@
+.race-card {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  padding: 1.25rem 2.25rem;
+  width: 100%;
+  max-width: 100%;
+
+  .rc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 900;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: .5rem;
+  }
+
+  .rc-info {
+
+    .rc-track-name {
+      position: relative;
+      font-size: 1.5rem;
+      font-weight: 900;
+      line-height: 1.5;
+    }
+  }
+}
