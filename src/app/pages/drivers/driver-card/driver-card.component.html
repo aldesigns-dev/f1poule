@@ -1,0 +1,33 @@
+<mat-card class="driver-card">
+  <div class="dc-header">
+    <div class="dc-driver-position">{{ driverStanding().position }}</div>
+    <div class="dc-driver-points">
+      <span class="dc-driver-points-number">{{ driverStanding().points }}</span>
+      <span class="dc-driver-points-label">punten</span>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <div class="dc-name">
+    <div [ngStyle]="{ 'border-left': '6px solid ' + getConstructorColor(driverStanding().Constructors[0].constructorId) }">
+      <div class="dc-driver-name">
+        <span>{{ driverStanding().Driver.givenName }}</span> 
+        <span>{{ driverStanding().Driver.familyName }}</span>
+      </div>
+    </div>
+    <img class="dc-driver-flag" [src]="getFlagImage(driverStanding().Driver.nationality)" alt="{{ driverStanding().Driver.nationality }} vlag" />
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <div class="dc-img">
+    <div class="dc-team-name">
+      {{ getConstructorName(driverStanding().Constructors[0].constructorId) }}
+    </div>
+    <div class="dc-driver">
+      <span class="dc-driver-number">{{ driverStanding().Driver.permanentNumber }}</span>
+      <img [src]="getDriverImage(driverStanding().Driver.driverId)" alt="{{ driverStanding().Driver.givenName }} {{ driverStanding().Driver.familyName }}" class="dc-driver-image" />
+    </div>
+  </div>
+</mat-card>

@@ -19,13 +19,13 @@ import { getConstructorColor, getConstructorLogo, getConstructorName } from '../
 })
 export class TeamCardComponent {
   readonly constructorStanding = input.required<ConstructorStanding>();
-  readonly drivers = input.required<DriverStanding[]>();
+  readonly driverStanding = input.required<DriverStanding[]>();
+  
   getConstructorLogo = getConstructorLogo;
   getConstructorColor = getConstructorColor;
   getConstructorName = getConstructorName;
   getDriverImage = getDriverImage;
   getFlagImage = getFlagImage;
-
   getDriverLink(driverId: string): string[] {
     return ['/drivers', getDriverSlug(driverId)];
   }

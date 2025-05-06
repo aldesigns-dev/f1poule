@@ -1,10 +1,9 @@
 <main>
   @if (driver) {
     <div class="driver-details-header">
-      <div class="dd-driver-image-container" >
+      <div class="dd-driver-image-container" [ngStyle]="{ 'background-color': constructorColor }">
         <img [src]="getDriverImage(driver.Driver.driverId)" alt="{{ driver.Driver.givenName }} {{ driver.Driver.familyName }}" class="dd-driver-image" />
       </div>
-      
       <div class="dd-driver-info-container">
         <div class="dd-driver-info">
           <div class="dd-driver-number">{{ driver.Driver.permanentNumber }}</div>
@@ -25,7 +24,8 @@
       </div>
     </div>
 
-      <div class="">
+    <div>
+      <div class="driver-stats">
         <h2>F1 Seizoen 2025</h2>
         <table mat-table [dataSource]="driverCurrentSeason">
           <ng-container matColumnDef="label">
@@ -36,9 +36,8 @@
           </ng-container>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
-
         <h2>F1 Carriere</h2>
-        <table mat-table [dataSource]="driverCareer">
+        <table mat-table [dataSource]="driverCareerResults">
           <ng-container matColumnDef="label">
             <td mat-cell *matCellDef="let element"> {{ element.label }} </td>
           </ng-container>
@@ -48,5 +47,6 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
       </div>
+    </div>
   }
 </main>

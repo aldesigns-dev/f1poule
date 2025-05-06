@@ -10,13 +10,19 @@
     justify-content: space-between;
     align-items: center;
     font-weight: 900;
-    border-bottom: 1px solid var(--border);
     padding-bottom: .5rem;
+
+    .rc-flag {
+      width: 46px;
+      height: 30px;
+      border-radius: 4px;
+      object-fit: cover;
+    }
   }
 
   .rc-info {
 
-    .rc-track-name {
+    .rc-country {
       position: relative;
       font-size: 1.5rem;
       font-weight: 900;

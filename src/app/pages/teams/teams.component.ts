@@ -26,17 +26,17 @@ export class TeamsComponent implements OnInit {
   driversByTeam: { [constructorId: string]: DriverStanding[] } = {};
  
   ngOnInit(): void {
-    this.loadConstructorStandings();
-    this.loadDriverStandings();
+    this.loadConstructorStandingsSeason();
+    this.loadDriverStandingsSeason();
   }
 
   // Ophalen teamstanden.
-  loadConstructorStandings() {
+  loadConstructorStandingsSeason() {
     this.jolpicaF1Service.getConstructorStandingsSeason()
     .pipe(takeUntilDestroyed(this.destroyRef))
     .subscribe({
       next: (data) => {
-        this.constructorStandings = data.MRData.StandingsTable.StandingsLists[0].ConstructorStandings;
+        this.constructorStandings = data;
         console.log('ConstructorStandings:', this.constructorStandings);
       },
       error: (err) => {
@@ -47,12 +47,12 @@ export class TeamsComponent implements OnInit {
   }
 
   // Ophalen coureursstanden. 
-  loadDriverStandings() {
+  loadDriverStandingsSeason() {
     this.jolpicaF1Service.getDriverStandingsSeason()
     .pipe(takeUntilDestroyed(this.destroyRef))
     .subscribe({
       next: (data) => {
-        this.driverStandings = data.MRData.StandingsTable.StandingsLists[0].DriverStandings;
+        this.driverStandings = data.standings;
         this.linkDriversToTeams();
         console.log('DriverStandings:', this.driverStandings);
       },

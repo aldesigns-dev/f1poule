@@ -21,19 +21,23 @@ const driverSlugMap: { [key: string]: string } = {
   'bortoleto': 'gabriel-bortoleto'
 };
 
-export function getDriverSlug(driverId: string): string {
-  if (driverSlugMap[driverId]) {
-    return driverSlugMap[driverId];
-  } else {
-    return driverId;
-  }
+const driverNationalityMap: { [key: string]: string } = {
+  'Australian': 'Australië',
+  'Brazilian': 'Brazilië',
+  'British': 'Engeland',
+  'Canadian': 'Canada',
+  'Dutch': 'Nederland',
+  'French': 'Frankrijk',
+  'German': 'Duitsland',
+  'Italian': 'Italië',
+  'Japanese': 'Japan',
+  'Monegasque': 'Monaco',
+  'New Zealander': 'Nieuw-Zeeland',
+  'Spanish': 'Spanje',
+  'Thai': 'Thailand',
 };
 
-export function getDriverImage(driverId: string): string {
-  return `assets/drivers/${getDriverSlug(driverId)}.png`;
-}
-
-const nationalityFlagMap: { [key: string]: string } = {
+const driverNationalityFlagMap: { [key: string]: string } = {
   'Australian': 'au',
   'Brazilian': 'br',
   'British': 'gb',
@@ -49,7 +53,23 @@ const nationalityFlagMap: { [key: string]: string } = {
   'Thai': 'th',
 };
 
-export function getFlagImage(nationality: string): string {
-  const fileName = nationalityFlagMap[nationality] ?? 'default';
-  return `assets/country-flags-main/svg/${fileName}.svg`;
+export function getDriverSlug(driverId: string): string {
+  if (driverSlugMap[driverId]) {
+    return driverSlugMap[driverId];
+  } else {
+    return driverId;
+  }
 };
+
+export function getDriverNationality(nationality: string): string {
+  return driverNationalityMap[nationality] ?? nationality;
+}
+
+export function getFlagImage(nationality: string): string {
+  const fileName = driverNationalityFlagMap[nationality] ?? 'default';
+  return `assets/country-flags/${fileName}.png`;
+};
+
+export function getDriverImage(driverId: string): string {
+  return `assets/drivers/${getDriverSlug(driverId)}.png`;
+}

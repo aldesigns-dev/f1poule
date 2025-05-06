@@ -30,8 +30,8 @@ export class RacesComponent implements OnInit {
     .pipe(takeUntilDestroyed(this.destroyRef))
     .subscribe({
       next: (data) => {
-      const races = data.MRData.RaceTable.Races || [];
-        this.races = races;
+        this.races = data;
+        console.log('Races:', this.races);
       },
       error: (err) => {
         console.error('Fout bij ophalen van races:', err);

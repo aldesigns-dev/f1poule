@@ -10,7 +10,6 @@
     justify-content: space-between;
     align-items: center;
     font-weight: 900;
-    border-bottom: 1px solid var(--border);
     padding-bottom: .5rem;
 
     .tc-team-position{
@@ -23,7 +22,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      font-size: 2rem;
+      font-size: 1.75rem;
       font-weight: 900;
 
       .tc-team-points-number {
@@ -34,7 +33,6 @@
       .tc-team-points-label {
         font-size: .65rem;
         font-weight: 600;
-        line-height: 1;
         text-transform: uppercase;
         color: var(--card-bg);
         background-color: var(--text);
@@ -95,26 +93,38 @@
         justify-content: space-between;
         align-items: center;
         width: 100%;
+        gap: 2rem;
 
         .tc-driver-name {
+          display: flex;
+          flex-direction: column;
           font-weight: 700;
+          flex: 1;
 
-          span {
+          span:first-child {
             font-weight: 400;
-            font-style: italic;
-            margin-left: 0.25rem;
-            color: var(--primary-350);
           }
+        }
+
+        .tc-driver-number {
+          font-weight: 400;
+          font-style: italic;
+          margin-left: 0.25rem;
+          color: var(--primary-350);
         }
 
         .tc-driver-points {
           font-size: .85rem;
           color: var(--primary-red);
+          flex: 1;
         }
 
         .tc-driver-flag {
-          width: 45px;
-          height: auto;
+          width: 46px;
+          height: 30px;
+          flex-shrink: 0;
+          flex-grow: 0;
+          object-fit: cover;
           border-radius: 4px;
         }
       }

@@ -3,6 +3,9 @@ import { Component, input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatDivider } from '@angular/material/divider';
 
+import { Race } from '../../../core/models/race.model';
+import { getCountryFlagImage } from '../../../shared/utils/flag-utils';
+
 @Component({
   selector: 'app-race-card',
   standalone: true,
@@ -11,5 +14,7 @@ import { MatDivider } from '@angular/material/divider';
   styleUrl: './race-card.component.scss'
 })
 export class RaceCardComponent {
-  readonly race = input.required<any>()
+  readonly race = input.required<Race>();
+
+  getCountryFlagImage = getCountryFlagImage;
 }
