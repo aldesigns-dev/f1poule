@@ -17,12 +17,6 @@ export class JolpicaF1Service {
   private baseUrl = 'https://api.jolpi.ca/ergast/f1';
   private season = '2025';
 
-  // getDriverStandingsSeason(): Observable<DriverStanding[]> {
-  //   return this.httpClient.get<any>(`${this.baseUrl}/${this.season}/driverstandings.json`).pipe(
-  //     map(res => res.MRData.StandingsTable.StandingsLists[0]?.DriverStandings ?? [])
-  //   );
-  // }
-
   // TeamsComponent + DriverDetailComponent
   getDriverStandingsSeason(): Observable<{ round: number; standings: DriverStanding[] }> {
     return this.httpClient.get<any>(`${this.baseUrl}/${this.season}/driverstandings.json`).pipe(

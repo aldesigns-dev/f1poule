@@ -1,0 +1,12 @@
+.register-form {
+  display: flex;
+  flex-direction: column;
+
+  mat-form-field {
+    width: 40%;
+  }
+
+  .submit-button {
+    width: 40%;
+  }
+}

@@ -7,21 +7,27 @@ header {
   border-bottom: 1px solid var(--border);
   background-color: var(--background);
 
-  .header-container {
+  .header-main {
     width: min(90%, 1320px);
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin: 0 auto;
+    padding: 0;
 
     img {
       height: 30px;
       width: auto;
       cursor: pointer;
     }
-  
-    nav {
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+
+      nav {
       display: flex;
       align-items: center;
       gap: 2rem;
@@ -34,6 +40,39 @@ header {
       .router-link-active{
         color: var(--primary-red);
       }
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: .2rem;
+      
+      button {
+        min-width: 86px;
+        height: 36px;
+        margin: 0;
+        padding: 0;
+        font-size: .66rem;
+        text-transform: uppercase;
+        border-radius: 6px;
+
+        &.register, &.logout {
+          background-color: var(--btn-register);
+        }
+
+        &.login, &.dashboard {
+          background-color: var(--primary-red);
+        }
+
+        &.dashboard {
+          min-width: 38px;
+
+          &.mat-mdc-unelevated-button>.mat-icon {
+            margin: auto;
+          }
+        }
+      }
+    }
     }
   }
 

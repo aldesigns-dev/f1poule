@@ -37,6 +37,9 @@ yarn-error.log
 testem.log
 /typings
 
+# Firebase config
+src/environments/firebase-config.ts
+
 # System files
 .DS_Store
 Thumbs.db

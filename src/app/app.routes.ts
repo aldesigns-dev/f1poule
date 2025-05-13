@@ -5,6 +5,13 @@ import { TeamsComponent } from './pages/teams/teams.component';
 import { RacesComponent } from './pages/races/races.component';
 import { DriverDetailComponent } from './pages/drivers/driver-details/driver-details.component';
 import { DriversComponent } from './pages/drivers/drivers.component';
+import { LoginComponent } from './features/auth/login/login.component';
+import { RegisterComponent } from './features/auth/register/register.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { PoulesComponent } from './features/poules/poules.component';
+import { DashboardComponent } from './features/dashboard/dashboard.component';
+import { authGuard } from './core/guards/auth.guard';
+import { redirectIfLoggedIn } from './core/guards/auth-redirect.guard';
 
 export const routes: Routes = [
   {
@@ -35,5 +42,40 @@ export const routes: Routes = [
   {
     path: 'drivers/:slug',
     component: DriverDetailComponent,
+  },
+  {
+    path: 'login',
+    canActivate: [redirectIfLoggedIn],
+    component: LoginComponent,
+    data: {
+      pageTitle: 'Login'
+    }
+  },
+  {
+    path: 'register',
+    canActivate: [redirectIfLoggedIn],
+    component: RegisterComponent,
+    data: {
+      pageTitle: 'Aanmelden'
+    }
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    data: {
+      pageTitle: 'Dashboard'
+    }
+  },
+  {
+    path: 'poules',
+    canActivate: [authGuard],
+    component: PoulesComponent,
+    data: {
+      pageTitle: 'Poules'
+    }
+  },
+  {
+    path: '**',
+    component: NotFoundComponent,
   }
 ];

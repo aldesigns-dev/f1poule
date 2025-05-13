@@ -1,19 +1,28 @@
 <header>
-  <div class="header-container">
+  <div class="header-main">
     <a routerLink="/" routerLinkActive="router-link-active">
       <img src="assets/F1.svg.webp" alt="F1 logo" />
     </a>
-    <nav>
-      <a routerLink="/teams" routerLinkActive="router-link-active">Teams</a>
-      <a routerLink="/coureurs" routerLinkActive="router-link-active">Coureurs</a>
-      <a routerLink="/races" routerLinkActive="router-link-active">Races</a>
-      <mat-slide-toggle [checked]="theme() === 'dark-theme'" (change)="toggleTheme($event)" class="theme-toggle">
-        <!-- @if (theme() === 'dark-theme') {
-          <mat-icon class="toggle-icon">light_mode</mat-icon>
+    <div class="header-right">
+      <nav>
+        <a routerLink="/teams" routerLinkActive="router-link-active">Teams</a>
+        <a routerLink="/coureurs" routerLinkActive="router-link-active">Coureurs</a>
+        <a routerLink="/races" routerLinkActive="router-link-active">Races</a>
+        @if (isLoggedIn$ | async) {
+          <a routerLink="/poules" routerLinkActive="router-link-active">Poules</a>
+        }
+      </nav>
+      <div class="header-actions">
+        @if (isLoggedIn$ | async) {
+          <button mat-flat-button routerLink="/dashboard" class="dashboard"><mat-icon>person</mat-icon></button>
+          <button mat-flat-button (click)="logout()" class="logout">Uitloggen</button>
         } @else {
-          <mat-icon class="toggle-icon">mode_night</mat-icon>
-        } -->
-      </mat-slide-toggle>
-    </nav>
+          <button mat-flat-button routerLink="/login" class="login"><mat-icon>person</mat-icon>Login</button>
+          <button mat-flat-button routerLink="/register" class="register">Aanmelden</button>
+        }        
+        <mat-slide-toggle [checked]="theme() === 'dark-theme'" (change)="toggleTheme($event)" class="theme-toggle">
+        </mat-slide-toggle>
+      </div>
+    </div>
   </div>
 </header>

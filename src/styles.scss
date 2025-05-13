@@ -22,6 +22,7 @@
   --primary-0:  oklch(0.99 0 0); // White #FCFCFC
 
   --primary-red: oklch(0.6 0.244572 29.2339);
+  --secondary-red: oklch(0.75 0.244572 29.2339); 
   --primary-green: oklch(0.65 0.2189 145.07);
 
   --team-alpine: oklch(67.4% 0.150963 238.6408);
@@ -43,9 +44,11 @@
   --text: var(--primary-0);
   --link: var(--primary-0);
   --border: var(--primary-350);
+  --btn-register: var(--primary-575);
   --card-bg: var(--primary-600);
   --card-accent: var(--primary-575);
   --card-accent-hover: var(--primary-550);
+  --svg-track: var(--primary-0);
   --toggle-icon:  oklch(0.84 0.1967 79.88);
 }
 
@@ -54,9 +57,11 @@
   --text: var(--primary-600);
   --link: var(--primary-600);
   --border: var(--primary-550);
+  --btn-register: var(--primary-600);
   --card-bg: var(--primary-50);
   --card-accent: var(--primary-100);
   --card-accent-hover: var(--primary-150);
+  --svg-track: var(--primary-700);
   --toggle-icon: oklch(0.32 0.0258 260.06);
 }
 
@@ -121,4 +126,39 @@ img {
   max-width: 100%;
   height: auto;
   display: block;
+}
+
+svg .cls-1 {
+  fill: none;
+  stroke: var(--svg-track);
+  stroke-width: 3px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+  animation: draw-path 5s ease-out forwards;
+  transition: stroke .2s;
+}
+svg:hover .cls-1 {
+  stroke: var(--primary-red);
+}
+@keyframes draw-path {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+button.mat-mdc-raised-button {
+  margin-top: 1rem;
+}
+
+button.mat-mdc-raised-button:not(:disabled) {
+  background-color: var(--primary-red);
+  color: var(--primary-0);
+}
+
+button.mat-mdc-raised-button[disabled].mat-mdc-button-disabled {
+  background-color: var(--secondary-red);
+  color: var(--primary-0);
 }

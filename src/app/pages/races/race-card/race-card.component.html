@@ -12,6 +12,10 @@
   </div>
 
   <div class="rc-circuit">
-    <div class="track-svg"></div>
+    @if (safeSvg) {
+      <svg viewBox="0 0 500 300" preserveAspectRatio="xMidYMid meet" class="rc-circuit-svg">
+        <g [innerHTML]="safeSvg"></g>
+      </svg>
+    }
   </div>
 </mat-card>

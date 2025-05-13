@@ -1,1 +1,62 @@
-<p>register works!</p>
+<main>
+  <h1>{{ pageTitle() }}</h1>
+  <form [formGroup]="registerForm" class="register-form" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <mat-label>Voornaam</mat-label>
+      <input matInput type="text" formControlName="firstName" />
+        @if (fieldIsInvalid('firstName')) {
+          <mat-error>Voornaam is verplicht</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Achternaam</mat-label>
+      <input matInput type="text" formControlName="lastName" />
+        @if (fieldIsInvalid('lastName')) {
+          <mat-error>Achternaam is verplicht</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput type="text" formControlName="email" />
+        @if (fieldIsInvalid('email')) {
+          <mat-error>Email is verplicht</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Gebruikersnaam</mat-label>
+      <input matInput type="text" formControlName="username" />
+        @if (fieldIsInvalid('username')) {
+          <mat-error>Gebruikersnaam is verplicht</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Wachtwoord</mat-label>
+      <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" />
+      <button type="button" mat-icon-button
+          matSuffix
+          (click)="hidePassword = !hidePassword"
+          [attr.aria-label]="'Toggle password visibility'"
+          [attr.aria-pressed]="!hidePassword">
+        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+        @if (fieldIsInvalid('password')) {
+          <mat-error>Wachtwoord is verplicht</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Bevestig wachtwoord</mat-label>
+      <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmPassword" />
+      <button type="button" mat-icon-button
+          matSuffix
+          (click)="hideConfirmPassword = !hideConfirmPassword"
+          [attr.aria-label]="'Toggle confirm password visibility'"
+          [attr.aria-pressed]="!hideConfirmPassword">
+        <mat-icon>{{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+        @if (fieldIsInvalid('confirmPassword') || !passwordsMatch()) {
+          <mat-error>Wachtwoord komt niet overeen</mat-error>
+        }
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid" class="submit-button">Aanmelden</button>
+  </form>
+</main>

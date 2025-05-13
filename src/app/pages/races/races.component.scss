@@ -18,12 +18,13 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 680px) {
   .races-container {
     flex-direction: column;
 
     .race-card-wrapper {
-      flex: 1 1 100%;
+      flex: none;
+      width: 100%;
     }
   }
 }
