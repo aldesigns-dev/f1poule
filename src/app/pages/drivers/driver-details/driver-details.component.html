@@ -10,39 +10,41 @@
           <img [src]="getFlagImage(driver.Driver.nationality)" alt="{{ driver.Driver.nationality }} vlag" class="dd-driver-flag" />
         </div>
         <h1>{{ driver.Driver.givenName }} {{ driver.Driver.familyName }}</h1>
-        <table mat-table [dataSource]="driverInfo">
+        <table mat-table [dataSource]="driverInfo" class="driver-info">
           <ng-container matColumnDef="label">
             <td mat-cell *matCellDef="let element"> {{ element.label }} </td>
           </ng-container>
           <ng-container matColumnDef="value">
-            <td mat-cell *matCellDef="let element">
+            <td mat-cell *matCellDef="let element" class="cell-value">
               {{ element.label === 'Geboortedatum' ? (element.value | date:'dd-MM-yyyy') : element.value }}
             </td>
           </ng-container>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="dd-driver-info-row"></tr>
         </table>
       </div>
     </div>
 
-    <div>
-      <div class="driver-stats">
-        <h2>F1 Seizoen 2025</h2>
-        <table mat-table [dataSource]="driverCurrentSeason">
+    <div class="driver-details-stats">
+      <div class="dd-stats-container">
+        <h3>F1 Seizoen 2025</h3>
+        <table mat-table [dataSource]="driverSeasonResults">
           <ng-container matColumnDef="label">
             <td mat-cell *matCellDef="let element"> {{ element.label }} </td>
           </ng-container>
           <ng-container matColumnDef="value">
-            <td mat-cell *matCellDef="let element"> {{ element.value }} </td>
+            <td mat-cell *matCellDef="let element" class="cell-value"> {{ element.value }} </td>
           </ng-container>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
-        <h2>F1 Carriere</h2>
+      </div>
+      <div class="dd-stats-container">
+        <h3>F1 Carriere</h3>
         <table mat-table [dataSource]="driverCareerResults">
           <ng-container matColumnDef="label">
             <td mat-cell *matCellDef="let element"> {{ element.label }} </td>
           </ng-container>
           <ng-container matColumnDef="value">
-            <td mat-cell *matCellDef="let element"> {{ element.value }} </td>
+            <td mat-cell *matCellDef="let element" class="cell-value"> {{ element.value }} </td>
           </ng-container>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>

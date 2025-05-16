@@ -16,7 +16,10 @@ import { redirectIfLoggedIn } from './core/guards/auth-redirect.guard';
 export const routes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: HomeComponent,
+    data: {
+      pageTitle: 'F1 Poule'
+    }
   },
   {
     path: 'teams',

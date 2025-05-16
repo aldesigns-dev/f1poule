@@ -1,3 +1,5 @@
+import { SprintResult } from "./sprint-result.model";
+
 export interface Race {
   season: string;
   round: string;
@@ -19,4 +21,6 @@ export interface Race {
   secondPractice: { date: string; time: string };
   thirdPractice: { date: string; time: string };
   qualifying: { date: string; time: string };
+
+  SprintResults?: SprintResult[];
 }
