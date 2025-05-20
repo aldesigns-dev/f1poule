@@ -9,6 +9,8 @@ import { Race } from "../models/race.model";
 import { DriverCareerStats } from "../models/driver-career-stats.model";
 import { getDriverSlug } from "../../shared/utils/driver-utils";
 import { getConstructorColor, getConstructorName } from "../../shared/utils/constructor-utils";
+import { DriverResult } from "../models/driver-result.model";
+import { DriverSeasonStats } from "../models/driver-season-stats.model";
 
 @Injectable({
   providedIn: 'root'
@@ -20,12 +22,14 @@ export class JolpicaF1Service {
 
   // TeamsComponent
   getConstructorStandingsSeason(): Observable<ConstructorStanding[]> {
-    return this.httpClient.get<any>(`${this.baseUrl}/${this.season}/constructorstandings.json`).pipe(
+    const url = `${this.baseUrl}/${this.season}/constructorstandings.json`;
+    return this.httpClient.get<any>(url)
+    .pipe(
       map(res => res.MRData.StandingsTable.StandingsLists[0]?.ConstructorStandings ?? [])
     );
   }
 
-  // TeamsComponent
+  // TeamsComponent + DriversComponent
   getDriverStandingsSeason(): Observable<{ round: number; standings: DriverStanding[] }> {
     const url = `${this.baseUrl}/${this.season}/driverstandings.json`;
     return this.httpClient.get<any>(url)
@@ -40,6 +44,7 @@ export class JolpicaF1Service {
     );
   }
 
+  // getDriverDetail
   getDriverCareerStats(driverId: string, offset = 0, stats: DriverCareerStats = {
     raceCount: 0,
     totalWins: 0,
@@ -48,27 +53,18 @@ export class JolpicaF1Service {
   }): Observable<DriverCareerStats> {
     const limit = 100;
     const url = `${this.baseUrl}/drivers/${driverId}/results.json?limit=${limit}&offset=${offset}`;
-
     return this.httpClient.get<any>(url)
     .pipe(
       switchMap(res => {
         const races: any[] = res.MRData.RaceTable.Races ?? [];
         const total = parseInt(res.MRData.total, 10);
 
-        // Log alle races met status en positie.
-        races.forEach(race => {
-          const result = race.Results?.[0];
-          if (result) {
-            console.log(`${race.season} ${race.raceName} - status: ${result.status}, position: ${result.position}`);
-          }
-        });
-
         const excludedStatus = [
           'Did not start',
           'Withdrawn',
           'Excluded',
           // 'Not classified',
-          'Disqualified',
+          // 'Disqualified',
           // '+1 Lap',
           // '+2 Laps',
           // 'Lapped',
@@ -116,6 +112,33 @@ export class JolpicaF1Service {
     );
   }
 
+  // getDriverDetail
+  getDriverSeasonStats(driverId: string): Observable<DriverSeasonStats> {
+    const url = `${this.baseUrl}/${this.season}/drivers/${driverId}/results.json`;
+    return this.httpClient.get<any>(url)
+    .pipe(
+      map(res => {
+        const races: any[] = res.MRData.RaceTable.Races ?? [];
+        let wins = 0;
+        let podiums = 0;
+        let points = 0;
+
+        races.forEach(race => {
+          const result = race.Results?.[0];
+          if (!result) return;
+
+          const pos = result.position;
+          if (["1", "2", "3"].includes(pos)) podiums++;
+          if (pos === "1") wins++;
+          points += parseFloat(result.points ?? '0');
+        });
+
+        return { totalWins: wins, podiums, totalPoints: points, raceCount: races.length };
+      })
+    );
+  }
+
+  // getDriverDetail
   getDriverSprintResults(driverId: string): Observable<Race[]> {
     const url = `${this.baseUrl}/drivers/${driverId}/sprint.json`;
     return this.httpClient.get<any>(url)
@@ -143,13 +166,13 @@ export class JolpicaF1Service {
         const constructorColor = getConstructorColor(mostRecentConstructor?.constructorId ?? '');
         const constructorName = getConstructorName(mostRecentConstructor?.constructorId ?? '');
 
-        // Parallel ophalen carrièrestatistieken en sprintrace-resultaten.
+        // Parallel ophalen carrièrestats, seizoen stats, sprint resultaten.
         return forkJoin({
           careerStats: this.getDriverCareerStats(driver.Driver.driverId),
-          sprintRaces: this.getDriverSprintResults(driver.Driver.driverId)
+          seasonStats: this.getDriverSeasonStats(driver.Driver.driverId),
+          sprintRaces: this.getDriverSprintResults(driver.Driver.driverId),
         }).pipe(
-          // Zodra beide observables klaar zijn, verwerk de resultaten.
-          map(({ careerStats, sprintRaces }) => {
+          map(({ careerStats, sprintRaces, seasonStats }) => {
             // Bereken totaal aantal punten uit sprints.
             const sprintPoints = sprintRaces.reduce((acc, race) => {
               const sprintResult = race.SprintResults?.[0];
@@ -164,6 +187,7 @@ export class JolpicaF1Service {
             return {
               driver,
               careerStats,
+              seasonStats,
               round,
               constructorName,
               constructorColor
@@ -176,12 +200,66 @@ export class JolpicaF1Service {
 
   // RacesComponent
   getRacesSeason(): Observable<Race[]> {
-    return this.httpClient.get<any>(`${this.baseUrl}/${this.season}/races.json`)
+    const url = `${this.baseUrl}/${this.season}/races.json`;
+    return this.httpClient.get<any>(url)
     .pipe(
       map(res => res.MRData.RaceTable.Races ?? [])
     );
   }
 
+  // RacesComponent
+  getRaceResultsSeason(offset = 0, accumulatedResults: { [round: string]: DriverResult[] } = {}): Observable<{ [round: string]: DriverResult[] }> {
+    const limit = 100;
+    const url = `${this.baseUrl}/${this.season}/results.json?limit=${limit}&offset=${offset}`;
+
+    return this.httpClient.get<any>(url)
+      .pipe(
+        switchMap(res => {
+          const races: Race[] = res.MRData.RaceTable.Races ?? [];
+          const total = parseInt(res.MRData.total, 10);
+
+          for (const race of races) {
+            const round = String(race.round);
+            const sortedResults = (race.Results ?? [])
+              .slice()
+              .sort((a, b) => Number(a.position) - Number(b.position));
+            accumulatedResults[round] = sortedResults.slice(0, 3); // Top 3.
+            // console.log(`Round ${race.round}: originele resultaten`, race.Results);
+          }
+
+          if (offset + limit < total) {
+            return this.getRaceResultsSeason(offset + limit, accumulatedResults);
+          } else {
+            return of(accumulatedResults);
+          }
+        })
+      );
+  }
+
+  // RacesComponent
+  driverWorldTitles: { [key: string]: number } = {
+    'lando-norris': 0,
+    'oscar-piastri': 0,
+    'max-verstappen': 4,
+    'george-russell': 0,
+    'charles-leclerc': 0,
+    'kimi-antonelli': 0,
+    'lewis-hamilton': 7,
+    'alexander-albon': 0,
+    'esteban-ocon': 0,
+    'lance-stroll': 0,
+    'pierre-gasly': 0,
+    'nico-hulkenberg': 0,
+    'oliver-bearman': 0,
+    'yuki-tsunoda': 0,
+    'isack-hadjar': 0,
+    'carlos-sainz': 0,
+    'fernando-alonso': 2,
+    'liam-lawson': 0,
+    'jack-doohan': 0,
+    'gabriel-bortoleto': 0,
+    'franco-colapinto': 0
+  }
 
   // getCircuitsSeason(): Observable<Circuit[]> {
   //   return this.httpClient.get<any>(`${this.baseUrl}/${this.season}/circuits.json`).pipe(

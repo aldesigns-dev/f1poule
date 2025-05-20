@@ -13,14 +13,14 @@
     <div class="tc-team-name" [ngStyle]="{ 'border-left': '6px solid ' + getConstructorColor(constructorStanding().Constructor.constructorId) }">
       {{ getConstructorName(constructorStanding().Constructor.constructorId) }}
     </div>
-    <img [src]="getConstructorLogo(constructorStanding().Constructor.constructorId)" alt="Teamlogo" class="tc-team-logo"/>
+    <img [src]="getConstructorLogo(constructorStanding().Constructor.constructorId)" alt="Teamlogo" class="tc-team-logo" appHideOnError />
   </div>
 
   <div class="tc-drivers">
     @for (driver of driverStanding(); track driver.Driver.driverId) {
       <a matRipple [routerLink]="getDriverLink(driver.Driver.driverId)" class="tc-driver">
         <div class="tc-driver-info">
-          <img [src]="getDriverImage(driver.Driver.driverId)" alt="{{ driver.Driver.givenName }} {{ driver.Driver.familyName }}" class="tc-driver-image" />
+          <img [src]="getDriverImage(driver.Driver.driverId)" alt="{{ driver.Driver.givenName }} {{ driver.Driver.familyName }}" class="tc-driver-image" appHideOnError />
           <div class="tc-driver-name">
             <span>{{ driver.Driver.givenName }}</span> 
             <span>{{ driver.Driver.familyName }}</span>
@@ -28,13 +28,13 @@
           <div class="tc-driver-points">{{ driver.points }} punten</div>
           <img class="tc-driver-flag"
               [src]="getFlagImage(driver.Driver.nationality)"
-              alt="{{ driver.Driver.nationality }} vlag" />
+              alt="{{ driver.Driver.nationality }} vlag" appHideOnError />
         </div>
       </a>
     }
   </div>
 
   <div class="tc-car-image">
-    <img [src]="'assets/cars/car-' + constructorStanding().Constructor.constructorId + '.png'" alt="F1 auto" />
+    <img [src]="'assets/cars/car-' + constructorStanding().Constructor.constructorId + '.png'" alt="F1 auto" appHideOnError />
   </div>
 </mat-card>

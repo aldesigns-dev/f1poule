@@ -39,8 +39,10 @@
       }
 
       .dd-driver-flag {
-        height: 2.5rem;
+        width: 64px;
+        height: 40px;
         border-radius: 4px;
+        border: 1px solid var(--border);
       }
     }
 
@@ -84,6 +86,7 @@
 }
 .mat-mdc-cell {
   letter-spacing: 0;
+  color: var(--text);
 
   &.cell-value {
     text-align: right;

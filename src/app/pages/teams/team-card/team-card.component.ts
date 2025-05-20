@@ -9,11 +9,12 @@ import { ConstructorStanding } from '../../../core/models/constructor-standing.m
 import { DriverStanding } from '../../../core/models/driver-standing.model';
 import { getDriverSlug, getDriverImage, getFlagImage } from '../../../shared/utils/driver-utils';
 import { getConstructorColor, getConstructorLogo, getConstructorName } from '../../../shared/utils/constructor-utils';
+import { HideOnErrorDirective } from '../../../shared/directives/hide-on-error.directive';
 
 @Component({
   selector: 'app-team-card',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatCardModule, MatDivider, MatRipple],
+  imports: [HideOnErrorDirective, CommonModule, RouterLink, MatCardModule, MatDivider, MatRipple],
   templateUrl: './team-card.component.html',
   styleUrl: './team-card.component.scss'
 })
@@ -28,5 +29,10 @@ export class TeamCardComponent {
   getFlagImage = getFlagImage;
   getDriverLink(driverId: string): string[] {
     return ['/drivers', getDriverSlug(driverId)];
+  }
+
+  onImgError(event: Event) {
+    const target = event.target as HTMLImageElement;
+    target.style.display = 'none';
   }
 }

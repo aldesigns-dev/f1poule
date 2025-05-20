@@ -16,7 +16,7 @@
         <span>{{ driverStanding().Driver.familyName }}</span>
       </div>
     </div>
-    <img class="dc-driver-flag" [src]="getFlagImage(driverStanding().Driver.nationality)" alt="{{ driverStanding().Driver.nationality }} vlag" />
+    <img class="dc-driver-flag" [src]="getFlagImage(driverStanding().Driver.nationality)" alt="{{ driverStanding().Driver.nationality }} vlag" appHideOnError />
   </div>
 
   <mat-divider></mat-divider>
@@ -27,7 +27,7 @@
     </div>
     <div class="dc-driver">
       <span class="dc-driver-number">{{ driverStanding().Driver.permanentNumber }}</span>
-      <img [src]="getDriverImage(driverStanding().Driver.driverId)" alt="{{ driverStanding().Driver.givenName }} {{ driverStanding().Driver.familyName }}" class="dc-driver-image" />
+      <img [src]="getDriverImage(driverStanding().Driver.driverId)" alt="{{ driverStanding().Driver.givenName }} {{ driverStanding().Driver.familyName }}" class="dc-driver-image" appHideOnError />
     </div>
   </div>
 </mat-card>

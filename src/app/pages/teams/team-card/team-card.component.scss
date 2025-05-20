@@ -120,12 +120,13 @@
         }
 
         .tc-driver-flag {
-          width: 46px;
+          width: 48px;
           height: 30px;
+          border-radius: 4px;
+          border: 1px solid var(--border);
           flex-shrink: 0;
           flex-grow: 0;
           object-fit: cover;
-          border-radius: 4px;
         }
       }
     }

@@ -2,12 +2,12 @@
   @if (driver) {
     <div class="driver-details-header">
       <div class="dd-driver-image-container" [ngStyle]="{ 'background-color': constructorColor }">
-        <img [src]="getDriverImage(driver.Driver.driverId)" alt="{{ driver.Driver.givenName }} {{ driver.Driver.familyName }}" class="dd-driver-image" />
+        <img [src]="getDriverImage(driver.Driver.driverId)" alt="{{ driver.Driver.givenName }} {{ driver.Driver.familyName }}" class="dd-driver-image" appHideOnError />
       </div>
       <div class="dd-driver-info-container">
         <div class="dd-driver-info">
           <div class="dd-driver-number">{{ driver.Driver.permanentNumber }}</div>
-          <img [src]="getFlagImage(driver.Driver.nationality)" alt="{{ driver.Driver.nationality }} vlag" class="dd-driver-flag" />
+          <img [src]="getFlagImage(driver.Driver.nationality)" alt="{{ driver.Driver.nationality }} vlag" class="dd-driver-flag" appHideOnError />
         </div>
         <h1>{{ driver.Driver.givenName }} {{ driver.Driver.familyName }}</h1>
         <table mat-table [dataSource]="driverInfo" class="driver-info">

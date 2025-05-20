@@ -18,7 +18,8 @@ const driverSlugMap: { [key: string]: string } = {
   'alonso': 'fernando-alonso',
   'lawson': 'liam-lawson',
   'doohan': 'jack-doohan',
-  'bortoleto': 'gabriel-bortoleto'
+  'bortoleto': 'gabriel-bortoleto',
+  'colapinto': 'franco-colapinto'
 };
 
 const driverNationalityMap: { [key: string]: string } = {
@@ -35,6 +36,7 @@ const driverNationalityMap: { [key: string]: string } = {
   'New Zealander': 'Nieuw-Zeeland',
   'Spanish': 'Spanje',
   'Thai': 'Thailand',
+  'Argentine': 'Argentinië'
 };
 
 const driverNationalityFlagMap: { [key: string]: string } = {
@@ -51,6 +53,7 @@ const driverNationalityFlagMap: { [key: string]: string } = {
   'New Zealander': 'nz',
   'Spanish': 'es',
   'Thai': 'th',
+  'Argentine': 'ar'
 };
 
 export function getDriverSlug(driverId: string): string {

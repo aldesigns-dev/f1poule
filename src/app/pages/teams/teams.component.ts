@@ -67,6 +67,10 @@ export class TeamsComponent implements OnInit {
   linkDriversToTeams() {
     this.driversByTeam = {}; // Reset mapping.
     for (const driver of this.driverStandings) {
+      // Coureurs uitsluiten (tijdelijke oplossing).
+      if (driver.Driver.driverId === 'doohan') {
+        continue;
+      }
       const mostRecentConstructor = driver.Constructors[driver.Constructors.length - 1]; 
       const constructorId = mostRecentConstructor.constructorId;
       if (!this.driversByTeam[constructorId]) {

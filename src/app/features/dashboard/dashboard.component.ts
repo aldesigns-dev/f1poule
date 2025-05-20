@@ -1,6 +1,7 @@
 import { Component, DestroyRef, inject, input, OnInit } from '@angular/core';
-import { AuthService } from '../../core/services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-dashboard',

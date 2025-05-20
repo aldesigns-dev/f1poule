@@ -1,3 +1,4 @@
+import { DriverResult } from "./driver-result.model";
 import { SprintResult } from "./sprint-result.model";
 
 export interface Race {
@@ -23,4 +24,5 @@ export interface Race {
   qualifying: { date: string; time: string };
 
   SprintResults?: SprintResult[];
+  Results?: DriverResult[];
 }

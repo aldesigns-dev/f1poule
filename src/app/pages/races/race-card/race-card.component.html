@@ -1,7 +1,7 @@
 <mat-card class="race-card">
   <div class="rc-header">
     <span>{{ race().date | date:'dd-MM-yyyy' }}</span>
-    <img class="rc-flag" [src]="getCountryFlagImage(race().Circuit.Location.country)" alt="{{ race().Circuit.Location.country }} vlag" />
+    <img class="rc-flag" [src]="getCountryFlagImage(race().Circuit.Location.country)" alt="{{ race().Circuit.Location.country }} vlag" appHideOnError />
   </div>
 
   <mat-divider></mat-divider>
@@ -18,4 +18,24 @@
       </svg>
     }
   </div>
+
+  @if (results().length > 0) {
+    <div class="rc-results">
+      @if (results().length > 1) {
+        <div class="rc-pos rc-pos2">
+          <img [src]="getDriverImage(results()[1].Driver.driverId)" alt="{{ results()[1].Driver.givenName }} {{ results()[1].Driver.familyName }}" class="dc-driver-image" appHideOnError />
+        </div>
+      }
+      @if (results().length > 0) {
+        <div class="rc-pos rc-pos1">
+          <img [src]="getDriverImage(results()[0].Driver.driverId)" alt="{{ results()[0].Driver.givenName }} {{ results()[0].Driver.familyName }}" class="dc-driver-image" appHideOnError />
+        </div>
+      }
+      @if (results().length > 2) {
+        <div class="rc-pos rc-pos3">
+          <img [src]="getDriverImage(results()[2].Driver.driverId)" alt="{{ results()[2].Driver.givenName }} {{ results()[2].Driver.familyName }}" class="dc-driver-image" appHideOnError />
+        </div>
+      }
+    </div>
+  }
 </mat-card>
