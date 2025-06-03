@@ -1,6 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, HostListener, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { filter } from 'rxjs';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,17 +17,45 @@ import { AuthService } from '../../core/services/auth.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   private themeService = inject(ThemeService);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+   private readonly destroyRef = inject(DestroyRef);
 
   theme = this.themeService.getTheme;
   isLoggedIn$ = this.authService.isAuthenticated$;
+  isMenuOpen = signal(false);
 
-  toggleTheme(event: any) {
-    const theme = event.checked ? 'dark-theme' : 'light-theme';
+  ngOnInit(): void {
+    this.router.events
+    .pipe(
+      filter(event => event instanceof NavigationEnd),
+      takeUntilDestroyed(this.destroyRef)
+    )
+    .subscribe(() => {
+      this.isMenuOpen.set(false);
+    });
+  }
+
+  @HostListener('window:resize', [])
+  onResize() {
+    if (window.innerWidth > 768 && this.isMenuOpen()) {
+      this.isMenuOpen.set(false);
+    }
+  }
+
+  toggleTheme() {
+    const theme = this.theme() === 'dark-theme' ? 'light-theme' : 'dark-theme';
     this.themeService.setTheme(theme);
+  }
+
+  toggleMenu() {
+    this.isMenuOpen.update(open => !open);
+  }
+
+  closeMenu() {
+    this.isMenuOpen.set(false);
   }
 
   async logout() {

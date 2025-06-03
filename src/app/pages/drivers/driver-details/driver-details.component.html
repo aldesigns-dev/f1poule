@@ -1,54 +1,56 @@
 <main>
-  @if (driver) {
-    <div class="driver-details-header">
-      <div class="dd-driver-image-container" [ngStyle]="{ 'background-color': constructorColor }">
-        <img [src]="getDriverImage(driver.Driver.driverId)" alt="{{ driver.Driver.givenName }} {{ driver.Driver.familyName }}" class="dd-driver-image" appHideOnError />
-      </div>
-      <div class="dd-driver-info-container">
-        <div class="dd-driver-info">
-          <div class="dd-driver-number">{{ driver.Driver.permanentNumber }}</div>
-          <img [src]="getFlagImage(driver.Driver.nationality)" alt="{{ driver.Driver.nationality }} vlag" class="dd-driver-flag" appHideOnError />
+  <div class="container">
+    @if (driver) {
+      <div class="driver-details-header">
+        <div class="dd-driver-image-container" [ngStyle]="{ 'background-color': constructorColor }">
+          <img [src]="getDriverImage(driver.Driver.driverId)" alt="{{ driver.Driver.givenName }} {{ driver.Driver.familyName }}" class="dd-driver-image" appHideOnError />
         </div>
-        <h1>{{ driver.Driver.givenName }} {{ driver.Driver.familyName }}</h1>
-        <table mat-table [dataSource]="driverInfo" class="driver-info">
-          <ng-container matColumnDef="label">
-            <td mat-cell *matCellDef="let element"> {{ element.label }} </td>
-          </ng-container>
-          <ng-container matColumnDef="value">
-            <td mat-cell *matCellDef="let element" class="cell-value">
-              {{ element.label === 'Geboortedatum' ? (element.value | date:'dd-MM-yyyy') : element.value }}
-            </td>
-          </ng-container>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="dd-driver-info-row"></tr>
-        </table>
+        <div class="dd-driver-info-container">
+          <div class="dd-driver-info">
+            <div class="dd-driver-number">{{ driver.Driver.permanentNumber }}</div>
+            <img [src]="getFlagImage(driver.Driver.nationality)" alt="{{ driver.Driver.nationality }} vlag" class="dd-driver-flag" appHideOnError />
+          </div>
+          <h1>{{ driver.Driver.givenName }} {{ driver.Driver.familyName }}</h1>
+          <table mat-table [dataSource]="driverInfo" class="driver-info">
+            <ng-container matColumnDef="label">
+              <td mat-cell *matCellDef="let element"> {{ element.label }} </td>
+            </ng-container>
+            <ng-container matColumnDef="value">
+              <td mat-cell *matCellDef="let element" class="cell-value">
+                {{ element.label === 'Geboortedatum' ? (element.value | date:'dd-MM-yyyy') : element.value }}
+              </td>
+            </ng-container>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="dd-driver-info-row"></tr>
+          </table>
+        </div>
       </div>
-    </div>
 
-    <div class="driver-details-stats">
-      <div class="dd-stats-container">
-        <h3>F1 Seizoen 2025</h3>
-        <table mat-table [dataSource]="driverSeasonResults">
-          <ng-container matColumnDef="label">
-            <td mat-cell *matCellDef="let element"> {{ element.label }} </td>
-          </ng-container>
-          <ng-container matColumnDef="value">
-            <td mat-cell *matCellDef="let element" class="cell-value"> {{ element.value }} </td>
-          </ng-container>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
+      <div class="driver-details-stats">
+        <div class="dd-stats-container">
+          <h3>F1 Seizoen 2025</h3>
+          <table mat-table [dataSource]="driverSeasonResults">
+            <ng-container matColumnDef="label">
+              <td mat-cell *matCellDef="let element"> {{ element.label }} </td>
+            </ng-container>
+            <ng-container matColumnDef="value">
+              <td mat-cell *matCellDef="let element" class="cell-value"> {{ element.value }} </td>
+            </ng-container>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+        <div class="dd-stats-container">
+          <h3>F1 Carriere</h3>
+          <table mat-table [dataSource]="driverCareerResults">
+            <ng-container matColumnDef="label">
+              <td mat-cell *matCellDef="let element"> {{ element.label }} </td>
+            </ng-container>
+            <ng-container matColumnDef="value">
+              <td mat-cell *matCellDef="let element" class="cell-value"> {{ element.value }} </td>
+            </ng-container>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
       </div>
-      <div class="dd-stats-container">
-        <h3>F1 Carriere</h3>
-        <table mat-table [dataSource]="driverCareerResults">
-          <ng-container matColumnDef="label">
-            <td mat-cell *matCellDef="let element"> {{ element.label }} </td>
-          </ng-container>
-          <ng-container matColumnDef="value">
-            <td mat-cell *matCellDef="let element" class="cell-value"> {{ element.value }} </td>
-          </ng-container>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-      </div>
-    </div>
-  }
+    }
+  </div>
 </main>

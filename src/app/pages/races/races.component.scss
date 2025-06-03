@@ -10,7 +10,7 @@
   }
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
   .races-container {
     .race-card-wrapper {
       flex: 0 1 calc((100% - 2rem) / 2);
@@ -18,7 +18,7 @@
   }
 }
 
-@media (max-width: 680px) {
+@media (max-width: 640px) {
   .races-container {
     flex-direction: column;
 

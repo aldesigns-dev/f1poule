@@ -1,28 +1,30 @@
 <main>
+  <div class="container">
   <h1>{{ pageTitle() }}</h1>
-  <form [formGroup]="loginForm" class="login-form" (ngSubmit)="onSubmit()">
-    <mat-form-field>
-      <mat-label>Gebruikersnaam</mat-label>
-      <input matInput type="text" formControlName="username" />
-        @if (fieldIsInvalid('username')) {
-          <mat-error>Voornaam is verplicht</mat-error>
-        }
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Wachtwoord</mat-label>
-      <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" />
-      <button type="button" mat-icon-button
-          matSuffix
-          (click)="hidePassword = !hidePassword"
-          [attr.aria-label]="'Toggle confirm password visibility'"
-          [attr.aria-pressed]="!hidePassword">
-        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
-      </button>
-        @if (fieldIsInvalid('password')) {
-          <mat-error>Wachtwoord is verplicht</mat-error>
-        }
-    </mat-form-field>
-    <button mat-raised-button type="submit" [disabled]="loginForm.invalid" class="submit-button">Inloggen</button>
-    <a routerLink="/login">Wachtwoord vergeten?</a>
-  </form>
+    <form [formGroup]="loginForm" class="login-form" (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <mat-label>Gebruikersnaam</mat-label>
+        <input matInput type="text" formControlName="username" />
+          @if (fieldIsInvalid('username')) {
+            <mat-error>Voornaam is verplicht</mat-error>
+          }
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Wachtwoord</mat-label>
+        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" />
+        <button type="button" mat-icon-button
+            matSuffix
+            (click)="hidePassword = !hidePassword"
+            [attr.aria-label]="'Toggle confirm password visibility'"
+            [attr.aria-pressed]="!hidePassword">
+          <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+          @if (fieldIsInvalid('password')) {
+            <mat-error>Wachtwoord is verplicht</mat-error>
+          }
+      </mat-form-field>
+      <button mat-raised-button type="submit" [disabled]="loginForm.invalid" class="submit-button">Inloggen</button>
+      <a routerLink="/login">Wachtwoord vergeten?</a>
+    </form>
+  </div>
 </main>

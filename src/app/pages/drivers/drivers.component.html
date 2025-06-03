@@ -1,11 +1,13 @@
 <main>
-  <h1>{{ pageTitle() }}</h1>
+  <div class="container">
+    <h1>{{ pageTitle() }}</h1>
     <div class="drivers-container">
-    @for (driverStanding of driverStandings; track driverStanding.Driver.driverId) {
-      <a matRipple [routerLink]="getDriverLink(driverStanding.Driver.driverId)" class="driver-card-wrapper">
-        <app-driver-card 
-        [driverStanding]="driverStanding" />
-      </a>
-    }
+      @for (driverStanding of driverStandings; track driverStanding.Driver.driverId) {
+        <a matRipple [routerLink]="getDriverLink(driverStanding.Driver.driverId)" class="driver-card-wrapper">
+          <app-driver-card 
+          [driverStanding]="driverStanding" />
+        </a>
+      }
+    </div>
   </div>
 </main>

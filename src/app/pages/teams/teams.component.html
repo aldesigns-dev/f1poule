@@ -1,12 +1,14 @@
 <main>
-  <h1>{{ pageTitle() }}</h1>
-  <div class="teams-container">
-    @for (constructor of constructorStandings; track constructor.position) {
-      <div class="team-card-wrapper">
-        <app-team-card 
-        [constructorStanding]="constructor"
-        [driverStanding]="getDriversForTeam(constructor.Constructor.constructorId)" />
-      </div>
-    }
+  <div class="container">
+    <h1>{{ pageTitle() }}</h1>
+    <div class="teams-container">
+      @for (constructor of constructorStandings; track constructor.position) {
+        <div class="team-card-wrapper">
+          <app-team-card 
+          [constructorStanding]="constructor"
+          [driverStanding]="getDriversForTeam(constructor.Constructor.constructorId)" />
+        </div>
+      }
+    </div>
   </div>
 </main>

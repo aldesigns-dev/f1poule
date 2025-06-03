@@ -1,6 +1,14 @@
 <main>
-  <h1>{{ pageTitle() }}</h1>
-  <h2>Formula 1</h2>
-  <h3>Formula 1</h3>
-  <img src="assets/yellow-race-car.png" />
+  <section class="hero">
+    <div class="hero-container">
+      <div class="hero-left">
+        <h1>{{ pageTitle() }}</h1>
+        <p>Voorspel de uitslagen, daag je vrienden uit en scoor punten tijdens elk raceweekend!</p>
+        <button mat-flat-button routerLink="/poules" class="poules-button">Maak je F1 Poule</button>
+      </div>
+      <div class="hero-right">
+        <img src="assets/hero-bg.jpg" alt="F1 image"/>
+      </div>
+    </div>
+  </section>
 </main>

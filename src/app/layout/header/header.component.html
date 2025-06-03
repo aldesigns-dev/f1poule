@@ -1,27 +1,33 @@
 <header>
-  <div class="header-main">
-    <a routerLink="/" routerLinkActive="router-link-active">
+  <div class="container header-container">
+    <a routerLink="/" routerLinkActive="router-link-active" (click)="closeMenu()">
       <img src="assets/F1.svg.webp" alt="F1 logo" />
     </a>
-    <div class="header-right">
+    <button class="hamburger" (click)="toggleMenu()">
+      <mat-icon>{{ isMenuOpen() ? "close" : "menu" }}</mat-icon>
+    </button>
+    <div class="header-nav" [class.open]="isMenuOpen()">
       <nav>
-        <a routerLink="/teams" routerLinkActive="router-link-active">Teams</a>
-        <a routerLink="/coureurs" routerLinkActive="router-link-active">Coureurs</a>
-        <a routerLink="/races" routerLinkActive="router-link-active">Races</a>
+        <a routerLink="/teams" routerLinkActive="router-link-active" (click)="closeMenu()">Teams</a>
+        <a routerLink="/coureurs" routerLinkActive="router-link-active" (click)="closeMenu()">Coureurs</a>
+        <a routerLink="/races" routerLinkActive="router-link-active" (click)="closeMenu()">Races</a>
         @if (isLoggedIn$ | async) {
-          <a routerLink="/poules" routerLinkActive="router-link-active">Poules</a>
+          <a routerLink="/poules" routerLinkActive="router-link-active" (click)="closeMenu()">Poules</a>
         }
       </nav>
       <div class="header-actions">
         @if (isLoggedIn$ | async) {
-          <button mat-flat-button routerLink="/dashboard" class="dashboard"><mat-icon>person</mat-icon></button>
-          <button mat-flat-button (click)="logout()" class="logout">Uitloggen</button>
+          <button mat-flat-button routerLink="/dashboard" class="dashboard-button"><mat-icon>person</mat-icon></button>
+          <button mat-flat-button (click)="logout()" class="logout-button">Uitloggen</button>
         } @else {
-          <button mat-flat-button routerLink="/login" class="login"><mat-icon>person</mat-icon>Login</button>
-          <button mat-flat-button routerLink="/register" class="register">Aanmelden</button>
-        }        
-        <mat-slide-toggle [checked]="theme() === 'dark-theme'" (change)="toggleTheme($event)" class="theme-toggle">
-        </mat-slide-toggle>
+          <button mat-flat-button routerLink="/login" class="login-button" (click)="closeMenu()"><mat-icon>person</mat-icon>Login</button>
+          <button mat-flat-button routerLink="/register" class="register-button" (click)="closeMenu()">Aanmelden</button>
+        }
+        <button class="theme-toggle-icon" (click)="toggleTheme()">
+          <mat-icon>
+            {{ theme() === 'dark-theme' ? 'light_mode' : 'dark_mode' }}
+          </mat-icon>
+        </button>
       </div>
     </div>
   </div>

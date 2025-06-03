@@ -1,10 +1,12 @@
 <main>
-  <h1>{{ pageTitle() }}</h1>
-  <div class="races-container">
-    @for (race of races; track race.round) {
+  <div class="container">
+    <h1>{{ pageTitle() }}</h1>
+    <div class="races-container">
+      @for (race of races; track race.round) {
       <div class="race-card-wrapper">
         <app-race-card [race]="race" [results]="getTop3Results(race.round)" />
       </div>
     }
+    </div>
   </div>
 </main>

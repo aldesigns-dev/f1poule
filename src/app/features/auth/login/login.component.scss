@@ -11,6 +11,18 @@ a {
     width: 40%;
   }
 
+  @media (max-width: 768px) {
+    mat-form-field {
+      width: 70%;
+    }
+  }
+
+  @media (max-width: 640px) {
+    mat-form-field {
+      width: 100%;
+    }
+  }
+
   .submit-button {
     width: 40%;
   }

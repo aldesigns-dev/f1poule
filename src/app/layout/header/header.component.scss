@@ -7,14 +7,11 @@ header {
   border-bottom: 1px solid var(--border);
   background-color: var(--background);
 
-  .header-main {
-    width: min(90%, 1320px);
+  .header-container {
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 0 auto;
-    padding: 0;
 
     img {
       height: 30px;
@@ -22,15 +19,23 @@ header {
       cursor: pointer;
     }
 
-    .header-right {
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+
+    .header-nav {
       display: flex;
       align-items: center;
-      gap: 2rem;
+      gap: 1.5rem;
 
       nav {
       display: flex;
       align-items: center;
-      gap: 2rem;
+      gap: 1.5rem;
   
       a:hover {
         color: var(--primary-red);
@@ -46,8 +51,8 @@ header {
       display: flex;
       align-items: center;
       gap: .2rem;
-      
-      button {
+
+      .login-button, .register-button, .logout-button {
         min-width: 86px;
         height: 36px;
         margin: 0;
@@ -55,29 +60,114 @@ header {
         font-size: .66rem;
         text-transform: uppercase;
         border-radius: 6px;
+      }
 
-        &.register, &.logout {
-          background-color: var(--btn-register);
+      .register-button, .logout-button {
+        background-color: var(--btn-register);
+      }
+
+      .login-button, .dashboard-button {
+        background-color: var(--primary-red);
+      }
+
+      .dashboard-button {
+        min-width: 38px;
+        height: 36px;
+        margin: 0;
+        padding: 0;
+        font-size: .66rem;
+        text-transform: uppercase;
+        border-radius: 6px;
+
+        &.mat-mdc-unelevated-button>.mat-icon {
+          margin: auto;
         }
+      }
 
-        &.login, &.dashboard {
-          background-color: var(--primary-red);
-        }
+      .theme-toggle-icon {
+        width: auto;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: var(--toggle-icon);
+        padding: 0.5rem;
 
-        &.dashboard {
-          min-width: 38px;
-
-          &.mat-mdc-unelevated-button>.mat-icon {
-            margin: auto;
-          }
+        mat-icon {
+          vertical-align: middle;
         }
       }
     }
     }
   }
+}
 
-  // mat-icon.toggle-icon {
-  //   fill: var(--toggle-icon);
-  //   color: var(--toggle-icon);
-  // }
+@media (max-width: 830px) {
+  header {
+    height: 60px; 
+
+    .header-container {
+      position: relative;
+
+      .hamburger {
+        display: block;
+        color: var(--text);
+      }
+
+      .header-nav {
+        display: none;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        background-color: var(--background);
+        padding: 1rem;
+        gap: 1rem;
+
+        nav {
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
+
+          a {
+            width: 100%;
+          }
+        }
+
+        .header-actions {
+          flex-direction: row;
+          flex-wrap: nowrap;
+          align-items: flex-start;
+          width: 100%;
+          gap: 0.5rem;
+
+          .login-button, .register-button, .logout-button, .dashboard-button {
+            height: 36px;
+            width: 100%;
+          }
+
+          .dashboard-button {
+            height: 36px;
+            min-width: 38px;
+          }
+
+          .theme-toggle-icon {
+            width: 38px; 
+            flex: 0 0 auto;
+            padding: 0; 
+          }
+        }
+
+        &.open {
+          display: flex;
+          padding-inline: 5vw;
+          margin-inline: auto;
+          border-bottom: 1px solid var(--border);
+        }
+      }
+    }
+  }
 }
