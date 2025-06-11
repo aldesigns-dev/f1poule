@@ -31,7 +31,7 @@ export class TeamsComponent implements OnInit {
   }
 
   // Ophalen teamstanden.
-  loadConstructorStandingsSeason() {
+  private loadConstructorStandingsSeason() {
     this.jolpicaF1Service.getConstructorStandingsSeason()
     .pipe(takeUntilDestroyed(this.destroyRef))
     .subscribe({
@@ -47,7 +47,7 @@ export class TeamsComponent implements OnInit {
   }
 
   // Ophalen coureursstanden. 
-  loadDriverStandingsSeason() {
+  private loadDriverStandingsSeason() {
     this.jolpicaF1Service.getDriverStandingsSeason()
     .pipe(takeUntilDestroyed(this.destroyRef))
     .subscribe({
@@ -64,7 +64,7 @@ export class TeamsComponent implements OnInit {
   }
 
   // Coureurs koppelen aan teams.
-  linkDriversToTeams() {
+  private linkDriversToTeams() {
     this.driversByTeam = {}; // Reset mapping.
     for (const driver of this.driverStandings) {
       // Coureurs uitsluiten (tijdelijke oplossing).

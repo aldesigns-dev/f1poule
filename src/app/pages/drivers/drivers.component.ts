@@ -24,16 +24,12 @@ export class DriversComponent implements OnInit {
 
   driverStandings: DriverStanding[] = [];
 
-  getDriverLink(driverId: string): string[] {
-    return ['/drivers', getDriverSlug(driverId)];
-  }
-
   ngOnInit(): void {
     this.loadDriverStandingsSeason();
   }
 
   // Ophalen coureursstanden. 
-  loadDriverStandingsSeason() {
+  private loadDriverStandingsSeason() {
     this.jolpicaF1Service.getDriverStandingsSeason()
     .pipe(takeUntilDestroyed(this.destroyRef))
     .subscribe({
@@ -46,5 +42,9 @@ export class DriversComponent implements OnInit {
         this.snackbar.open('Fout bij ophalen van coureurs-stand. Probeer het later opnieuw', 'Sluiten', { duration: 3000} );
       }
     });
+  }
+
+  getDriverLink(driverId: string): string[] {
+    return ['/drivers', getDriverSlug(driverId)];
   }
 }

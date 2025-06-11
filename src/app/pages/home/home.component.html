@@ -11,4 +11,114 @@
       </div>
     </div>
   </section>
+
+  <div class="container">
+
+    <section class="cards">
+      <a matRipple routerLink="/teams" class="cards-wrapper">
+        <mat-card class="teams-card">
+          <h2>Teams</h2>
+          <p>2025</p>
+          <mat-divider></mat-divider>
+            @for (constructorStandings of topThreeConstructors; track constructorStandings.Constructor.constructorId){
+              <div class="tc-info">
+                <div class="tc-team-name" [ngStyle]="{ 'border-left': '6px solid ' + getConstructorColor(constructorStandings.Constructor.constructorId) }">{{ constructorStandings.position }}. {{ getConstructorName(constructorStandings.Constructor.constructorId) }}</div>
+                <img [src]="getConstructorLogo(constructorStandings.Constructor.constructorId)" alt="Teamlogo" class="tc-team-logo" appHideOnError />
+              </div>
+            }
+            <span class="card-link">Bekijk alle teams</span>
+        </mat-card>
+      </a>
+      <a matRipple routerLink="/coureurs" class="cards-wrapper">
+        <mat-card class="drivers-card">
+          <h2>Stand</h2>
+          <p>2025</p>
+          <mat-divider></mat-divider>
+           @for (driverStandings of topThreeDrivers; track driverStandings.Driver.driverId){
+              <div class="dc-info">
+                <div class="dc-driver-name">
+                  {{ driverStandings.position }}. 
+                  <span>{{ driverStandings.Driver.givenName }}</span> 
+                  <span>{{ driverStandings.Driver.familyName }}</span>
+                </div>
+                <img [src]="getDriverImage(driverStandings.Driver.driverId)" alt="DriverImage" class="dc-driver-image" appHideOnError />
+              </div>
+            }
+            <span class="card-link">Bekijk de volledige stand</span>
+        </mat-card>
+      </a>
+      <a matRipple routerLink="/races" class="cards-wrapper">
+        <mat-card class="races-card">
+          <h2>Races</h2>
+          <p>2025</p>
+          <mat-divider></mat-divider>
+          @if (lastRace) {
+            <div class="rc-info">
+              <p class="rc-country">{{ lastRace.Circuit.Location.country }}</p>
+              <p class="rc-circuit">{{ lastRace.Circuit.circuitName }}</p>
+            </div>
+            @if (top3Results.length > 0) {
+              <div class="rc-results">
+                @if (top3Results.length > 1) {
+                  <div class="rc-pos rc-pos2">
+                    <img [src]="getDriverImage(top3Results[1].Driver.driverId)" alt="{{ top3Results[1].Driver.givenName }} {{ top3Results[1].Driver.familyName }}" class="dc-driver-image" appHideOnError />
+                  </div>
+                }
+                @if (top3Results.length > 0) {
+                  <div class="rc-pos rc-pos1">
+                    <img [src]="getDriverImage(top3Results[0].Driver.driverId)" alt="{{ top3Results[0].Driver.givenName }} {{ top3Results[0].Driver.familyName }}" class="dc-driver-image" appHideOnError />
+                  </div>
+                }
+                @if (top3Results.length > 2) {
+                  <div class="rc-pos rc-pos3">
+                    <img [src]="getDriverImage(top3Results[2].Driver.driverId)" alt="{{ top3Results[2].Driver.givenName }} {{ top3Results[2].Driver.familyName }}" class="dc-driver-image" appHideOnError />
+                  </div>
+                }
+              </div>
+            }
+          }
+          <span class="card-link">Bekijk alle races</span>
+        </mat-card>
+      </a>
+    </section>
+
+    @if (nextRace) {
+      <section class="next-race">
+        <div class="nr-title">
+          <h2>Volgende race</h2>
+          <span class="nr-date">{{ dateRange }}</span>
+          <mat-divider></mat-divider>
+          <img class="nr-flag" [src]="getCountryFlagImage(nextRace.Circuit.Location.country)" alt="{{ nextRace.Circuit.Location.country }} vlag" appHideOnError />
+        </div>
+
+        <div class="nr-content">
+          <div class="nr-circuit">
+            @if (safeSvg) {
+              <svg viewBox="0 0 500 300" preserveAspectRatio="xMidYMid meet" class="nr-circuit-svg">
+                <g [innerHTML]="safeSvg"></g>
+              </svg>
+            }
+          </div>
+          <div class="nr-details">
+            <div class="nr-location">
+              <p>GP {{ nextRace.Circuit.Location.country }}</p>
+              <h3>{{ nextRace.Circuit.circuitName }}</h3>
+            </div>
+            <table mat-table [dataSource]="raceInfo">
+              <ng-container matColumnDef="label">
+                <td mat-cell *matCellDef="let element" class="cell-label"> {{ element.label }} </td>
+              </ng-container>
+              <ng-container matColumnDef="date">
+                <td mat-cell *matCellDef="let element" class="cell-value1"> {{ element.date }} </td>
+              </ng-container>
+              <ng-container matColumnDef="time">
+                <td mat-cell *matCellDef="let element" class="cell-value2"> {{ element.startTime }} - {{ element.endTime }} </td>
+              </ng-container>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </div>
+        </div>
+      </section>
+    }
+  </div>
 </main>

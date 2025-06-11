@@ -1,7 +1,7 @@
 <mat-card class="race-card">
   <div class="rc-header">
     <span>{{ race().date | date:'dd-MM-yyyy' }}</span>
-    <img class="rc-flag" [src]="getCountryFlagImage(race().Circuit.Location.country)" alt="{{ race().Circuit.Location.country }} vlag" appHideOnError />
+    <img class="rc-flag" [src]="getCountryFlagImage(race().Circuit.Location.country)" alt="{{ race().Circuit.Location.country }} flag" appHideOnError />
   </div>
 
   <mat-divider></mat-divider>

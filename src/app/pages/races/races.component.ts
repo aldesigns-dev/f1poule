@@ -1,12 +1,12 @@
 import { Component, DestroyRef, inject, input, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { combineLatest } from 'rxjs';
 
 import { JolpicaF1Service } from '../../core/services/jolpica-f1.service';
 import { RaceCardComponent } from './race-card/race-card.component';
 import { DriverResult } from '../../core/models/driver-result.model';
 import { Race } from '../../core/models/race.model';
-import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-races',

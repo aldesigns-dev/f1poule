@@ -21,7 +21,7 @@ export class DriverDetailComponent implements OnInit {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly jolpicaF1Service = inject(JolpicaF1Service);
   private readonly destroyRef = inject(DestroyRef);
-    private readonly snackbar = inject(MatSnackBar);
+  private readonly snackbar = inject(MatSnackBar);
 
   driver: DriverStanding | null = null;
   round: number = 0;

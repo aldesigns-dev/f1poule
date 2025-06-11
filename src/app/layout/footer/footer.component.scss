@@ -1,0 +1,16 @@
+footer {
+  background-color: var(--footer-bg);
+  height: 300px;
+
+  .footer-bar {
+    background-color: var(--footer-bar-bg);
+    padding-block: 1rem;
+    color: var(--primary-0);
+    font-size: 0.66rem;
+    text-transform: uppercase;
+  }
+
+  .footer-main {
+    padding-block: 2rem;
+  }
+}

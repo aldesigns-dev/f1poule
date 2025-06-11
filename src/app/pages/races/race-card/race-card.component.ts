@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, effect, input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, inject, input, OnInit } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { MatCardModule } from '@angular/material/card';
 import { MatDivider } from '@angular/material/divider';
@@ -19,11 +19,13 @@ import { getDriverImage } from '../../../shared/utils/driver-utils';
   styleUrl: './race-card.component.scss'
 })
 export class RaceCardComponent implements OnInit {
+   private readonly sanitizer = inject(DomSanitizer);
   readonly race = input.required<Race>();
   readonly results = input.required<DriverResult[]>();
   safeSvg: SafeHtml | null = null;
 
-  constructor(private sanitizer: DomSanitizer) {}
+  getCountryFlagImage = getCountryFlagImage;
+  getDriverImage = getDriverImage;
 
   ngOnInit(): void {
     const circuitId = this.race().Circuit?.circuitId;
@@ -32,7 +34,4 @@ export class RaceCardComponent implements OnInit {
     // console.log('✅ Ontvangen race:', this.race());
     // console.log('✅ Ontvangen results:', this.results());
   }
-
-  getCountryFlagImage = getCountryFlagImage;
-  getDriverImage = getDriverImage;
 }

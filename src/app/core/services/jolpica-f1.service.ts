@@ -236,6 +236,18 @@ export class JolpicaF1Service {
       );
   }
 
+  // HomeComponent
+  getResultsLastRace(): Observable<{ race: Race, top3: DriverResult[] }> {
+    const url = `${this.baseUrl}/${this.season}/last/results.json`;
+    return this.httpClient.get<any>(url).pipe(
+      map(response => {
+        const race = response?.MRData?.RaceTable?.Races?.[0];
+        const top3 = race?.Results?.slice(0, 3) ?? [];
+        return { race, top3 };
+      })
+    );
+  }
+
   // RacesComponent
   driverWorldTitles: { [key: string]: number } = {
     'lando-norris': 0,

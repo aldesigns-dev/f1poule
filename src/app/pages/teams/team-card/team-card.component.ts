@@ -30,9 +30,4 @@ export class TeamCardComponent {
   getDriverLink(driverId: string): string[] {
     return ['/drivers', getDriverSlug(driverId)];
   }
-
-  onImgError(event: Event) {
-    const target = event.target as HTMLImageElement;
-    target.style.display = 'none';
-  }
 }

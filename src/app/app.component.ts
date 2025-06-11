@@ -1,13 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { Firestore } from '@angular/fire/firestore';
 
 import { HeaderComponent } from "./layout/header/header.component";
-import { Firestore } from '@angular/fire/firestore';
+import { FooterComponent } from "./layout/footer/footer.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

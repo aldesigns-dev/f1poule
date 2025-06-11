@@ -8,7 +8,7 @@
         <div class="dd-driver-info-container">
           <div class="dd-driver-info">
             <div class="dd-driver-number">{{ driver.Driver.permanentNumber }}</div>
-            <img [src]="getFlagImage(driver.Driver.nationality)" alt="{{ driver.Driver.nationality }} vlag" class="dd-driver-flag" appHideOnError />
+            <img [src]="getFlagImage(driver.Driver.nationality)" alt="{{ driver.Driver.nationality }} flag" class="dd-driver-flag" appHideOnError />
           </div>
           <h1>{{ driver.Driver.givenName }} {{ driver.Driver.familyName }}</h1>
           <table mat-table [dataSource]="driverInfo" class="driver-info">

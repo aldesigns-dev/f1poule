@@ -23,7 +23,7 @@
 
   --primary-red: oklch(0.6 0.244572 29.2339);
   --secondary-red: oklch(0.75 0.244572 29.2339); 
-  --primary-green: oklch(0.65 0.2189 145.07);
+  --primary-green: oklch(0.6621 0.164857 154.6348);
 
   --team-alpine: oklch(67.4% 0.150963 238.6408);
   --team-astonmartin: oklch(60.95% 0.1187 164.97);
@@ -53,8 +53,10 @@
   --card-accent-hover: var(--primary-550);
   --svg-track-outline: var(--primary-0);
   --svg-track-main: var(--primary-700);
-  --top3bg: var(--primary-0);
+  --top3bg: var(--primary-550);
   --toggle-icon:  oklch(0.84 0.1967 79.88);
+  --footer-bg: var(--primary-800);
+  --footer-bar-bg: var(--primary-600);
 }
 
 .light-theme {
@@ -73,6 +75,8 @@
   --svg-track-main: var(--primary-0);
   --top3bg: var(--primary-700);
   --toggle-icon:  oklch(0.84 0.1967 79.88);
+  --footer-bg: var(--primary-700);
+  --footer-bar-bg: var(--primary-600);
 }
 
 * {
@@ -151,27 +155,6 @@ img {
   height: auto;
   display: block;
 }
-
-// svg .cls-1 {
-//   fill: none;
-//   stroke: var(--svg-track);
-//   stroke-width: 3px;
-//   stroke-linecap: round;
-//   stroke-linejoin: round;
-//   vector-effect: non-scaling-stroke;
-//   stroke-dasharray: 1400;
-//   stroke-dashoffset: 1400;
-//   animation: draw-path 5s ease-out forwards;
-//   transition: stroke .2s;
-// }
-// svg:hover .cls-1 {
-//   stroke: var(--primary-red);
-// }
-// @keyframes draw-path {
-//   to {
-//     stroke-dashoffset: 0;
-//   }
-// }
 
 svg .track-outline {
   fill: none;
