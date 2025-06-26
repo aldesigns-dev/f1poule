@@ -7,13 +7,14 @@ import { Directive, ElementRef, HostListener, inject } from '@angular/core';
 export class HideOnErrorDirective {
   private el = inject(ElementRef<HTMLImageElement>);
 
-  constructor() {
-    this.el.nativeElement.style.visibility = 'hidden';
-  }
+  // constructor() {
+  //   this.el.nativeElement.style.visibility = 'hidden';
+  // }
 
   @HostListener('load')
   onLoad() {
     this.el.nativeElement.style.visibility = 'visible';
+    this.el.nativeElement.style.display = 'block';
   }
 
   @HostListener('error')

@@ -1,0 +1,18 @@
+<h3 mat-dialog-title>Kies je avatar</h3>
+<mat-divider></mat-divider>
+<mat-dialog-content>
+  <div class="avatars">
+    @for (avatar of avatars; track avatar) {
+      <img 
+        src="/assets/avatars/{{ avatar }}" 
+        alt="{{ avatar }}" 
+        class="avatar" 
+        (click)="selectAvatar(avatar)"
+        appHideOnError
+      >
+    }
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close class="mat-close-button">Annuleren</button>
+</mat-dialog-actions>

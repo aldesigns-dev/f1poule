@@ -1,0 +1,57 @@
+import { Component, DestroyRef, inject, input, OnInit, signal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatButtonModule } from '@angular/material/button';
+
+import { AuthService } from '../../../core/services/auth.service';
+import { AppUser } from '../../../core/models/user.model';
+import { PouleService } from '../../../core/services/poule.service';
+import { Poule } from '../../../core/models/poule.model';
+import { catchError, of, switchMap } from 'rxjs';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-join-poule',
+  standalone: true,
+  imports: [MatButtonModule, CommonModule],
+  templateUrl: './join-poule.component.html',
+  styleUrl: './join-poule.component.scss'
+})
+export class JoinPouleComponent {
+  private readonly authService = inject(AuthService);
+  private readonly pouleService = inject(PouleService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly destroyRef = inject(DestroyRef);
+  readonly pageTitle = input<string>();
+
+  readonly currentUser$ = this.authService.currentUser$;
+  
+  readonly poule$ = this.route.paramMap.pipe(
+    switchMap(params => {
+      const code = params.get('inviteCode');
+      console.log('[JoinPouleComponent] inviteCode:', code);
+      return code ? this.pouleService.getPouleByInviteCode(code) : of(null);
+    }),
+    catchError(err => {
+      console.error('[JoinPouleComponent] Fout bij ophalen poule via code:', err);
+      return of(null);
+    })
+  );
+
+  async joinPoule(pouleId: string, userId: string) {
+    try {
+      await this.pouleService.joinPoule(pouleId, userId);
+    } catch (error) {
+      console.error('[JoinPouleComponent] Fout bij joinPoule:', error);
+    }
+  }
+
+  goToLogin() {
+    this.router.navigate(['/login'], { queryParams: { redirectTo: this.router.url } });
+  }
+
+  goToRegister() {
+    this.router.navigate(['/register'], { queryParams: { redirectTo: this.router.url } });
+  }
+}

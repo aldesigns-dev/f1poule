@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AuthService } from '../../../core/services/auth.service';
-import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-register',
@@ -52,12 +52,12 @@ export class RegisterComponent {
     const { email, password, firstName, lastName, username, confirmPassword } = this.registerForm.value;
 
     if (password!.length < 6) {
-      this.snackbar.open('Wachtwoord moet minstens 6 tekens bevatten.', 'Sluiten',);
+      this.snackbar.open('Wachtwoord moet minstens 6 tekens bevatten.', 'Sluiten', { duration: 3000});
       return;
     }
 
     if (password !== confirmPassword) {
-      this.snackbar.open('Wachtwoorden komen niet overeen.', 'Sluiten',);
+      this.snackbar.open('Wachtwoorden komen niet overeen.', 'Sluiten', { duration: 3000});
       return;
     }
 
@@ -76,11 +76,11 @@ export class RegisterComponent {
       });
     } catch (err: any) {
       if (err.message.includes('Gebruikersnaam is al in gebruik')) {
-        this.snackbar.open('Gebruikersnaam is al in gebruik. Kies een andere.', 'Sluiten');
+        this.snackbar.open('Gebruikersnaam is al in gebruik. Kies een andere.', 'Sluiten', { duration: 3000} );
       } else if (err.code === 'auth/email-already-in-use') {
-        this.snackbar.open('Dit e-mailadres is al in gebruik.', 'Sluiten');
+        this.snackbar.open('Dit e-mailadres is al in gebruik.', 'Sluiten', { duration: 3000} );
       } else {
-        this.snackbar.open('Registratie mislukt.', 'Sluiten');
+        this.snackbar.open('Registratie mislukt.', 'Sluiten', { duration: 3000} );
       }
     }
   }

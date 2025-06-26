@@ -19,15 +19,6 @@
       height: auto;
       object-fit: contain;
     }
-
-    @media (max-width: 830px) {
-      flex: 1 1 40%;
-      max-width: 40%;
-    }
-    @media (max-width: 640px) {
-      flex: 1 1 100%;
-      max-width: 100%;
-    }
   }
 
   .dd-driver-info-container {
@@ -60,24 +51,10 @@
     h1 {
       font-size: 2.5rem;
       margin-bottom: 2rem;
-
-      @media (max-width: 1024px) {
-        font-size: 2rem;
-      }
-      @media (max-width: 830px) {
-        font-size: 1.75rem;
-      }
-      @media (max-width: 640px) {
-        font-size: 1.75rem;
-      }
     }
 
     table.driver-info {
       width: 60%;
-    }
-
-    @media (max-width: 640px) {
-      padding: 1.5rem 2rem;
     }
   }
 }
@@ -88,6 +65,12 @@
   flex-wrap: wrap;
   margin-top: 3rem;
   gap: 5rem;
+
+  .dd-stats-container {
+    background-color: var(--background);
+    border-radius: 8px;
+    padding: 1.25rem 2.25rem;
+  }
 
   h3 {
     margin-bottom: 1rem;
@@ -136,4 +119,45 @@
 }
 .mdc-data-table__content {
   font-size: 1rem;
+}
+
+@media (max-width: 1024px) {
+  .driver-details-header .dd-driver-info-container h1 {
+    font-size: 2rem;
+  }
+}
+@media (max-width: 830px) {
+  .driver-details-header .dd-driver-image-container {
+    flex: 1 1 40%;
+    max-width: 40%;
+  }
+  .driver-details-header .dd-driver-info-container h1 {
+    font-size: 1.75rem;
+  }
+  .driver-details-stats {
+    gap: 0;
+  }
+}
+@media (max-width: 640px) {
+  .driver-details-header .dd-driver-image-container {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+  .driver-details-header .dd-driver-info-container table.driver-info {
+    width: 100%;
+  }
+  .driver-details-header .dd-driver-info-container {
+    padding: 1.5rem 2rem;
+  }
+  .driver-details-stats {
+    gap: 0;
+
+    .dd-stats-container {
+      width: 100%;
+
+      table.driver-results {
+        width: 100%;
+      }
+    }
+  }
 }

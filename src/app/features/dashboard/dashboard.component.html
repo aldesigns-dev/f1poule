@@ -2,10 +2,39 @@
   <div class="container">
     <h1>{{ pageTitle() }}</h1>
     @if (username && fromPage === 'register' || username && fromPage === 'login') {
-      <h2>{{ fromPage === 'register' ? 'Welkom ' + username + '! Je registratie is geslaagd.' : 'Welkom ' + username + '!' }}</h2>
+      <h2>{{ fromPage === 'register' ? 'Welkom ' + username + '! Je registratie is geslaagd.' : 'Welkom terug ' + username + '!' }}</h2>
     }
-    <div>
-      <h3>{{ username }}</h3>
+    <div class="dashboard-card-wrapper">
+
+      <mat-card class="card user-profile-card">
+        <h3>Profiel</h3>
+        <mat-divider></mat-divider>
+        <div class="user-info">
+          <div class="user-avatar" (click)="openAvatarDialog()">
+            <img [src]="avatarUrl" alt="Avatar" class="avatar-img" appHideOnError>
+          </div>
+          <div class="user-details">
+            <h4 class="user-name">{{ username }}</h4>
+            <div class="user-info-line">
+              <span class="user-label">E-mail:</span>
+              <span>{{ email }}</span>
+            </div>
+            <div class="user-info-line">
+              <span class="user-label">Lid sinds:</span>
+              <span>{{ createdAt | date:'dd-MM-yyyy' }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="change-pw">
+          <p (click)="openPassWordDialog()">Wachtwoord wijzigen</p>
+        </div>
+      </mat-card>
+        
+      <mat-card class="card user-poules-card">
+        <h3>Poules</h3>
+        <mat-divider></mat-divider>
+      </mat-card>
+
     </div>
-  </div>
+    </div>
 </main>

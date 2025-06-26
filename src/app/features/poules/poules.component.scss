@@ -1,0 +1,77 @@
+h3 { 
+  padding-bottom: 1rem; 
+  text-align: center;
+}
+
+a {
+  color: var(--primary-red);
+  text-decoration: underline;
+  text-transform: uppercase;
+  font-size: .77rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+span {
+  text-transform: uppercase;
+  font-size: .77rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+mat-divider { 
+  padding-bottom: 1rem; 
+}
+
+.mat-icon {
+  height: 25px;
+  width: 40px;
+}
+
+.material-icons {
+  font-size: 30px;
+}
+
+.poules-card-wrapper {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  padding-bottom: 2px;
+  gap: 2rem;
+
+  .user-poules-card, .all-poules-card {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 2.25rem;
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+.no-poules-msg {
+  margin-bottom: 1rem;
+}
+
+.user-poule {
+  margin-bottom: 2rem;
+}
+.poule-table {
+  margin-bottom: 1rem;
+}
+
+.invite-code-container {
+  text-align: center;
+}
+
+.poule-action-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.edit-poule-button {
+  background-color: coral !important;
+}
+.new-poule-button, .go-to-poule-button {
+  background-color: var(--primary-green) !important;
+}

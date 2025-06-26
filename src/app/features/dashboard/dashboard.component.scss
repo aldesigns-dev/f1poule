@@ -1,0 +1,81 @@
+.dashboard-card-wrapper {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  padding-bottom: 2px;
+  gap: 2rem;
+}
+
+h2 {
+  margin-bottom: 2rem;
+}
+
+h3 { 
+  padding-bottom: 1rem; 
+  text-align: center;
+}
+
+mat-divider { 
+  padding-bottom: 1rem; 
+}
+
+.user-profile-card, .user-poules-card {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  padding: 2.25rem;
+  width: 100%;
+  max-width: 100%;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2rem;
+  padding-bottom: 2rem;
+
+  .user-avatar {
+    cursor: pointer;
+    display: inline-block;
+
+    img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: block;
+    }
+  }
+
+  .user-details {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+    font-weight: 600;
+    
+    .user-info-line {
+      display: flex;
+      gap: .5rem;
+      align-items: center;
+      font-size: .86rem;
+
+      .user-label {
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+.change-pw p {
+  font-size: .86rem;
+  color: var(--primary-red);
+  cursor: pointer;
+  display: inline;
+}
+
+@media (max-width: 830px) {
+  .dashboard-card-wrapper {
+    flex-direction: column;
+    flex: 1 1 100%;  
+  }
+}

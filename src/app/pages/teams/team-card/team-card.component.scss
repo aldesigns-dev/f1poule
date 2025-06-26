@@ -89,7 +89,6 @@
         align-items: center;
         flex-wrap: wrap;
         width: 100%;
-        gap: .2rem;
 
         & img {
           width: 60px;
@@ -107,14 +106,6 @@
           span:first-child {
             font-weight: 400;
           }
-        }
-
-        .tc-driver-number {
-          font-weight: 400;
-          font-style: italic;
-          margin-left: 0.25rem;
-          color: var(--primary-350);
-          margin-bottom: .5rem;
         }
 
         .tc-driver-points {

@@ -21,9 +21,10 @@
   --primary-50: oklch(0.95 0.0017 247.84); // Anti-flash-white #EFF0F1
   --primary-0:  oklch(0.99 0 0); // White #FCFCFC
 
-  --primary-red: oklch(0.6 0.244572 29.2339);
-  --secondary-red: oklch(0.75 0.244572 29.2339); 
-  --primary-green: oklch(0.6621 0.164857 154.6348);
+  --primary-red: oklch(0.6384 0.2394 27.91); // Vermilion #FC2C29
+  --secondary-red: oklch(0.75 0.244572 29.2339); // Salmon #FF7C6A
+  --primary-green: oklch(0.6621 0.164857 154.6348); // Jade #00AF63
+  --secondary-green: oklch(0.7163 0.1482 159.6); // Mint #32BF82
 
   --team-alpine: oklch(67.4% 0.150963 238.6408);
   --team-astonmartin: oklch(60.95% 0.1187 164.97);
@@ -57,6 +58,7 @@
   --toggle-icon:  oklch(0.84 0.1967 79.88);
   --footer-bg: var(--primary-800);
   --footer-bar-bg: var(--primary-600);
+  --dialog-bg: var(--primary-600);
 }
 
 .light-theme {
@@ -77,6 +79,7 @@
   --toggle-icon:  oklch(0.84 0.1967 79.88);
   --footer-bg: var(--primary-700);
   --footer-bar-bg: var(--primary-600);
+  --dialog-bg: var(--primary-50);
 }
 
 * {
@@ -110,7 +113,7 @@ main > .container {
   margin-inline: auto;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4 {
   color: var(--text);
 }
 
@@ -119,16 +122,6 @@ h1 {
   font-weight: 900;
   font-style: italic;
   margin-bottom: 2.5rem;
-
-  @media (max-width: 1024px) {
-    font-size: 3rem;
-  }
-  @media (max-width: 768px) {
-    font-size: 2.5rem;
-  }
-  @media (max-width: 640px) {
-    font-size: 2.25rem;
-  }
 }
 
 h2 {
@@ -137,13 +130,19 @@ h2 {
 }
 
 h3 {
-  font-size: 1.6rem;
+  font-size: 1.75rem;
+  font-weight: 900;
+}
+
+h4 {
+  font-size: 1.4rem;
   font-weight: 900;
 }
 
 a {
   color: var(--link);
   text-decoration: none;
+  cursor: pointer;
 }
 
 ul, ol {
@@ -178,7 +177,11 @@ button.mat-mdc-raised-button {
   margin-top: 1rem;
 }
 
-button.mat-mdc-raised-button:not(:disabled) {
+submit-button {
+  background-color: var(--primary-green);
+}
+
+button.mat-mdc-raised-button:not(:disabled), button.mat-mdc-button:not(:disabled) {
   background-color: var(--primary-red);
   color: var(--primary-0);
 }
@@ -189,27 +192,23 @@ button.mat-mdc-raised-button[disabled].mat-mdc-button-disabled {
 }
 
 @media (max-width: 1024px) {
-  :root {
-    --breakpoint: xl;
-  }
+  :root { --breakpoint: xl; }
+  h1 { font-size: 3rem; }
+  h2 { font-size: 2rem; }
 }
 @media (max-width: 830px) {
-  :root {
-    --breakpoint: lg;
-  }
+  :root { --breakpoint: lg; }
 }
 @media (max-width: 768px) {
-  :root {
-    --breakpoint: md;
-  }
+  :root { --breakpoint: md; }
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 1.5rem; }
 }
 @media (max-width: 640px) {
-  :root {
-    --breakpoint: sm;
-  }
+  :root { --breakpoint: sm; }
+  h1 { font-size: 2.25rem; }
+  h2 { font-size: 1.25rem; }
 }
 @media (max-width: 468px) {
-  :root {
-    --breakpoint: xs;
-  }
+  :root { --breakpoint: xs; }
 }

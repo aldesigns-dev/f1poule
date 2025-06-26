@@ -9,7 +9,7 @@
     background-color: var(--card-accent);
   }
 
-  .dc-header {
+  .dc-stats {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -77,6 +77,10 @@
 
   .dc-img {
     padding-top: 1rem;
+
+    .dc-team-name {
+      font-style: italic;
+    }
 
     .dc-driver {
       display: flex;

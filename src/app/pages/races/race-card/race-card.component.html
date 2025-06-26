@@ -1,4 +1,4 @@
-<mat-card class="race-card">
+<mat-card class="card race-card">
   <div class="rc-header">
     <span>{{ race().date | date:'dd-MM-yyyy' }}</span>
     <img class="rc-flag" [src]="getCountryFlagImage(race().Circuit.Location.country)" alt="{{ race().Circuit.Location.country }} flag" appHideOnError />
@@ -8,7 +8,7 @@
 
   <div class="rc-info">
     <div class="rc-country">{{ race().Circuit.Location.country }}</div>
-    <p>{{ race().Circuit.circuitName }}</p>
+    <p class="rc-circuit-name">{{ race().Circuit.circuitName }}</p>
   </div>
 
   <div class="rc-circuit">

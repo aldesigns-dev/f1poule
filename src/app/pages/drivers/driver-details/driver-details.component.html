@@ -28,7 +28,7 @@
       <div class="driver-details-stats">
         <div class="dd-stats-container">
           <h3>F1 Seizoen 2025</h3>
-          <table mat-table [dataSource]="driverSeasonResults">
+          <table mat-table [dataSource]="driverSeasonResults" class="driver-results">
             <ng-container matColumnDef="label">
               <td mat-cell *matCellDef="let element"> {{ element.label }} </td>
             </ng-container>
@@ -40,7 +40,7 @@
         </div>
         <div class="dd-stats-container">
           <h3>F1 Carriere</h3>
-          <table mat-table [dataSource]="driverCareerResults">
+          <table mat-table [dataSource]="driverCareerResults" class="driver-results">
             <ng-container matColumnDef="label">
               <td mat-cell *matCellDef="let element"> {{ element.label }} </td>
             </ng-container>

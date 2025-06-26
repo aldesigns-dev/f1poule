@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, inject, input, OnInit } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { MatCardModule } from '@angular/material/card';
+import { MatCard } from '@angular/material/card';
 import { MatDivider } from '@angular/material/divider';
 
 import { Race } from '../../../core/models/race.model';
@@ -14,7 +14,7 @@ import { getDriverImage } from '../../../shared/utils/driver-utils';
 @Component({
   selector: 'app-race-card',
   standalone: true,
-  imports: [HideOnErrorDirective, MatCardModule, MatDivider, DatePipe],
+  imports: [HideOnErrorDirective, MatCard, MatDivider, DatePipe],
   templateUrl: './race-card.component.html',
   styleUrl: './race-card.component.scss'
 })

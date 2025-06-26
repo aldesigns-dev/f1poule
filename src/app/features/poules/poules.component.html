@@ -1,3 +1,82 @@
 <main>
-  <p>poules works!</p>
+  <div class="container">
+    <h1>{{ pageTitle() }}</h1>
+
+    <div class="poules-card-wrapper">
+
+      <mat-card class="card user-poules-card">
+        <h3>Mijn Poules</h3>
+        <mat-divider></mat-divider>
+        @if (userPoules$ | async; as userPoules) {
+          @if (userPoules.length === 0) {
+            <p class="no-poules-msg">Je bent nog geen lid van een poule. Maak een poule aan of word lid van een openbare poule.</p>
+          }
+          @if (userPoules.length > 0) {
+            @for (poule of userPoules; track poule.id) {
+              <div class="user-poule">
+                <table mat-table [dataSource]="[
+                  { label: 'Poule', value: poule.name },
+                  { label: 'Beschrijving', value: poule.description },
+                  { label: 'Rol', value: isPouleOwner(poule) ? 'Beheerder' : 'Lid' },
+                  { label: 'Deelnemers', value: poule.members.length },
+                  { label: 'Status', value: poule.isPublic ? 'Openbaar' : 'Privé' }
+                ]" class="poule-table">
+                  <ng-container matColumnDef="label">
+                    <th mat-header-cell *matHeaderCellDef>Label</th>
+                    <td mat-cell *matCellDef="let element">{{ element.label }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="value">
+                    <th mat-header-cell *matHeaderCellDef>Value</th>
+                    <td mat-cell *matCellDef="let element">{{ element.value }}</td>
+                  </ng-container>
+                  <tr mat-row *matRowDef="let row; columns: ['label', 'value'];"></tr>
+                </table>
+                <div class="poule-action-buttons">
+                  <button mat-button routerLink="/poules" class="go-to-poule-button">Ga naar poule</button>
+                  @if (isPouleOwner(poule)) {
+                    <button mat-button (click)="openEditPouleDialog(poule)" class="edit-poule-button">Poule bewerken</button>
+                  }
+                  @if (isPouleOwner(poule) && poule.id) {
+                    <button mat-button (click)="onDeletePoule(poule.id)" class="delete-poule-button">Poule verwijderen</button>
+                  }
+                </div>
+                <div class="invite-code-container">
+                  @if (isPouleOwner(poule)) {
+                    <a href="#" (click)="copyInviteLink(poule.inviteCode); $event.preventDefault()">Poule invite link</a>
+                    
+                    @if (copiedCode === poule.inviteCode) {
+                      <span class="copy-feedback"> gekopieerd!</span>
+                    }
+                  }
+                </div>
+              </div>
+            }
+          }
+        }
+        <mat-divider></mat-divider>
+        <button mat-button (click)="openNewPouleDialog()" class="new-poule-button">Maak een poule</button>
+      </mat-card>
+
+      <mat-card class="card all-poules-card">
+        <h3><mat-icon>leaderboard</mat-icon> Klassement</h3>
+        <mat-divider></mat-divider>
+        @if (allPoules$ | async; as allPoules) {
+          @if (topPublicPoules(allPoules).length === 0) {
+            <p>Er zijn nog geen openbare poules beschikbaar.</p>
+          }
+          @if (topPublicPoules(allPoules).length > 0) {
+            <table mat-table [dataSource]="topPublicPoules(allPoules)" class="top-poules-table">
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Openbare Poules</th>
+                <td mat-cell *matCellDef="let poule">{{ poule.name }}</td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="['name']"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['name']"></tr>
+            </table>
+          }
+        }
+      </mat-card>
+
+    </div>
+  </div>
 </main>

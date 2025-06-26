@@ -7,18 +7,17 @@
         <button mat-flat-button routerLink="/poules" class="poules-button">Maak je F1 Poule</button>
       </div>
       <div class="hero-right">
-        <img src="assets/hero-bg.jpg" alt="F1 image"/>
+        <img src="assets/f1p-hero.webp" alt="F1 image" appHideOnError/>
       </div>
     </div>
   </section>
 
   <div class="container">
-
     <section class="cards">
       <a matRipple routerLink="/teams" class="cards-wrapper">
-        <mat-card class="teams-card">
+        <mat-card class="card teams-card">
           <h2>Teams</h2>
-          <p>2025</p>
+          <p class="card-year">2025</p>
           <mat-divider></mat-divider>
             @for (constructorStandings of topThreeConstructors; track constructorStandings.Constructor.constructorId){
               <div class="tc-info">
@@ -30,9 +29,9 @@
         </mat-card>
       </a>
       <a matRipple routerLink="/coureurs" class="cards-wrapper">
-        <mat-card class="drivers-card">
+        <mat-card class="card drivers-card">
           <h2>Stand</h2>
-          <p>2025</p>
+          <p class="card-year">2025</p>
           <mat-divider></mat-divider>
            @for (driverStandings of topThreeDrivers; track driverStandings.Driver.driverId){
               <div class="dc-info">
@@ -48,9 +47,9 @@
         </mat-card>
       </a>
       <a matRipple routerLink="/races" class="cards-wrapper">
-        <mat-card class="races-card">
+        <mat-card class="card races-card">
           <h2>Races</h2>
-          <p>2025</p>
+          <p class="card-year">2025</p>
           <mat-divider></mat-divider>
           @if (lastRace) {
             <div class="rc-info">
@@ -86,9 +85,11 @@
       <section class="next-race">
         <div class="nr-title">
           <h2>Volgende race</h2>
-          <span class="nr-date">{{ dateRange }}</span>
-          <mat-divider></mat-divider>
-          <img class="nr-flag" [src]="getCountryFlagImage(nextRace.Circuit.Location.country)" alt="{{ nextRace.Circuit.Location.country }} vlag" appHideOnError />
+          <div class="nr-info">
+            <span class="nr-date">{{ dateRange }}</span>
+            <mat-divider></mat-divider>
+            <img class="nr-flag" [src]="getCountryFlagImage(nextRace.Circuit.Location.country)" alt="{{ nextRace.Circuit.Location.country }} vlag" appHideOnError />
+          </div>
         </div>
 
         <div class="nr-content">

@@ -1,0 +1,27 @@
+<h3 mat-dialog-title>Nieuwe poule</h3>
+<mat-divider></mat-divider>
+
+<form [formGroup]="newPouleForm" class="np-form" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <mat-label>Poule naam</mat-label>
+    <input matInput formControlName="name" required />
+    @if (fieldIsInvalid('name')) {
+      <mat-error>Naam is verplicht</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Omschrijving</mat-label>
+    <input matInput formControlName="description" />
+  </mat-form-field>
+
+  <mat-radio-group formControlName="isPublic" aria-label="Poule zichtbaarheid" class="visibility-group">
+    <mat-radio-button [value]="false">Privé</mat-radio-button>
+    <mat-radio-button [value]="true">Openbaar</mat-radio-button>
+  </mat-radio-group>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" mat-dialog-close class="mat-close-button">Annuleren</button>
+    <button mat-button type="submit" [disabled]="newPouleForm.invalid" class="submit-button">Poule aanmaken</button>
+  </mat-dialog-actions>
+</form>

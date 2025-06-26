@@ -1,8 +1,10 @@
 export interface Poule {
-  id: string;
+  id?: string;
   name: string;
+  description?: string;
   createdBy: string;
   createdAt: string;
-  members: string[];
+  isPublic: boolean;
   inviteCode: string;
+  members: string[];
 }

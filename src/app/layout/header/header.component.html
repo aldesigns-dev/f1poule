@@ -1,7 +1,7 @@
 <header>
-  <div class="container header-container">
+  <div class="header-container">
     <a routerLink="/" routerLinkActive="router-link-active" (click)="closeMenu()">
-      <img src="assets/F1.svg.webp" alt="F1 logo" />
+       <svg id="f1p-logo" xmlns="http://www.w3.org/2000/svg" width="432" height="157.17" viewBox="0 0 432 157.17"><title>F1 Poule</title><polygon points="71.7 86.81 27.73 157.17 99.73 157.17 134.65 101.3 71.7 86.81"/><polygon points="0 58 158.34 92.66 117.79 157.17 189.77 157.17 252 58 0 58"/><path d="M360,0H173.36c-24.15,0-46.7,10.06-60.09,26.8L98.71,45H432C432,17.75,399.76,0,360,0Z"/><path d="M270,58h-0.29l-28.12,45h0l-33.85,54.17h72L313.58,103H360c39.76,0,72-17.5,72-45H270Z"/></svg>
     </a>
     <button class="hamburger" (click)="toggleMenu()">
       <mat-icon>{{ isMenuOpen() ? "close" : "menu" }}</mat-icon>

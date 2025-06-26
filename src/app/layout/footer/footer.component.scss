@@ -1,16 +1,51 @@
 footer {
   background-color: var(--footer-bg);
-  height: 300px;
+  color: var(--primary-0);
 
   .footer-bar {
     background-color: var(--footer-bar-bg);
     padding-block: 1rem;
-    color: var(--primary-0);
     font-size: 0.66rem;
     text-transform: uppercase;
+
+    ul {
+      display: flex;
+      flex-direction: row;
+      gap: 2rem;
+      align-items: center;
+
+      a {
+        cursor: pointer;
+
+        img {
+          height: 40px;
+        }
+      }
+    }
   }
 
   .footer-main {
     padding-block: 2rem;
+
+    .footer-nav {
+      display: flex;
+      flex-direction: row;
+      padding-bottom: 1rem;
+      gap: 5rem;
+
+      ul li {
+        padding: .25rem 0;
+      }
+    }
+
+    mat-divider {
+      margin: 1rem 0;
+    }
+
+    .disclaimer p {
+      font-size: .66rem;
+      color: var(--primary-350);
+      line-height: 1.5;
+    }
   }
 }

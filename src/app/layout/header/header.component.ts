@@ -4,8 +4,8 @@ import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/ro
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 import { ThemeService } from '../../core/services/theme.service';
 import { AuthService } from '../../core/services/auth.service';
@@ -13,7 +13,7 @@ import { AuthService } from '../../core/services/auth.service';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, MatSlideToggleModule, MatIconModule, MatButtonModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, MatSlideToggleModule, MatIcon, MatButton, RouterLink, RouterLinkActive],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
   private themeService = inject(ThemeService);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
-   private readonly destroyRef = inject(DestroyRef);
+  private readonly destroyRef = inject(DestroyRef);
 
   theme = this.themeService.getTheme;
   isLoggedIn$ = this.authService.isAuthenticated$;
@@ -48,6 +48,7 @@ export class HeaderComponent implements OnInit {
   toggleTheme() {
     const theme = this.theme() === 'dark-theme' ? 'light-theme' : 'dark-theme';
     this.themeService.setTheme(theme);
+    this.isMenuOpen.set(false);
   }
 
   toggleMenu() {

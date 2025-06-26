@@ -2,11 +2,11 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { Component, DestroyRef, inject, input, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { MatButtonModule } from '@angular/material/button';
+import { MatButton } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatDivider } from '@angular/material/divider';
-import { MatCardModule } from '@angular/material/card';
+import { MatCard } from '@angular/material/card';
 import { MatRipple } from '@angular/material/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -24,7 +24,7 @@ import { DriverResult } from '../../core/models/driver-result.model';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, HideOnErrorDirective, MatButtonModule, MatTableModule, MatDivider, MatCardModule, MatRipple, RouterLink],
+  imports: [CommonModule, HideOnErrorDirective, MatButton, MatTableModule, MatDivider, MatCard, MatRipple, RouterLink],
   providers: [DatePipe],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
@@ -121,14 +121,6 @@ export class HomeComponent implements OnInit {
     .subscribe({
       next: (races) => {
         const now = new Date();
-        const raceDurationMs = 2 * 60 * 60 * 1000; // 2 uur.
-
-        // Zoek huidige race.
-        const currentRace = races.find(r => {
-          const start = new Date(`${r.date}T${r.time}`);
-          const end = new Date(start.getTime() + raceDurationMs);
-          return start <= now && now < end;
-        });
 
         // Zoek eerstvolgende race. 
         const upcomingRace = races.find(r => {
@@ -136,8 +128,7 @@ export class HomeComponent implements OnInit {
           return start > now;
         });
 
-        // Bepaal welke race getoond wordt.
-        this.nextRace = currentRace ?? upcomingRace ?? null;
+        this.nextRace = upcomingRace ?? null;
 
         if (!this.nextRace) return;
 

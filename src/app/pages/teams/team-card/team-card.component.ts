@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
+import { MatCard } from '@angular/material/card';
 import { MatDivider } from '@angular/material/divider';
 import { MatRipple } from '@angular/material/core';
 
@@ -14,7 +14,7 @@ import { HideOnErrorDirective } from '../../../shared/directives/hide-on-error.d
 @Component({
   selector: 'app-team-card',
   standalone: true,
-  imports: [HideOnErrorDirective, CommonModule, RouterLink, MatCardModule, MatDivider, MatRipple],
+  imports: [HideOnErrorDirective, CommonModule, RouterLink, MatCard, MatDivider, MatRipple],
   templateUrl: './team-card.component.html',
   styleUrl: './team-card.component.scss'
 })

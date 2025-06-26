@@ -12,11 +12,15 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding-inline: 5vw;
+    margin-inline: auto;
 
-    img {
-      height: 30px;
+    svg {
+      height: 36px;
       width: auto;
       cursor: pointer;
+      display: block;
+      fill: var(--primary-red);
     }
 
     .hamburger {

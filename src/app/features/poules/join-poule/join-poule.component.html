@@ -1,0 +1,26 @@
+<main>
+  <div class="container">
+    @if (poule$ | async; as poule) {
+      <h2>Je bent uitgenodigd voor poule "{{ poule.name }}"</h2>
+      <p>{{ poule.description }}</p>
+      <p>Aantal leden: {{ poule.members.length }}</p>
+      <p>Status: {{ poule.isPublic ? 'Openbaar' : 'Privé' }}</p>
+      
+      @if (currentUser$ | async; as user) {
+        @if (poule.members.includes(user.uid)) {
+          <p>Je bent al lid van deze poule.</p>
+        } @else {
+          <button mat-button (click)="joinPoule(poule.id!, user.uid!)">Word lid van deze poule</button>
+        }
+      } @else {
+        <div>
+          <p>Log in om lid te worden van deze poule:</p>
+          <button mat-button (click)="goToLogin()">Inloggen</button>
+          <button mat-button (click)="goToRegister()">Registreren</button>
+        </div>
+      }
+    } @else {
+      <p>Geen poule gevonden met deze invite link.</p>
+    }
+  </div>
+</main>

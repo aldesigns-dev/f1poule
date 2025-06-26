@@ -1,17 +1,15 @@
 .hero {
-  display: flex;
   height: 500px;
   background-color: var(--hero-bg);
+
+  position: relative;
   overflow: hidden;
-  position: relative; 
 
   .hero-container {
-    max-width: 1320px;
     width: 100%;
     margin: 0 auto;
     display: flex;
     height: 100%;
-    position: relative;
 
     .hero-left {
       flex-basis: 50%;
@@ -19,6 +17,8 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      background-color: var(--hero-bg);
+      z-index: 2;
 
       h1, p {
         color: var(--hero-text);
@@ -42,13 +42,10 @@
       position: relative;
 
       img {
-        position: absolute;
-        top: 0;
-        right: 0;
         width: 100%;
         height: 100%;
         object-fit: cover;
-        display: block;
+        overflow: visible;
       }
     }
   }
@@ -63,11 +60,11 @@
   padding-bottom: 100px;
 
   .cards-wrapper {
-    flex: 0 1 calc((100% - 4rem) / 3);
+    width: calc((100% - 4rem) / 3);
     box-sizing: border-box;
     padding-bottom: 2px;
 
-    .teams-card {
+    .card {
       background-color: var(--card-bg);
       border-radius: 8px;
       padding: 1.25rem;
@@ -77,17 +74,9 @@
       &:hover {
         background-color: var(--card-accent);
       }
+    }
 
-      h2 {
-        text-align: center;
-      }
-
-      p {
-        font-size: .66rem;
-        text-align: center;
-        padding-bottom: 1rem;
-      }
-
+    .teams-card {
       .tc-info {
         display: flex;
         flex-direction: row;
@@ -109,38 +98,9 @@
           height: 30px;
         }
       }
-
-      .card-link {
-        color: var(--primary-red);
-        font-size: .66rem;
-        text-decoration: underline;
-        text-transform: uppercase;
-        text-align: center;
-        padding-top: .8rem;
-      }
     }
 
     .drivers-card {
-      background-color: var(--card-bg);
-      border-radius: 8px;
-      padding: 1.25rem;
-      width: 100%;
-      max-width: 100%;
-
-      &:hover {
-        background-color: var(--card-accent);
-      }
-
-      h2 {
-        text-align: center;
-      }
-
-      p {
-        font-size: .66rem;
-        text-align: center;
-        padding-bottom: 1rem;
-      }
-
       .dc-info {
         display: flex;
         flex-direction: row;
@@ -168,38 +128,9 @@
           border-bottom: 1px solid var(--border);
         }
       }
-
-      .card-link {
-        color: var(--primary-red);
-        font-size: .66rem;
-        text-decoration: underline;
-        text-transform: uppercase;
-        text-align: center;
-        padding-top: .8rem;
-      }
     }
 
     .races-card {
-      background-color: var(--card-bg);
-      border-radius: 8px;
-      padding: 1.25rem;
-      width: 100%;
-      max-width: 100%;
-
-      &:hover {
-        background-color: var(--card-accent);
-      }
-
-      h2 {
-        text-align: center;
-      }
-
-      p {
-        font-size: .66rem;
-        text-align: center;
-        padding-bottom: 1rem;
-      }
-
       .rc-info {
         padding: 1rem 0;
 
@@ -278,59 +209,79 @@
           }
         }
       }
-
-      .card-link {
-        color: var(--primary-red);
-        font-size: .66rem;
-        text-decoration: underline;
-        text-transform: uppercase;
-        text-align: center;
-        padding-top: .8rem;
-      }
     }
+  }
+
+  h2 {
+    text-align: center;
+    font-style: italic;
+  }
+
+  .card-year {
+    font-size: .66rem;
+    text-align: center;
+    padding-bottom: 1rem;
+    font-weight: 600;
+  }
+  .card-link {
+    color: var(--primary-red);
+    font-size: .66rem;
+    text-decoration: underline;
+    text-transform: uppercase;
+    text-align: center;
+    padding-top: 1rem;
   }
 }
 
 .next-race {
-
-  h2 {
-    margin-top: -4px;
-  }
-
   .nr-title {
     display: flex;
-    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
     align-items: center;
     padding-bottom: 3rem;
     gap: 1.5rem;
 
-    mat-divider {
+    h2 {
+      margin-top: -4px;
+      font-style: italic;
+      white-space: nowrap;
+    }
+
+    .nr-info {
+      display: flex;
+      align-items: center;
       flex-grow: 1;
-      height: 3px;
-      background-color: var(--text);
-      border: none;
-    }
+      gap: 1.5rem;
 
-    .nr-flag {
-      width: 58px;
-      height: 36px;
-      border-radius: 4px;
-      border: 1px solid var(--border);
-    }
-  }
+      .nr-date {
+        text-transform: uppercase;
+        font-weight: 700;
+        color: var(--primary-red);
+        white-space: nowrap;
+      }
 
-  .nr-date {
-    text-transform: uppercase;
-    font-weight: 700;
-    // letter-spacing: -1px;
-    color: var(--primary-red);
+      mat-divider {
+        flex-grow: 1;
+        height: 3px;
+        background-color: var(--text);
+        border: none;
+      }
+
+      .nr-flag {
+        width: 58px;
+        height: 36px;
+        border-radius: 4px;
+        border: 1px solid var(--border);
+      }
+    }
   }
 
   .nr-content {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    gap: 5rem;
+    gap: 3rem;
 
     .nr-circuit {
       width: 100%;
@@ -382,19 +333,75 @@
 }
 
 @media (max-width: 1024px) {
-  .cards {
-    .cards-wrapper {
-      flex: 0 1 calc((100% - 2rem) / 2);
+  .cards .cards-wrapper {
+    width: calc((100% - 2rem) / 2);
+  }
+}
+@media (max-width: 830px) {
+  .hero {
+    height: 640px;
+
+    .hero-container {
+      flex-direction: column;
+
+      .hero-left {
+        padding-top: 120px;
+        padding-bottom: 80px;
+      }
+      .hero-right img {
+        position: absolute;
+        top: -40px;
+      }
+    }
+  }
+  .next-race .nr-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 3rem;
+    
+    .nr-circuit {
+      max-width: 100%;
+    }
+    .nr-details {
+      max-width: 100%;
     }
   }
 }
-
 @media (max-width: 640px) {
-  .cards {
-    flex-direction: column;
-
-    .cards-wrapper {
-      flex: 1 1 100%;
+  h1 {
+    font-size: 2.5rem;
+  }
+  .hero .hero-container .hero-right img {
+    top: 0;
+  }
+  .cards .cards-wrapper {
+    width: 100%;
+    
+    .teams-card .tc-info {
+      padding: .5rem 0;
     }
+  }
+
+  .cards .cards-wrapper .drivers-card .dc-info {
+    padding: .5rem 0;
+  }
+
+  .next-race .nr-title {
+    flex-direction: column;
+    align-items: flex-start;
+
+    .nr-info {
+      flex-direction: row;
+      width: 100%;
+
+      mat-divider {
+        width: 100%;
+      }
+    }
+  }
+
+  .next-race .nr-content .nr-circuit {
+    margin-top: 0;
   }
 }
