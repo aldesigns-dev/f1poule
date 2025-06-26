@@ -11,6 +11,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { catchError, firstValueFrom, of, switchMap, tap } from 'rxjs';
 
@@ -33,10 +34,12 @@ export class PoulesComponent implements OnInit {
   private readonly pouleService = inject(PouleService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly dialog = inject(MatDialog);
+  private readonly snackbar = inject(MatSnackBar);
   readonly pageTitle = input<string>();
   readonly currentUser = signal<AppUser | null>(null);
   copiedCode = '';
 
+  // I.c.m. async pipe Angular beheert subscription automatisch.
   readonly userPoules$ = this.authService.currentUser$.pipe(
     switchMap(user => user ? this.pouleService.getPoulesByUser$(user.uid) : of([])),
     catchError(() => of([]))
@@ -76,35 +79,32 @@ export class PoulesComponent implements OnInit {
 
       try {
         await this.pouleService.createPoule(newPoule);
-        // this.snackbar.open('Poule aangemaakt!', 'Sluiten', { duration: 2500 });
+        this.snackbar.open('Poule aangemaakt!', 'Sluiten', { duration: 3000 });
       } catch (error) {
-        // this.snackbar.open('Aanmaken mislukt.', 'Sluiten', { duration: 2500 });
+        console.error('Fout bij aanmaken poule:', error);
+        this.snackbar.open('Aanmaken mislukt.', 'Sluiten', { duration: 3000 });
       }
     }
   }
 
   async openEditPouleDialog(poule: Poule) {
-    const users = await firstValueFrom(this.authService.getUsersByUids$(poule.members));
+    const pouleCopy = structuredClone(poule);
 
     const dialogRef = this.dialog.open(DialogEditPouleComponent, {
-      data: {
-        poule,
-        members: users
-      }
+      data: { poule: pouleCopy }
     });
+
     const result = await firstValueFrom(dialogRef.afterClosed());
-    console.log('[PoulesComponent] Dialog gesloten, result:', result);
+
     if (result) {
       const updatedData = {
         name: result.name,
         description: result.description,
         isPublic: result.isPublic,
-        members: (result.members as AppUser[]).map(user => user.uid)
       };
-      console.log('[PoulesComponent] Result members:', result.members);
-
       try {
         await this.pouleService.updatePoule(poule.id!, updatedData);
+        this.snackbar.open('Poule gewijzigd!', 'Sluiten', { duration: 3000 });
       } catch (error) {
         console.error('[PoulesComponent] Poule bijwerken mislukt:', error);
       }
@@ -119,10 +119,11 @@ export class PoulesComponent implements OnInit {
     }
     try {
       await this.pouleService.deletePoule(id);
+      this.snackbar.open('Poule verwijderd!', 'Sluiten', { duration: 3000 });
       console.log('Poule verwijderd:', id);
     } catch (error) {
       console.error('Fout bij verwijderen poule:', error);
-      alert('Verwijderen mislukt. Probeer het later opnieuw.');
+      this.snackbar.open('Verwijderen mislukt.', 'Sluiten', { duration: 3000 });
     }
   }
 
@@ -143,5 +144,44 @@ export class PoulesComponent implements OnInit {
       this.copiedCode = inviteCode;
       setTimeout(() => this.copiedCode = '', 2000);
     });
+  }
+
+  isMember(poule: Poule): boolean {
+    const user = this.currentUser();
+    return !!user && poule.members?.includes(user.uid);
+  }
+
+  joinPoule(pouleId: string) {
+    const user = this.currentUser();
+    if (!user) {
+      this.snackbar.open('Je moet ingelogd zijn om lid te worden van een poule.', 'Sluiten', { duration: 3000 });
+      return;
+    }
+
+    this.pouleService.joinPoule(pouleId, user.uid)
+      .then(() => {
+        this.snackbar.open('Je bent lid geworden van de poule!', 'Sluiten', { duration: 3000 });
+      })
+      .catch(err => {
+        this.snackbar.open('Fout bij lid worden van de poule.', 'Sluiten', { duration: 3000 });
+        console.error(err);
+      });
+  }
+
+  leavePoule(pouleId: string) {
+    const user = this.currentUser();
+    if (!user) {
+      this.snackbar.open('Je moet ingelogd zijn om een poule te verlaten.', 'Sluiten', { duration: 3000 });
+      return;
+    }
+
+    this.pouleService.leavePoule(pouleId, user.uid)
+      .then(() => {
+        this.snackbar.open('Je hebt de poule verlaten.', 'Sluiten', { duration: 3000 });
+      })
+      .catch(err => {
+        this.snackbar.open('Fout bij het verlaten van de poule.', 'Sluiten', { duration: 3000 });
+        console.error(err);
+      });
   }
 }

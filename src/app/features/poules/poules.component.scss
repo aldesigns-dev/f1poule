@@ -52,26 +52,52 @@ mat-divider {
   margin-bottom: 1rem;
 }
 
-.user-poule {
+.user-poules {
   margin-bottom: 2rem;
-}
-.poule-table {
-  margin-bottom: 1rem;
+
+  .poule-table {
+    margin-bottom: 1rem;
+  }
+
+  .poule-action-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+
+    .edit-poule-button {
+      background-color: coral !important;
+    }
+    .go-to-poule-button {
+      background-color: var(--primary-green) !important;
+    }
+  }
+
+  .invite-code-container {
+    text-align: center;
+  }
 }
 
-.invite-code-container {
-  text-align: center;
-}
-
-.poule-action-buttons {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-}
-.edit-poule-button {
-  background-color: coral !important;
-}
-.new-poule-button, .go-to-poule-button {
+.new-poule-button {
   background-color: var(--primary-green) !important;
+}
+
+.join-poule-button {
+  color: var(--primary-green);
+  padding: 0;
+
+  .join-poule-icon {
+    font-size: 24px;
+    vertical-align: middle;
+  }
+}
+
+.leave-poule-button {
+  color: var(--primary-red);
+  padding: 0;
+
+  .leave-poule-icon {
+    font-size: 24px;
+    vertical-align: middle;
+  }
 }

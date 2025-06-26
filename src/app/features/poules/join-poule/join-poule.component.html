@@ -2,7 +2,7 @@
   <div class="container">
     @if (poule$ | async; as poule) {
       <h2>Je bent uitgenodigd voor poule "{{ poule.name }}"</h2>
-      <p>{{ poule.description }}</p>
+      <p>Poule omschrijving: {{ poule.description }}</p>
       <p>Aantal leden: {{ poule.members.length }}</p>
       <p>Status: {{ poule.isPublic ? 'Openbaar' : 'Privé' }}</p>
       

@@ -104,6 +104,36 @@ export class PouleService {
     }
   }
 
+  async leavePoule(pouleId: string, userId: string): Promise<void> {
+    try {
+      const pouleDocRef = doc(this.firestore, 'poules', pouleId);
+      const snapshot = await getDoc(pouleDocRef);
+
+      if (!snapshot.exists()) {
+        throw new Error('Poule niet gevonden');
+      }
+
+      const poule = snapshot.data() as Poule;
+      const currentMembers = poule.members || [];
+
+      if (!currentMembers.includes(userId)) {
+        console.log('[PouleService] Gebruiker is geen lid van deze poule');
+        return;
+      }
+
+      const updatedMembers = currentMembers.filter(id => id !== userId);
+
+      await updateDoc(pouleDocRef, {
+        members: updatedMembers
+      });
+
+      console.log('[PouleService] Gebruiker verwijderd uit poule:', pouleId);
+    } catch (error) {
+      console.error('[PouleService] Fout bij verlaten van poule:', error);
+      throw error;
+    }
+  }
+
   getPoulesByUser$(uid: string): Observable<Poule[]> {
     const createdByQuery = query(this.pouleCollection, where('createdBy', '==', uid));
     const memberQuery = query(this.pouleCollection, where('members', 'array-contains', uid));

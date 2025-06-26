@@ -11,7 +11,7 @@ import { AppUser } from "../models/user.model";
 export class AuthService {
   private readonly auth = inject(Auth);
   private readonly firestore = inject(Firestore);
-  readonly authState$ = authState(this.auth);
+  readonly authState$ = authState(this.auth); // Firebase observable.
 
   // Observable die realtime de huidige ingelogde gebruiker ophaalt uit Firestore.
   readonly currentUser$: Observable<AppUser | null> = this.authState$.pipe(
