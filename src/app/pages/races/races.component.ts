@@ -25,6 +25,30 @@ export class RacesComponent implements OnInit {
   top3Results: { [round: string]: DriverResult[] } = {};
   displayedColumns: string[] = ['raceName', 'circuitName', 'date'];
 
+  ngOnInit(): void {
+    combineLatest([
+      this.jolpicaF1Service.getRacesSeason(),
+      this.jolpicaF1Service.getRaceResultsSeason()
+    ])
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe({
+      next: ([races, results]) => {
+        this.races = races;
+        this.top3Results = results;
+        // console.log('[RacesComponent] Races:', this.races);
+        // console.log('[RacesComponent] Resultaten per ronde:', this.top3Results); 
+      },
+      error: (err) => {
+        console.error(err);
+        this.snackbar.open('Fout bij ophalen van data. Probeer het later opnieuw.', 'Sluiten', { duration: 3000 });
+      }
+    });
+  }
+
+  getTop3Results(round: string): DriverResult[] {
+    return this.top3Results[round.toString()] ?? [];
+  }
+
   // ngOnInit(): void {
   //   this.loadRaces();
   //   this.loadRaceResults();
@@ -59,28 +83,4 @@ export class RacesComponent implements OnInit {
   //     }
   //   })
   // }
-
-  ngOnInit(): void {
-    combineLatest([
-      this.jolpicaF1Service.getRacesSeason(),
-      this.jolpicaF1Service.getRaceResultsSeason()
-    ])
-    .pipe(takeUntilDestroyed(this.destroyRef))
-    .subscribe({
-      next: ([races, results]) => {
-        this.races = races;
-        this.top3Results = results;
-        // console.log('✅ Races:', this.races);
-        // console.log('✅ Resultaten per ronde:', this.top3Results); 
-      },
-      error: (err) => {
-        console.error(err);
-        this.snackbar.open('Fout bij ophalen van data. Probeer het later opnieuw.', 'Sluiten', { duration: 3000 });
-      }
-    });
-  }
-
-  getTop3Results(round: string): DriverResult[] {
-    return this.top3Results[round.toString()] ?? [];
-  }
 }

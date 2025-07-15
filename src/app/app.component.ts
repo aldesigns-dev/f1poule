@@ -13,11 +13,10 @@ import { FooterComponent } from "./layout/footer/footer.component";
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'f1poule';
-
+  title = 'f1 poule';
   db = inject(Firestore);
 
-  constructor() {
-    console.log('Firestore is injected:', this.db);
-  }
+  // constructor() {
+  //   console.log('Firestore is injected:', this.db);
+  // }
 }

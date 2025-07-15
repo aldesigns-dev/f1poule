@@ -73,6 +73,17 @@ mat-divider {
   display: inline;
 }
 
+.row-header {
+  background-color: var(--table-head-bg);
+}
+.row-link {
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--table-row-hover);
+  }
+}
+
 @media (max-width: 830px) {
   .dashboard-card-wrapper {
     flex-direction: column;

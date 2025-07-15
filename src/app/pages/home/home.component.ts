@@ -66,7 +66,7 @@ export class HomeComponent implements OnInit {
     .subscribe({
       next: (data) => {
         this.constructorStandings = data;
-        console.log('ConstructorStandings:', this.constructorStandings);
+        // console.log('[HomeComponent] ConstructorStandings:', this.constructorStandings);
       },
       error: (err) => {
         console.error('Fout bij ophalen van constructor standings:', err);
@@ -85,7 +85,7 @@ export class HomeComponent implements OnInit {
     .subscribe({
       next: (data) => {
         this.driverStandings = data.standings;
-        console.log('DriverStandings:', this.driverStandings);
+        // console.log('[HomeComponent] DriverStandings:', this.driverStandings);
       },
       error: (err) => {
         console.error('Fout bij ophalen van driver standings:', err);
@@ -105,8 +105,8 @@ export class HomeComponent implements OnInit {
         next: ({ race, top3 }) => {
           this.lastRace = race;
           this.top3Results = top3;
-          // console.log('Laatste race:', race);
-          // console.log('Top 3:', top3);
+          // console.log('[HomeComponent] Laatste race:', race);
+          // console.log('[HomeComponent] Drivers Top 3:', top3);
         },
         error: (err) => {
           console.error('Fout bij ophalen laatste race:', err);
@@ -125,7 +125,8 @@ export class HomeComponent implements OnInit {
         // Zoek eerstvolgende race. 
         const upcomingRace = races.find(r => {
           const start = new Date(`${r.date}T${r.time}`);
-          return start > now;
+          const end = new Date(start.getTime() + 2 * 60 * 60 * 1000); // 2 uur extra.
+          return end > now;
         });
 
         this.nextRace = upcomingRace ?? null;
@@ -140,33 +141,63 @@ export class HomeComponent implements OnInit {
         const svg = getTrackSvg(circuitId);
         this.safeSvg = svg ? this.sanitizer.bypassSecurityTrustHtml(svg) : null;
 
-        this.raceInfo = [
-          { label: '1e vrije training', 
+        // Weergave data in table.
+        this.raceInfo = [];
+
+        if (this.nextRace.FirstPractice) {
+          this.raceInfo.push({
+            label: '1e vrije training',
             date: this.formatDate(this.nextRace.FirstPractice.date),
             startTime: this.formatTime(this.nextRace.FirstPractice.date, this.nextRace.FirstPractice.time),
             endTime: this.formatTimeWithOffset(this.nextRace.FirstPractice.date, this.nextRace.FirstPractice.time, 60)
-          },
-          { label: '2e vrije training', 
+          });
+        }
+        if (this.nextRace.SecondPractice) {
+          this.raceInfo.push({
+            label: '2e vrije training',
             date: this.formatDate(this.nextRace.SecondPractice.date),
             startTime: this.formatTime(this.nextRace.SecondPractice.date, this.nextRace.SecondPractice.time),
             endTime: this.formatTimeWithOffset(this.nextRace.SecondPractice.date, this.nextRace.SecondPractice.time, 60)
-          },
-          { label: '3e vrije training', 
+          });
+        }
+        if (this.nextRace.ThirdPractice) {
+          this.raceInfo.push({
+            label: '3e vrije training',
             date: this.formatDate(this.nextRace.ThirdPractice.date),
             startTime: this.formatTime(this.nextRace.ThirdPractice.date, this.nextRace.ThirdPractice.time),
             endTime: this.formatTimeWithOffset(this.nextRace.ThirdPractice.date, this.nextRace.ThirdPractice.time, 60)
-          },
-          { label: 'Kwalificatie', 
+          });
+        }
+        if (this.nextRace.SprintQualifying) {
+          this.raceInfo.push({
+            label: 'Sprint kwalificatie',
+            date: this.formatDate(this.nextRace.SprintQualifying.date),
+            startTime: this.formatTime(this.nextRace.SprintQualifying.date, this.nextRace.SprintQualifying.time),
+            endTime: this.formatTimeWithOffset(this.nextRace.SprintQualifying.date, this.nextRace.SprintQualifying.time, 60)
+          });
+        }
+        if (this.nextRace.Sprint) {
+          this.raceInfo.push({
+            label: 'Sprint',
+            date: this.formatDate(this.nextRace.Sprint.date),
+            startTime: this.formatTime(this.nextRace.Sprint.date, this.nextRace.Sprint.time),
+            endTime: this.formatTimeWithOffset(this.nextRace.Sprint.date, this.nextRace.Sprint.time, 60)
+          });
+        }
+        if (this.nextRace.Qualifying) {
+          this.raceInfo.push({
+            label: 'Kwalificatie',
             date: this.formatDate(this.nextRace.Qualifying.date),
             startTime: this.formatTime(this.nextRace.Qualifying.date, this.nextRace.Qualifying.time),
             endTime: this.formatTimeWithOffset(this.nextRace.Qualifying.date, this.nextRace.Qualifying.time, 60)
-          },
-          { label: 'Race', 
-            date: this.formatDate(this.nextRace.date),
-            startTime: this.formatTime(this.nextRace.date, this.nextRace.time),
-            endTime: this.formatTimeWithOffset(this.nextRace.date, this.nextRace.time, 120)
-          },
-        ]
+          });
+        }
+        this.raceInfo.push({
+          label: 'Race',
+          date: this.formatDate(this.nextRace.date),
+          startTime: this.formatTime(this.nextRace.date, this.nextRace.time),
+          endTime: this.formatTimeWithOffset(this.nextRace.date, this.nextRace.time, 120)
+        });
       },
       error: (err) => {
         console.error(err);

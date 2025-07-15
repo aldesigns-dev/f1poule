@@ -198,7 +198,7 @@ export class JolpicaF1Service {
     );
   }
 
-  // RacesComponent
+  // Homecomponent + RacesComponent
   getRacesSeason(): Observable<Race[]> {
     const url = `${this.baseUrl}/${this.season}/races.json`;
     return this.httpClient.get<any>(url)
@@ -218,18 +218,33 @@ export class JolpicaF1Service {
           const races: Race[] = res.MRData.RaceTable.Races ?? [];
           const total = parseInt(res.MRData.total, 10);
 
+          // Loop over alle races die in deze pagina terugkomen.
           for (const race of races) {
             const round = String(race.round);
-            const sortedResults = (race.Results ?? [])
-              .slice()
-              .sort((a, b) => Number(a.position) - Number(b.position));
-            accumulatedResults[round] = sortedResults.slice(0, 3); // Top 3.
-            // console.log(`Round ${race.round}: originele resultaten`, race.Results);
+            const results = race.Results ?? [];
+
+            // Check of we al resultaten voor deze ronde hebben verzameld.
+            if (accumulatedResults[round]) {
+              // Voeg de nieuwe resultaten toe aan de bestaande resultaten voor deze ronde.
+              accumulatedResults[round] = [...accumulatedResults[round], ...results];
+            } else {
+              accumulatedResults[round] = results.slice();
+            }
           }
 
+          // Check of we nog meer pagina's moeten ophalen (paginering).
           if (offset + limit < total) {
+            // Nog niet alle data binnen, recursief de volgende pagina ophalen.
             return this.getRaceResultsSeason(offset + limit, accumulatedResults);
           } else {
+            // Na data alle pagina's: per ronde sorteren en top 3 pakken.
+            for (const round in accumulatedResults) {
+              accumulatedResults[round] = accumulatedResults[round]
+                .slice() // Kopie om mutatie te voorkomen.
+                .sort((a, b) => Number(a.position) - Number(b.position))
+                .slice(0, 3);
+            }
+            // Return het volledige verzamelde en gefilterde resultaat als Observable.
             return of(accumulatedResults);
           }
         })
@@ -272,52 +287,4 @@ export class JolpicaF1Service {
     'gabriel-bortoleto': 0,
     'franco-colapinto': 0
   }
-
-  // getCircuitsSeason(): Observable<Circuit[]> {
-  //   return this.httpClient.get<any>(`${this.baseUrl}/${this.season}/circuits.json`).pipe(
-  //     map(res => res.MRData.CircuitTable.Circuits ?? [])
-  //   );
-  // }
-
-  // getRaces(): Observable<Race[]> {
-  //   return this.httpClient.get<any>(`${this.baseUrl}/races.json`).pipe(
-  //     map(res => res.MRData.RaceTable.Races ?? [])
-  //   );
-  // }
-
-  // getDrivers(): Observable<Driver[]> {
-  //   return this.httpClient.get<any>(`${this.baseUrl}/drivers.json`).pipe(
-  //     map(res => res.MRData.DriverTable.Drivers ?? [])
-  //   );
-  // }
-  
-  // getDriversSeason(): Observable<Driver[]> {
-  //   return this.httpClient.get<any>(`${this.baseUrl}/${this.season}/drivers.json`).pipe(
-  //     map(res => res.MRData.DriverTable.Drivers ?? [])
-  //   );
-  // }
-
-  // getDriverSeasonResults(driverId: string): Observable<any[]> {
-  //   return this.httpClient.get<any>(`${this.baseUrl}/${this.season}/drivers/${driverId}/results.json`).pipe(
-  //     map(res => res.MRData.RaceTable.Races ?? [])
-  //   );
-  // }
-
-  // getConstructors(): Observable<Constructor[]> {
-  //   return this.httpClient.get<any>(`${this.baseUrl}/constructors.json`).pipe(
-  //     map(res => res.MRData.ConstructorTable.Constructors ?? [])
-  //   );
-  // }
-  
-  // getConstructorsSeason(): Observable<Constructor[]> {
-  //   return this.httpClient.get<any>(`${this.baseUrl}/${this.season}/constructors.json`).pipe(
-  //     map(res => res.MRData.ConstructorTable.Constructors ?? [])
-  //   );
-  // }
-
-  // getConstructorStandings() : Observable<ConstructorStanding[]> {
-  //   return this.httpClient.get<any>(`${this.baseUrl}/constructorstandings.json`).pipe(
-  //     map(res => res.MRData.StandingsTable.StandingsLists[0]?.ConstructorStandings ?? [])
-  //   );
-  // }
 }

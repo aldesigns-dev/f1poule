@@ -6,21 +6,26 @@ import { MatCard } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDivider } from '@angular/material/divider';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table';
 
 import { AuthService } from '../../core/services/auth.service';
 import { DialogAvatarComponent } from '../../shared/dialogs/dialog-avatar/dialog-avatar.component';
 import { HideOnErrorDirective } from '../../shared/directives/hide-on-error.directive';
 import { DialogChangePasswordComponent } from '../../shared/dialogs/dialog-change-password/dialog-change-password.component';
+import { PouleService } from '../../core/services/poule.service';
+import { Poule } from '../../core/models/poule.model';
+
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [MatCard, MatDivider, DatePipe, HideOnErrorDirective],
+  imports: [MatCard, MatDivider, DatePipe, HideOnErrorDirective, MatTableModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit {
   private readonly authService = inject(AuthService);
+  private readonly pouleService = inject(PouleService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly snackbar = inject(MatSnackBar);
   private readonly dialog = inject(MatDialog);
@@ -32,6 +37,9 @@ export class DashboardComponent implements OnInit {
   email: string | undefined ;
   avatarUrl: string | undefined; 
   createdAt: Date | undefined;
+
+  userPoules: Poule[] = [];
+  displayedColumns: string[] = ['name', 'members', 'status'];
 
   ngOnInit(): void {
     // Ophalen navigatiestaat van de router voor welkomstbericht.
@@ -47,7 +55,26 @@ export class DashboardComponent implements OnInit {
       this.email = user?.email ?? undefined;
       this.avatarUrl = user?.avatarUrl ?? '/assets/avatars/avatar1.png';
       this.createdAt = user?.createdAt ? user.createdAt.toDate() : undefined;
+      this.loadPouleData(user?.uid ?? '');
     });
+  }
+
+  private loadPouleData(userId: string) {
+    this.pouleService.getPoulesByUser$(userId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: poules => {
+          this.userPoules = poules;
+        },
+        error: err => {
+          console.error('Fout bij ophalen van poules:', err);
+          this.snackbar.open('Kon poules niet laden.', 'Sluiten', { duration: 3000 });
+        }
+      });
+  }
+
+  goToPoule(pouleId: string) {
+    this.router.navigate(['/poules', pouleId]);
   }
 
   openAvatarDialog() {

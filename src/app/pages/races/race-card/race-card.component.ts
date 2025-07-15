@@ -31,7 +31,7 @@ export class RaceCardComponent implements OnInit {
     const circuitId = this.race().Circuit?.circuitId;
     const svg = getTrackSvg(circuitId);
     this.safeSvg = svg ? this.sanitizer.bypassSecurityTrustHtml(svg) : null;
-    // console.log('✅ Ontvangen race:', this.race());
-    // console.log('✅ Ontvangen results:', this.results());
+    // console.log('[RaceCardComponent] Ontvangen race:', this.race());
+    // console.log('[RaceCardComponent] Ontvangen results:', this.results());
   }
 }

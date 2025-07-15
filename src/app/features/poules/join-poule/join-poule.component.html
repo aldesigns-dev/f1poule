@@ -1,20 +1,26 @@
 <main>
   <div class="container">
     @if (poule$ | async; as poule) {
-      <h2>Je bent uitgenodigd voor poule "{{ poule.name }}"</h2>
-      <p>Poule omschrijving: {{ poule.description }}</p>
-      <p>Aantal leden: {{ poule.members.length }}</p>
-      <p>Status: {{ poule.isPublic ? 'Openbaar' : 'Privé' }}</p>
+      @if ((fromPage === 'login' || fromPage === 'register') && username) {
+        <h3>Hi {{ username }}! Je bent uitgenodigd voor poule:</h3><br>
+      } @else {
+        <h3>Je bent uitgenodigd voor poule:</h3><br>
+      }
+      <h2>"{{ poule.name }}"</h2><br>
+      <p><strong>Poule omschrijving:</strong> {{ poule.description }}</p>
+      <p><strong>Aantal leden:</strong> {{ poule.members.length }}</p>
+      <p><strong>Status:</strong> {{ poule.isPublic ? 'Openbaar' : 'Privé' }}</p><br>
       
       @if (currentUser$ | async; as user) {
         @if (poule.members.includes(user.uid)) {
-          <p>Je bent al lid van deze poule.</p>
+          <p>Je bent al lid van deze poule.</p><br>
+          <button mat-button routerLink="/poules">Ga naar mijn poules</button>
         } @else {
           <button mat-button (click)="joinPoule(poule.id!, user.uid!)">Word lid van deze poule</button>
         }
       } @else {
         <div>
-          <p>Log in om lid te worden van deze poule:</p>
+          <p>Log in om lid te worden van deze poule:</p><br>
           <button mat-button (click)="goToLogin()">Inloggen</button>
           <button mat-button (click)="goToRegister()">Registreren</button>
         </div>

@@ -23,6 +23,7 @@
     "@angular/router": "^18.2.0",
     "firebase": "^10.14.1",
     "firebase-tools": "^13.35.1",
+    "ngx-skeleton-loader": "^10.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.10"

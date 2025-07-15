@@ -28,7 +28,6 @@ export class DriversComponent implements OnInit {
     this.loadDriverStandingsSeason();
   }
 
-  // Ophalen coureursstanden. 
   private loadDriverStandingsSeason() {
     this.jolpicaF1Service.getDriverStandingsSeason()
     .pipe(takeUntilDestroyed(this.destroyRef))
@@ -38,8 +37,8 @@ export class DriversComponent implements OnInit {
         console.log('DriverStandings:', this.driverStandings);
       },
       error: (err) => {
-        console.error('Fout bij ophalen van driver standings:', err);
         this.snackbar.open('Fout bij ophalen van coureurs-stand. Probeer het later opnieuw', 'Sluiten', { duration: 3000} );
+        console.error('Fout bij ophalen van driver standings:', err);
       }
     });
   }

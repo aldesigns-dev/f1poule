@@ -1,18 +1,25 @@
 a {
   color: var(--primary-red);
-  margin-top: 2rem;
+  display: inline;
 }
 
 .login-form {
   display: flex;
   flex-direction: column;
+  margin-bottom: 2rem;
 
   mat-form-field {
+    width: 40%;
+  }
+  .submit-button {
     width: 40%;
   }
 
   @media (max-width: 768px) {
     mat-form-field {
+      width: 70%;
+    }
+    .submit-button {
       width: 70%;
     }
   }
@@ -21,11 +28,8 @@ a {
     mat-form-field {
       width: 100%;
     }
-  }
-
-  .submit-button {
-    background-color: var(--primary-red);
-    color: var(--primary-0);
-    width: 40%;
+    .submit-button {
+      width: 100%;
+    }
   }
 }

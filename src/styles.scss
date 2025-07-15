@@ -62,6 +62,10 @@
   --dialog-bg: var(--primary-600);
   --snackbarbg: var(--primary-blue);
   --snackbartext: var(--primary-0);
+  --table-bg: var(--primary-575);
+  --table-head-bg: var(--primary-550);
+  --table-row-hover: var(--primary-550);
+  --table-text: var(--primary-0);
 }
 
 .light-theme {
@@ -85,6 +89,10 @@
   --dialog-bg: var(--primary-50);
   --snackbarbg: var(--primary-blue);
   --snackbartext: var(--primary-0);
+  --table-bg: var(--primary-100);
+  --table-head-bg: var(--primary-150);
+  --table-row-hover: var(--primary-150);
+  --table-text: var(--primary-600);
 }
 
 * {
@@ -178,6 +186,13 @@ svg .track-main {
   vector-effect: non-scaling-stroke;
 }
 
+.mat-mdc-table {
+  background-color: var(--table-bg) !important;
+}
+.mat-mdc-row, .mat-mdc-header-row {
+  color: var(--table-text) !important;
+}
+
 .mat-mdc-snack-bar-container .mat-mdc-snackbar-surface {
   color: var(--snackbartext) !important;
   background-color: var(--snackbarbg) !important;
@@ -186,7 +201,6 @@ svg .track-main {
 .mat-mdc-snack-bar-container .mat-mdc-button.mat-mdc-snack-bar-action:not(:disabled).mat-unthemed {
   color: var(--primary-0) !important;
 }
-
 
 button.mat-mdc-raised-button {
   margin-top: 1rem;
@@ -201,7 +215,9 @@ button.mat-mdc-raised-button:not(:disabled), button.mat-mdc-button:not(:disabled
   color: var(--primary-0) !important;
 }
 
-button.mat-mdc-raised-button[disabled].mat-mdc-button-disabled {
+button.mat-mdc-raised-button[disabled].mat-mdc-button-disabled, 
+button.mat-mdc-button[disabled], 
+button.mat-mdc-button.mat-mdc-button-disabled {
   background-color: var(--secondary-red);
   color: var(--primary-0);
 }
@@ -217,12 +233,13 @@ button.mat-mdc-raised-button[disabled].mat-mdc-button-disabled {
 @media (max-width: 768px) {
   :root { --breakpoint: md; }
   h1 { font-size: 2.5rem; }
-  h2 { font-size: 1.5rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.5rem; }
 }
 @media (max-width: 640px) {
   :root { --breakpoint: sm; }
   h1 { font-size: 2.25rem; }
-  h2 { font-size: 1.25rem; }
+  // h2 { font-size: 1.25rem; }
 }
 @media (max-width: 468px) {
   :root { --breakpoint: xs; }

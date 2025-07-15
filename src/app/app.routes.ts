@@ -5,7 +5,7 @@ import { redirectIfLoggedIn } from './core/guards/auth-redirect.guard';
 import { HomeComponent } from './pages/home/home.component';
 import { TeamsComponent } from './pages/teams/teams.component';
 import { RacesComponent } from './pages/races/races.component';
-import { DriverDetailComponent } from './pages/drivers/driver-details/driver-details.component';
+import { DriverDetailsComponent } from './pages/drivers/driver-details/driver-details.component';
 import { DriversComponent } from './pages/drivers/drivers.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 
@@ -14,6 +14,7 @@ import { RegisterComponent } from './features/auth/register/register.component';
 import { PoulesComponent } from './features/poules/poules.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { JoinPouleComponent } from './features/poules/join-poule/join-poule.component';
+import { PouleDetailsComponent } from './features/poules/poule-details/poule-details.component';
 
 export const routes: Routes = [
   {
@@ -46,7 +47,7 @@ export const routes: Routes = [
   },
   {
     path: 'drivers/:slug',
-    component: DriverDetailComponent,
+    component: DriverDetailsComponent,
   },
   {
     path: 'login',
@@ -75,12 +76,14 @@ export const routes: Routes = [
     path: 'poules',
     canActivate: [authGuard],
     component: PoulesComponent,
-    data: {
-      pageTitle: 'Poules'
-    }
   },
   {
-    path: 'poules/:inviteCode',
+    path: 'poules/:id',
+    canActivate: [authGuard],
+    component: PouleDetailsComponent,
+  },
+  {
+    path: 'poules/join/:inviteCode',
     component: JoinPouleComponent, 
   },
   {

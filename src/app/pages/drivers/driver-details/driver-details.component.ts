@@ -17,7 +17,7 @@ import { HideOnErrorDirective } from '../../../shared/directives/hide-on-error.d
   templateUrl: './driver-details.component.html',
   styleUrl: './driver-details.component.scss'
 })
-export class DriverDetailComponent implements OnInit {
+export class DriverDetailsComponent implements OnInit {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly jolpicaF1Service = inject(JolpicaF1Service);
   private readonly destroyRef = inject(DestroyRef);

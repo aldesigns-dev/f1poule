@@ -5,9 +5,15 @@
   mat-form-field {
     width: 40%;
   }
+  .submit-button {
+    width: 40%;
+  }
 
   @media (max-width: 768px) {
     mat-form-field {
+      width: 70%;
+    }
+    .submit-button {
       width: 70%;
     }
   }
@@ -16,9 +22,8 @@
     mat-form-field {
       width: 100%;
     }
-  }
-
-  .submit-button {
-    width: 40%;
+    .submit-button {
+      width: 100%;
+    }
   }
 }

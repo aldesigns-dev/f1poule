@@ -4,8 +4,7 @@
     <div class="drivers-container">
       @for (driverStanding of driverStandings; track driverStanding.Driver.driverId) {
         <a matRipple [routerLink]="getDriverLink(driverStanding.Driver.driverId)" class="driver-card-wrapper">
-          <app-driver-card 
-          [driverStanding]="driverStanding" />
+          <app-driver-card [driverStanding]="driverStanding" />
         </a>
       }
     </div>

@@ -1,7 +1,5 @@
 <main>
   <div class="container">
-    <h1>{{ pageTitle() }}</h1>
-
     <div class="poules-card-wrapper">
 
       <mat-card class="card user-poules-card">
@@ -32,7 +30,7 @@
                   <tr mat-row *matRowDef="let row; columns: ['label', 'value'];"></tr>
                 </table>
                 <div class="poule-action-buttons">
-                  <button mat-button routerLink="/poules" class="go-to-poule-button">Ga naar poule</button>
+                  <button mat-button [routerLink]="['/poules', poule.id]"  class="go-to-poule-button">Ga naar poule</button>
                   @if (isPouleOwner(poule)) {
                     <button mat-button (click)="openEditPouleDialog(poule)" class="edit-poule-button">Poule bewerken</button>
                   }

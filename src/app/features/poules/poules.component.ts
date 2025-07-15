@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, input, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -13,13 +13,13 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { catchError, firstValueFrom, of, switchMap, tap } from 'rxjs';
+import { catchError, firstValueFrom, of, switchMap } from 'rxjs';
 
 import { PouleService } from '../../core/services/poule.service';
 import { AuthService } from '../../core/services/auth.service';
-import { DialogNewPouleComponent } from '../../shared/dialogs/dialog-new-poule/dialog-new-poule.component';
 import { Poule } from '../../core/models/poule.model';
 import { AppUser } from '../../core/models/user.model';
+import { DialogNewPouleComponent } from '../../shared/dialogs/dialog-new-poule/dialog-new-poule.component';
 import { DialogEditPouleComponent } from '../../shared/dialogs/dialog-edit-poule/dialog-edit-poule.component';
 
 @Component({
@@ -35,11 +35,10 @@ export class PoulesComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly dialog = inject(MatDialog);
   private readonly snackbar = inject(MatSnackBar);
-  readonly pageTitle = input<string>();
   readonly currentUser = signal<AppUser | null>(null);
   copiedCode = '';
 
-  // I.c.m. async pipe Angular beheert subscription automatisch.
+  // I.c.m. async pipe beheert Angular de subscription automatisch.
   readonly userPoules$ = this.authService.currentUser$.pipe(
     switchMap(user => user ? this.pouleService.getPoulesByUser$(user.uid) : of([])),
     catchError(() => of([]))
@@ -128,7 +127,8 @@ export class PoulesComponent implements OnInit {
   }
 
   isPouleOwner(poule: Poule): boolean {
-    return this.currentUser()?.uid === poule.createdBy;
+    const user = this.currentUser();
+    return user?.uid === poule.createdBy;
   }
 
   topPublicPoules(allPoules: Poule[]): Poule[] {
@@ -139,7 +139,7 @@ export class PoulesComponent implements OnInit {
   }
 
   copyInviteLink(inviteCode: string) {
-    const url = `${window.location.origin}/poules/${inviteCode}`;
+    const url = `${window.location.origin}/poules/join/${inviteCode}`;
     navigator.clipboard.writeText(url).then(() => {
       this.copiedCode = inviteCode;
       setTimeout(() => this.copiedCode = '', 2000);

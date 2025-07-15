@@ -175,3 +175,12 @@ header {
     }
   }
 }
+@media (max-width: 468px) {
+  header {
+    height: 48px;
+    
+    .header-container svg {
+      height: 26px;
+    }
+  }
+}

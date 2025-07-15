@@ -1,5 +1,5 @@
 import { inject, Injectable } from "@angular/core";
-import { addDoc, collection, collectionData, CollectionReference, deleteDoc, doc, Firestore, getDoc, query, updateDoc, where } from "@angular/fire/firestore";
+import { addDoc, collection, collectionData, CollectionReference, deleteDoc, doc, docData, Firestore, getDoc, query, updateDoc, where } from "@angular/fire/firestore";
 import { catchError, combineLatest, map, Observable, of, tap } from "rxjs";
 
 import { Poule } from "../models/poule.model";
@@ -12,7 +12,6 @@ export class PouleService {
   private readonly pouleCollection: CollectionReference<Poule> =
     collection(this.firestore, 'poules') as CollectionReference<Poule>;
 
-  // Create
   async createPoule(data: {
     name: string,
     description: string,
@@ -43,7 +42,6 @@ export class PouleService {
     }
   }
 
-  // Update
   async updatePoule(id: string, changes: Partial<Poule>): Promise<void> {
     try {
       const docRef = doc(this.pouleCollection, id);
@@ -55,7 +53,6 @@ export class PouleService {
     }
   }
 
-  // Delete
   async deletePoule(id: string): Promise<void> {
     try {
       const pouleDocRef = doc(this.firestore, 'poules', id);
@@ -158,20 +155,26 @@ export class PouleService {
     );
   }
 
+  getPouleById$(id: string): Observable<Poule> {
+    const docRef = doc(this.firestore, 'poules', id);
+    return docData(docRef, { idField: 'id' }) as Observable<Poule>;
+  }
+
   getAllPublicPoules$(): Observable<Poule[]> {
     const publicQuery = query(this.pouleCollection, where('isPublic', '==', true));
     return collectionData(publicQuery, { idField: 'id' }) as Observable<Poule[]>;
   }
 
   getPouleByInviteCode(code: string): Observable<Poule | null> {
-    const q = query(this.pouleCollection, where('inviteCode', '==', code));
-    return collectionData(q, { idField: 'id' }).pipe(
+    const inviteQuery = query(this.pouleCollection, where('inviteCode', '==', code));
+    return collectionData(inviteQuery, { idField: 'id' }).pipe(
       tap(result => console.log('[PouleService] Invite result:', result)),
       map(poules => poules[0] ?? null)
     );
   }
 
-  // addMemberToPoule(poule.id, user.uid) {
-
-  // }
+  updatePouleMembers(pouleId: string, members: string[]): Promise<void> {
+    const pouleRef = doc(this.firestore, 'poules', pouleId);
+    return updateDoc(pouleRef, { members });
+  }
 }
