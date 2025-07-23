@@ -2,6 +2,7 @@
   <div class="container">
     <mat-card class="card poule-details-card">
       <h2>{{ poule()?.name }}</h2>
+      <p>{{ poule()?.description }}</p><br>
       <table mat-table [dataSource]="members()">
 
         <ng-container matColumnDef="position">
@@ -11,15 +12,20 @@
 
         <ng-container matColumnDef="user">
           <th mat-header-cell *matHeaderCellDef>Leden</th>
-            <td mat-cell *matCellDef="let element" class="user-cell">
-              <img [src]="element.avatarUrl" alt="Avatar" class="avatar-img" appHideOnError>
-              {{ element.username }}
-              @if (isPouleOwner(poule()!) && element.uid !== poule()!.createdBy) {
-                <button mat-icon-button class="remove-member-button" (click)="removePouleMember(element.uid)">
-                  <mat-icon class="remove-member-icon">person_remove</mat-icon>
-                </button>
-              }
-            </td>
+          <td mat-cell *matCellDef="let element" class="user-cell">
+            <img [src]="element.avatarUrl" alt="Avatar" class="avatar-img" appHideOnError>
+            {{ element.username }}
+            @if (isPouleOwner(poule()!) && element.uid !== poule()!.createdBy) {
+              <button mat-icon-button class="remove-member-button" (click)="removePouleMember(element.uid)">
+                <mat-icon class="remove-member-icon">person_remove</mat-icon>
+              </button>
+            }
+            @if (!isPouleOwner(poule()!) && element.uid === currentUser()?.uid) {
+              <button mat-icon-button class="leave-poule-button" matTooltip="Poule verlaten" (click)="leavePoule(poule()!.id!)">
+                <mat-icon class="leave-poule-icon">person_remove</mat-icon>
+              </button>
+            }
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="points">

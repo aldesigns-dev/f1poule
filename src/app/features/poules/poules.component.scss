@@ -82,6 +82,17 @@ mat-divider {
   background-color: var(--primary-green) !important;
 }
 
+.row-header {
+  background-color: var(--table-head-bg);
+}
+.row-link {
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--table-row-hover);
+  }
+}
+
 .join-poule-button {
   color: var(--primary-green);
   padding: 0;
@@ -99,5 +110,12 @@ mat-divider {
   .leave-poule-icon {
     font-size: 24px;
     vertical-align: middle;
+  }
+}
+
+@media (max-width: 830px) {
+  .poules-card-wrapper {
+    flex-direction: column;
+    flex: 1 1 100%;  
   }
 }

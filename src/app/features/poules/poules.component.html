@@ -85,11 +85,11 @@
                   @if (isPouleOwner(poule)) {
                     <mat-icon aria-label="Beheerder"></mat-icon>
                   } @else if (isMember(poule)) {
-                    <button mat-icon-button class="leave-poule-button" (click)="leavePoule(poule.id)">
+                    <button mat-icon-button class="leave-poule-button" matTooltip="Poule verlaten" (click)="leavePoule(poule.id); $event.stopPropagation()">
                       <mat-icon class="leave-poule-icon">person_remove</mat-icon>
                     </button>
                   } @else {
-                    <button mat-icon-button class="join-poule-button" (click)="joinPoule(poule.id)">
+                    <button mat-icon-button class="join-poule-button" matTooltip="Lid worden" (click)="joinPoule(poule.id); $event.stopPropagation()">
                       <mat-icon class="join-poule-icon">person_add</mat-icon>
                     </button>
                   }
@@ -97,7 +97,7 @@
               </ng-container>
 
               <tr mat-header-row *matHeaderRowDef="['info', 'members', 'join']"></tr>
-              <tr mat-row *matRowDef="let row; columns: ['info', 'members', 'join']"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['info', 'members', 'join']" (click)="goToPoule(row.id)" class="row-link"></tr>
             </table>
           }
         }

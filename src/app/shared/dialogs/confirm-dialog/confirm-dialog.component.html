@@ -1,0 +1,9 @@
+<h3 mat-dialog-title>{{ data.title }}</h3>
+<mat-divider></mat-divider>
+
+<mat-dialog-content>{{ data.message }}</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button type="button" mat-dialog-close class="mat-close-button">Annuleren</button>
+  <button mat-button type="submit" (click)="onConfirm()" class="submit-button">Ja</button>
+</mat-dialog-actions>

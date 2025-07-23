@@ -11,17 +11,17 @@
         <mat-divider></mat-divider>
         <div class="user-info">
           <div class="user-avatar" (click)="openAvatarDialog()">
-            <img [src]="avatarUrl" alt="Avatar" class="avatar-img" appHideOnError>
+            <img [src]="currentUser()?.avatarUrl ?? '/assets/avatars/avatar1.png'" alt="Avatar" class="avatar-img" appHideOnError>
           </div>
           <div class="user-details">
-            <h4 class="user-name">{{ username }}</h4>
+            <h4 class="user-name">{{ currentUser()?.username }}</h4>
             <div class="user-info-line">
               <span class="user-label">E-mail:</span>
-              <span>{{ email }}</span>
+              <span>{{ currentUser()?.email }}</span>
             </div>
             <div class="user-info-line">
               <span class="user-label">Lid sinds:</span>
-              <span>{{ createdAt | date:'dd-MM-yyyy' }}</span>
+              <span>{{ currentUser()?.createdAt?.toDate() | date:'dd-MM-yyyy' }}</span>
             </div>
           </div>
         </div>

@@ -34,6 +34,16 @@
   }
 }
 
+.leave-poule-button {
+  color: var(--primary-red);
+  padding: 0;
+
+  .leave-poule-icon {
+    font-size: 24px;
+    vertical-align: middle;
+  }
+}
+
 .mat-mdc-row {
   --mat-table-row-item-container-height: 40px;
 }

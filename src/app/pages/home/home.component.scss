@@ -387,17 +387,22 @@
     padding: .5rem 0;
   }
 
-  .next-race .nr-title {
-    flex-direction: column;
-    align-items: flex-start;
+  .next-race {
+    .nr-title {
+      flex-direction: column;
+      align-items: flex-start;
 
-    .nr-info {
-      flex-direction: row;
-      width: 100%;
-
-      mat-divider {
+      .nr-info {
+        flex-direction: row;
         width: 100%;
+
+        mat-divider {
+          width: 100%;
+        }
       }
+    }
+    .nr-content .nr-details .mat-mdc-cell {
+      font-size: .85em;
     }
   }
 

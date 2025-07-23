@@ -179,8 +179,14 @@ header {
   header {
     height: 48px;
     
-    .header-container svg {
+    .header-container {
+      svg {
       height: 26px;
+      }
+
+      .header-nav {
+        top: 48px;
+      }
     }
   }
 }

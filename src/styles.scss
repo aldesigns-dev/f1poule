@@ -186,6 +186,10 @@ svg .track-main {
   vector-effect: non-scaling-stroke;
 }
 
+.mat-mdc-dialog-content {
+  color: var(--text) !important;
+}
+
 .mat-mdc-table {
   background-color: var(--table-bg) !important;
 }

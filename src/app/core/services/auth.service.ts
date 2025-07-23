@@ -79,6 +79,7 @@ export class AuthService {
         lastName: data.lastName,
         username: data.username,
         createdAt: serverTimestamp() as Timestamp,
+        avatarUrl: 'assets/avatars/avatar1.png'
       };
       const userRef = doc(this.firestore, 'users', firebaseUser.uid);
       await setDoc(userRef, newUser);
@@ -182,9 +183,8 @@ export class AuthService {
   }
 
   getUsersByUids$(uids: string[]): Observable<AppUser[]> {
-    if (!uids.length) {
-      return of([]); // Lege lijst: lege Observable.
-    }
+    if (!uids.length) return of([]); // Lege lijst: lege Observable.
+    
     // Firestore ondersteunt max 10 waarden in een 'in'-query.
     const batches = [];
 
@@ -197,11 +197,19 @@ export class AuthService {
         )
       ));
     }
-
+    
     return forkJoin(batches).pipe(
       map(batchArrays => batchArrays.flat())
     );
   }
+
+  // getUsersByUids$(uids: string[]): Observable<AppUser[]> {
+  //   const userObservables = uids.map(uid => {
+  //     const userDocRef = doc(this.firestore, 'users', uid);
+  //     return docData(userDocRef) as Observable<AppUser>;
+  //   });
+  //   return combineLatest(userObservables);
+  // }
 
   logout(): Promise<void> {
     return signOut(this.auth);

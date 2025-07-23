@@ -2,18 +2,20 @@ import { Component, DestroyRef, HostListener, inject, OnInit, signal } from '@an
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { filter } from 'rxjs';
+import { filter, take } from 'rxjs';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { ThemeService } from '../../core/services/theme.service';
 import { AuthService } from '../../core/services/auth.service';
+import { AppUser } from '../../core/models/user.model';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, MatSlideToggleModule, MatIcon, MatButton, RouterLink, RouterLinkActive],
+  imports: [CommonModule, MatSlideToggleModule, MatIcon, MatButton, MatTooltipModule, RouterLink, RouterLinkActive],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
@@ -26,6 +28,7 @@ export class HeaderComponent implements OnInit {
   theme = this.themeService.getTheme;
   isLoggedIn$ = this.authService.isAuthenticated$;
   isMenuOpen = signal(false);
+  username: string | null = null;
 
   ngOnInit(): void {
     this.router.events
@@ -35,6 +38,12 @@ export class HeaderComponent implements OnInit {
     )
     .subscribe(() => {
       this.isMenuOpen.set(false);
+    });
+
+    this.authService.currentUser$
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe(user => {
+      this.username = user?.username ?? '';
     });
   }
 

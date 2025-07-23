@@ -7,5 +7,5 @@ export interface AppUser {
   lastName: string;
   username: string;
   createdAt: Timestamp;
-  avatarUrl?: string;
+  avatarUrl: string;
 }

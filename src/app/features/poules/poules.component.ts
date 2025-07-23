@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { catchError, firstValueFrom, of, switchMap } from 'rxjs';
 
@@ -21,11 +22,12 @@ import { Poule } from '../../core/models/poule.model';
 import { AppUser } from '../../core/models/user.model';
 import { DialogNewPouleComponent } from '../../shared/dialogs/dialog-new-poule/dialog-new-poule.component';
 import { DialogEditPouleComponent } from '../../shared/dialogs/dialog-edit-poule/dialog-edit-poule.component';
+import { ConfirmDialogComponent } from '../../shared/dialogs/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-poules',
   standalone: true,
-  imports: [MatCardModule, MatDivider, MatButtonModule, MatListModule, MatTableModule, MatIconModule, MatSlideToggleModule, MatInputModule, FormsModule, CommonModule, RouterLink],
+  imports: [MatCardModule, MatDivider, MatButtonModule, MatListModule, MatTableModule, MatIconModule, MatSlideToggleModule, MatTooltipModule, MatInputModule, FormsModule, CommonModule, RouterLink],
   templateUrl: './poules.component.html',
   styleUrl: './poules.component.scss'
 })
@@ -35,6 +37,7 @@ export class PoulesComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly dialog = inject(MatDialog);
   private readonly snackbar = inject(MatSnackBar);
+  private readonly router = inject(Router);
   readonly currentUser = signal<AppUser | null>(null);
   copiedCode = '';
 
@@ -61,9 +64,7 @@ export class PoulesComponent implements OnInit {
     const pouleName = await firstValueFrom(dialogRef.afterClosed());
     let user = this.currentUser();
 
-    if (!user) {
-      user = await firstValueFrom(this.authService.currentUser$);
-    }
+    if (!user) user = await firstValueFrom(this.authService.currentUser$);
 
     if (pouleName && user) {
       const { name, description, isPublic } = pouleName;
@@ -111,11 +112,18 @@ export class PoulesComponent implements OnInit {
   }
 
   async onDeletePoule(id: string) {
-    const confirmed = confirm('Weet je zeker dat je deze poule wilt verwijderen? Dit kan niet ongedaan worden gemaakt.');
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Poule verwijderen',
+        message: 'Weet je zeker dat je deze poule wilt verwijderen? Dit kan niet ongedaan worden gemaakt.'
+      }
+    });
 
-    if (!confirmed) {
-      return;
-    }
+    // firstValueFrom is een RxJS helperfunctie die een Observable één waarde laat “uitzenden” en dan de Observable automatisch afsluit. Je krijgt die waarde als Promise terug. Daardoor kun je er await op gebruiken.
+    const confirmed = await firstValueFrom(dialogRef.afterClosed());
+
+    if (!confirmed) return;
+
     try {
       await this.pouleService.deletePoule(id);
       this.snackbar.open('Poule verwijderd!', 'Sluiten', { duration: 3000 });
@@ -175,7 +183,19 @@ export class PoulesComponent implements OnInit {
       return;
     }
 
-    this.pouleService.leavePoule(pouleId, user.uid)
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: { 
+        title: 'Bevestiging',
+        message: 'Weet je zeker dat je deze poule wilt verlaten?'
+      }
+    });
+
+    dialogRef.afterClosed()
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe(confirmed => {
+      if (!confirmed) return;
+      
+      this.pouleService.leavePoule(pouleId, user.uid)
       .then(() => {
         this.snackbar.open('Je hebt de poule verlaten.', 'Sluiten', { duration: 3000 });
       })
@@ -183,5 +203,10 @@ export class PoulesComponent implements OnInit {
         this.snackbar.open('Fout bij het verlaten van de poule.', 'Sluiten', { duration: 3000 });
         console.error(err);
       });
+    });
+  }
+
+  goToPoule(pouleId: string) {
+    this.router.navigate(['/poules', pouleId]);
   }
 }
