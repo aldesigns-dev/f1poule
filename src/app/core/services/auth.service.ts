@@ -40,7 +40,6 @@ export class AuthService {
     map(user => !!user)
   );
 
-  // Create
   async createUser(data: {
     firstName: string,
     lastName: string,
@@ -89,7 +88,6 @@ export class AuthService {
     }
   }
 
-  // Read
   async loginWithUsername(username: string, password: string): Promise<AppUser> {
     try {
       console.log('[AuthService] Gebruikersnaam ontvangen:', username);
@@ -131,7 +129,6 @@ export class AuthService {
     }
   }
 
-  // Update
   async updateAvatar(avatarFilename: string): Promise<void> {
     const firebaseUser = this.auth.currentUser;
     if (!firebaseUser) throw new Error('Geen gebruiker ingelogd');
@@ -152,7 +149,6 @@ export class AuthService {
     }
   }
 
-  // Update
   async changePasswordWithReauth(currentPassword: string, newPassword: string): Promise<void> {
     const firebaseUser = this.auth.currentUser;
     if (!firebaseUser || !firebaseUser.email) throw new Error('Geen gebruiker ingelogd');

@@ -9,8 +9,7 @@ import { Poule } from "../models/poule.model";
 })
 export class PouleService {
   private readonly firestore = inject(Firestore);
-  private readonly pouleCollection: CollectionReference<Poule> =
-    collection(this.firestore, 'poules') as CollectionReference<Poule>;
+  private readonly pouleCollection = collection(this.firestore, 'poules') as CollectionReference<Poule>;
 
   async createPoule(data: {
     name: string,
@@ -44,8 +43,8 @@ export class PouleService {
 
   async updatePoule(id: string, changes: Partial<Poule>): Promise<void> {
     try {
-      const docRef = doc(this.pouleCollection, id);
-      await updateDoc(docRef, changes);
+      const pouleDocRef = doc(this.pouleCollection, id);
+      await updateDoc(pouleDocRef, changes);
       console.log(`[PouleService] Poule ${id} succesvol bijgewerkt.`);
     } catch (error) {
       console.error(`[PouleService] Fout bij updaten poule ${id}:`, error);
@@ -55,7 +54,7 @@ export class PouleService {
 
   async deletePoule(id: string): Promise<void> {
     try {
-      const pouleDocRef = doc(this.firestore, 'poules', id);
+      const pouleDocRef = doc(this.pouleCollection, id);
       await deleteDoc(pouleDocRef);
       console.log('[PouleService] Poule verwijderd:', id);
     } catch (error) {
@@ -64,18 +63,9 @@ export class PouleService {
     }
   }
 
-  async generateInviteCode(length = 6): Promise<string> {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let code = '';
-    for (let i = 0; i < length; i++) {
-      code += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return code;
-  }
-
   async joinPoule(pouleId: string, userId: string): Promise<void> {
     try {
-      const pouleDocRef = doc(this.firestore, 'poules', pouleId);
+      const pouleDocRef = doc(this.pouleCollection, pouleId);
       const snapshot = await getDoc(pouleDocRef);
 
       if (!snapshot.exists()) {
@@ -103,7 +93,7 @@ export class PouleService {
 
   async leavePoule(pouleId: string, userId: string): Promise<void> {
     try {
-      const pouleDocRef = doc(this.firestore, 'poules', pouleId);
+      const pouleDocRef = doc(this.pouleCollection, pouleId);
       const snapshot = await getDoc(pouleDocRef);
 
       if (!snapshot.exists()) {
@@ -127,6 +117,16 @@ export class PouleService {
       console.log('[PouleService] Gebruiker verwijderd uit poule:', pouleId);
     } catch (error) {
       console.error('[PouleService] Fout bij verlaten van poule:', error);
+      throw error;
+    }
+  }
+
+  async updatePouleMembers(pouleId: string, members: string[]): Promise<void> {
+    try {
+      const pouleRef = doc(this.pouleCollection, pouleId);
+      await updateDoc(pouleRef, { members });
+    } catch (error) {
+      console.error('Fout bij updaten leden:', error);
       throw error;
     }
   }
@@ -156,7 +156,7 @@ export class PouleService {
   }
 
   getPouleById$(id: string): Observable<Poule> {
-    const docRef = doc(this.firestore, 'poules', id);
+    const docRef = doc(this.pouleCollection, id);
     return docData(docRef, { idField: 'id' }) as Observable<Poule>;
   }
 
@@ -173,8 +173,12 @@ export class PouleService {
     );
   }
 
-  updatePouleMembers(pouleId: string, members: string[]): Promise<void> {
-    const pouleRef = doc(this.firestore, 'poules', pouleId);
-    return updateDoc(pouleRef, { members });
+  generateInviteCode(length = 6): string {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let code = '';
+    for (let i = 0; i < length; i++) {
+      code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return code;
   }
 }

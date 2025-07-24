@@ -12,14 +12,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, firstValueFrom, of, switchMap } from 'rxjs';
 
 import { PouleService } from '../../core/services/poule.service';
 import { AuthService } from '../../core/services/auth.service';
 import { Poule } from '../../core/models/poule.model';
-import { AppUser } from '../../core/models/user.model';
 import { DialogNewPouleComponent } from '../../shared/dialogs/dialog-new-poule/dialog-new-poule.component';
 import { DialogEditPouleComponent } from '../../shared/dialogs/dialog-edit-poule/dialog-edit-poule.component';
 import { ConfirmDialogComponent } from '../../shared/dialogs/confirm-dialog/confirm-dialog.component';
@@ -27,18 +25,17 @@ import { ConfirmDialogComponent } from '../../shared/dialogs/confirm-dialog/conf
 @Component({
   selector: 'app-poules',
   standalone: true,
-  imports: [MatCardModule, MatDivider, MatButtonModule, MatListModule, MatTableModule, MatIconModule, MatSlideToggleModule, MatTooltipModule, MatInputModule, FormsModule, CommonModule, RouterLink],
+  imports: [MatCardModule, MatDivider, MatButtonModule, MatListModule, MatTableModule, MatIconModule, MatSlideToggleModule, MatInputModule, FormsModule, CommonModule, RouterLink],
   templateUrl: './poules.component.html',
   styleUrl: './poules.component.scss'
 })
-export class PoulesComponent implements OnInit {
+export class PoulesComponent {
   private readonly authService = inject(AuthService);
   private readonly pouleService = inject(PouleService);
-  private readonly destroyRef = inject(DestroyRef);
   private readonly dialog = inject(MatDialog);
   private readonly snackbar = inject(MatSnackBar);
   private readonly router = inject(Router);
-  readonly currentUser = signal<AppUser | null>(null);
+  readonly currentUser = toSignal(this.authService.currentUser$, { initialValue: null });
   copiedCode = '';
 
   // I.c.m. async pipe beheert Angular de subscription automatisch.
@@ -50,23 +47,18 @@ export class PoulesComponent implements OnInit {
   readonly allPoules$ = this.pouleService.getAllPublicPoules$().pipe(
     catchError(() => of([]))
   );
-  
-  ngOnInit(): void {
-    this.authService.currentUser$
-    .pipe(takeUntilDestroyed(this.destroyRef))
-    .subscribe(user => {
-      this.currentUser.set(user);
-    });
-  }
 
   async openNewPouleDialog() {
     const dialogRef = this.dialog.open(DialogNewPouleComponent);
     const pouleName = await firstValueFrom(dialogRef.afterClosed());
-    let user = this.currentUser();
+    const user = this.currentUser();
 
-    if (!user) user = await firstValueFrom(this.authService.currentUser$);
+    if (!user) {
+      this.snackbar.open('Je moet ingelogd zijn om een poule aan te maken.', 'Sluiten', { duration: 3000 });
+      return;
+    }
 
-    if (pouleName && user) {
+    if (pouleName) {
       const { name, description, isPublic } = pouleName;
       const newPoule = {
         name,
@@ -114,12 +106,11 @@ export class PoulesComponent implements OnInit {
   async onDeletePoule(id: string) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
-        title: 'Poule verwijderen',
+        title: 'Bevestiging',
         message: 'Weet je zeker dat je deze poule wilt verwijderen? Dit kan niet ongedaan worden gemaakt.'
       }
     });
 
-    // firstValueFrom is een RxJS helperfunctie die een Observable één waarde laat “uitzenden” en dan de Observable automatisch afsluit. Je krijgt die waarde als Promise terug. Daardoor kun je er await op gebruiken.
     const confirmed = await firstValueFrom(dialogRef.afterClosed());
 
     if (!confirmed) return;
@@ -190,19 +181,17 @@ export class PoulesComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed()
-    .pipe(takeUntilDestroyed(this.destroyRef))
-    .subscribe(confirmed => {
-      if (!confirmed) return;
-      
-      this.pouleService.leavePoule(pouleId, user.uid)
-      .then(() => {
-        this.snackbar.open('Je hebt de poule verlaten.', 'Sluiten', { duration: 3000 });
-      })
-      .catch(err => {
-        this.snackbar.open('Fout bij het verlaten van de poule.', 'Sluiten', { duration: 3000 });
-        console.error(err);
-      });
+    dialogRef.afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        this.pouleService.leavePoule(pouleId, user.uid)
+        .then(() => {
+          this.snackbar.open('Je hebt de poule verlaten.', 'Sluiten', { duration: 3000 });
+        })
+        .catch(err => {
+          this.snackbar.open('Fout bij het verlaten van de poule.', 'Sluiten', { duration: 3000 });
+          console.error(err);
+        });
+      }
     });
   }
 

@@ -2,7 +2,7 @@ import { Component, DestroyRef, HostListener, inject, OnInit, signal } from '@an
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { filter, take } from 'rxjs';
+import { filter } from 'rxjs';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -10,7 +10,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { ThemeService } from '../../core/services/theme.service';
 import { AuthService } from '../../core/services/auth.service';
-import { AppUser } from '../../core/models/user.model';
 
 @Component({
   selector: 'app-header',
