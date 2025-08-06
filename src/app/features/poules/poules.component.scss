@@ -56,20 +56,38 @@ mat-divider {
   margin-bottom: 2rem;
 
   .poule-table {
-    margin-bottom: 1rem;
+    margin-bottom: .5rem;
   }
 
   .poule-action-buttons {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    align-items: center;;
+    gap: 1rem;
     margin-bottom: 1rem;
+
+    button {
+      border-radius: 50%;
+      
+      mat-icon {
+        color: var(--poule-button-icon) !important;
+        font-size: 24px;
+        height: 25px;
+        width: 25px;
+      }
+    }
 
     .edit-poule-button {
       background-color: coral !important;
     }
     .go-to-poule-button {
       background-color: var(--primary-green) !important;
+    }
+    .delete-poule-button {
+      background-color: var(--primary-red) !important;
+    }
+    .link-poule-button {
+      background-color: var(--primary-blue) !important;
     }
   }
 
@@ -85,6 +103,7 @@ mat-divider {
 .row-header {
   background-color: var(--table-head-bg);
 }
+
 .row-link {
   cursor: pointer;
 

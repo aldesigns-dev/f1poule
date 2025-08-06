@@ -4,11 +4,11 @@ import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, Ma
 import { MatDivider } from '@angular/material/divider';
 
 @Component({
-  selector: 'app-confirm-dialog',
+  selector: 'app-dialog-confirm',
   standalone: true,
   imports: [MatDialogContent, MatDialogActions, MatDialogClose, MatButtonModule, MatDivider],
-  templateUrl: './confirm-dialog.component.html',
-  styleUrl: './confirm-dialog.component.scss'
+  templateUrl: './dialog-confirm.component.html',
+  styleUrl: './dialog-confirm.component.scss'
 })
 export class ConfirmDialogComponent {
   private dialogRef = inject(MatDialogRef<ConfirmDialogComponent>);

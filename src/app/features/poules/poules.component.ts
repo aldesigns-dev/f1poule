@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, firstValueFrom, of, switchMap } from 'rxjs';
 
@@ -20,12 +21,12 @@ import { AuthService } from '../../core/services/auth.service';
 import { Poule } from '../../core/models/poule.model';
 import { DialogNewPouleComponent } from '../../shared/dialogs/dialog-new-poule/dialog-new-poule.component';
 import { DialogEditPouleComponent } from '../../shared/dialogs/dialog-edit-poule/dialog-edit-poule.component';
-import { ConfirmDialogComponent } from '../../shared/dialogs/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '../../shared/dialogs/dialog-confirm/dialog-confirm.component';
 
 @Component({
   selector: 'app-poules',
   standalone: true,
-  imports: [MatCardModule, MatDivider, MatButtonModule, MatListModule, MatTableModule, MatIconModule, MatSlideToggleModule, MatInputModule, FormsModule, CommonModule, RouterLink],
+  imports: [MatCardModule, MatDivider, MatButtonModule, MatListModule, MatTableModule, MatIconModule, MatSlideToggleModule, MatInputModule, MatTooltipModule, FormsModule, CommonModule, RouterLink],
   templateUrl: './poules.component.html',
   styleUrl: './poules.component.scss'
 })

@@ -17,7 +17,9 @@
       </nav>
       <div class="header-actions">
         @if (isLoggedIn$ | async) {
-          <button mat-flat-button routerLink="/dashboard" class="dashboard-button" [matTooltip]="username"><mat-icon>person</mat-icon></button>
+          <button mat-flat-button routerLink="/dashboard" class="dashboard-button" [matTooltip]="username">
+            <mat-icon>person</mat-icon>
+          </button>
           <button mat-flat-button (click)="logout()" class="logout-button">Uitloggen</button>
         } @else {
           <button mat-flat-button routerLink="/login" class="login-button" (click)="closeMenu()"><mat-icon>person</mat-icon>Login</button>

@@ -4,6 +4,7 @@
   padding: 2.25rem;
   width: 100%;
   max-width: 100%;
+  margin-bottom: 2rem;
 
   .user-cell {
     display: flex;
@@ -31,22 +32,155 @@
         vertical-align: middle;
       }
     }
+
+    .leave-poule-button {
+      color: var(--primary-red);
+      padding: 0;
+
+      .leave-poule-icon {
+        font-size: 24px;
+        vertical-align: middle;
+      }
+    }
   }
 }
 
-.leave-poule-button {
-  color: var(--primary-red);
-  padding: 0;
+.race-predictions-card {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  padding: 2.25rem;
+  width: 100%;
+  max-width: 100%;
 
-  .leave-poule-icon {
-    font-size: 24px;
-    vertical-align: middle;
+  h2 {
+    margin-bottom: 1.5rem;
+  }
+
+  .next-race {
+    .nr-title {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      align-items: center;
+      padding-bottom: 1.5rem;
+      gap: 1.5rem;
+
+      h2 {
+        margin-top: -4px;
+        font-style: italic;
+        white-space: nowrap;
+      }
+
+      .nr-info {
+        display: flex;
+        align-items: center;
+        flex-grow: 1;
+        gap: 1.5rem;
+
+        .nr-date {
+          text-transform: uppercase;
+          font-weight: 700;
+          color: var(--primary-red);
+          white-space: nowrap;
+        }
+
+        mat-divider {
+          flex-grow: 1;
+          height: 3px;
+          background-color: var(--text);
+          border: none;
+        }
+
+        .nr-flag {
+          width: 58px;
+          height: 36px;
+          border-radius: 4px;
+          border: 1px solid var(--border);
+        }
+      }
+    }
+
+    .nr-content {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 3rem;
+
+      .nr-circuit {
+        width: 100%;
+        max-width: 500px;
+        height: auto;
+        margin-top: 2rem;
+      }
+
+      .nr-details {
+        width: 100%;
+        max-width: 400px;
+
+        .nr-location {
+          margin-bottom: 1rem;
+        }
+      }
+    }
   }
 }
 
 .mat-mdc-row {
-  --mat-table-row-item-container-height: 40px;
+  --mat-table-row-item-container-height: 44px;
 }
 .mat-mdc-cell {
-  min-height: 40px !important;
+  min-height: 44px !important;
+}
+
+.mat-mdc-header-cell {
+  text-transform: uppercase;
+}
+
+@media (max-width: 830px) {
+  .race-predictions-card .next-race {
+    .nr-title {
+      padding-bottom: 1rem;
+    }
+
+    .nr-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 2rem;
+      
+      .nr-circuit {
+        max-width: 100%;
+        margin-top: 0;
+      }
+      .nr-details {
+        max-width: 100%;
+      }
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .race-predictions-card .next-race {
+    .nr-title {
+      flex-direction: column;
+      align-items: flex-start;
+      padding-bottom: 1rem;
+
+      .nr-info {
+        flex-direction: row;
+        width: 100%;
+
+        mat-divider {
+          width: 100%;
+        }
+      }
+    }
+    .nr-content {
+      gap: 1.5rem;
+
+      .nr-details .mat-mdc-cell {
+        font-size: .85em;
+      }
+    }
+  }
 }

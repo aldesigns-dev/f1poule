@@ -20,6 +20,7 @@ export const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
+    title: 'F1 Poule',
     data: {
       pageTitle: 'F1 Poule'
     }
@@ -27,6 +28,7 @@ export const routes: Routes = [
   {
     path: 'teams',
     component: TeamsComponent,
+    title: 'F1 Teams 2025',
     data: {
       pageTitle: 'F1 Teams 2025'
     }
@@ -34,6 +36,7 @@ export const routes: Routes = [
   {
     path: 'coureurs',
     component: DriversComponent,
+    title: 'F1 Coureurs 2025',
     data: {
       pageTitle: 'F1 Coureurs 2025'
     }
@@ -41,6 +44,7 @@ export const routes: Routes = [
   {
     path: 'races',
     component: RacesComponent,
+    title: 'F1 Races 2025',
     data: {
       pageTitle: 'F1 Races 2025'
     }
@@ -48,11 +52,16 @@ export const routes: Routes = [
   {
     path: 'drivers/:slug',
     component: DriverDetailsComponent,
+    title: 'Coureur Details',
+    data: {
+      pageTitle: 'Coureur Details'
+    }
   },
   {
     path: 'login',
     canActivate: [redirectIfLoggedIn],
     component: LoginComponent,
+    title: 'Login',
     data: {
       pageTitle: 'Login'
     }
@@ -61,6 +70,7 @@ export const routes: Routes = [
     path: 'register',
     canActivate: [redirectIfLoggedIn],
     component: RegisterComponent,
+    title: 'Aanmelden',
     data: {
       pageTitle: 'Aanmelden'
     }
@@ -68,6 +78,7 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
+    title: 'Dashboard',
     data: {
       pageTitle: 'Dashboard'
     }
@@ -76,11 +87,19 @@ export const routes: Routes = [
     path: 'poules',
     canActivate: [authGuard],
     component: PoulesComponent,
+    title: 'Poules',
+    data: {
+      pageTitle: 'Poules'
+    }
   },
   {
     path: 'poules/:id',
     canActivate: [authGuard],
     component: PouleDetailsComponent,
+    title: 'Poule Details',
+    data: {
+      pageTitle: 'Poule Details'
+    }
   },
   {
     path: 'poules/join/:inviteCode',

@@ -1,12 +1,21 @@
 <main>
   <div class="container">
     <h1>{{ pageTitle() }}</h1>
-    <div class="drivers-container">
-      @for (driverStanding of driverStandings; track driverStanding.Driver.driverId) {
-        <a matRipple [routerLink]="getDriverLink(driverStanding.Driver.driverId)" class="driver-card-wrapper">
-          <app-driver-card [driverStanding]="driverStanding" />
-        </a>
-      }
+    <div class="view-toggle-wrapper">
+      <button mat-icon-button (click)="toggleView()" class="view-toggle-button" [matTooltip]="showTableView ? 'Toon kaarten' : 'Toon lijst'">
+      <mat-icon>{{ showTableView ? 'apps' : 'view_headline' }}</mat-icon>
+    </button>
     </div>
+    @if (!showTableView) {
+      <div class="drivers-container">
+        @for (driverStanding of driverStandings; track driverStanding.Driver.driverId) {
+          <a matRipple [routerLink]="getDriverLink(driverStanding.Driver.driverId)" class="driver-card-wrapper">
+            <app-driver-card [driverStanding]="driverStanding" />
+          </a>
+        }
+      </div>
+    } @else {
+      <app-driver-table [driverStanding]="driverStandings" />
+    }
   </div>
 </main>

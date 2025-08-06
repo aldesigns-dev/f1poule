@@ -1,0 +1,49 @@
+<div class="driver-table-container">
+  <table mat-table [dataSource]="driverStanding()" class="driver-table">
+
+    <!-- Positie -->
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef>Positie</th>
+      <td mat-cell *matCellDef="let driver">
+        <strong>{{ driver.position }}</strong>
+      </td>
+    </ng-container>
+
+    <!-- Naam + foto -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Naam</th>
+      <td mat-cell *matCellDef="let driver" class="dt-driver">
+        <img [src]="getDriverImage(driver.Driver.driverId)" alt="driver-image" class="driver-img" [ngStyle]="{ 'background-color': getConstructorColor(driver.Constructors[0].constructorId) }" appHideOnError />
+        <strong>{{ driver.Driver.givenName }} {{ driver.Driver.familyName }}</strong>
+      </td>
+    </ng-container>
+
+    <!-- Nationaliteit -->
+    <ng-container matColumnDef="nationality">
+      <th mat-header-cell *matHeaderCellDef>Nationaliteit</th>
+      <td mat-cell *matCellDef="let driver">
+        <img [src]="getFlagImage(driver.Driver.nationality)" alt="{{ driver.Driver.nationality }}vlag" class="dt-driver-flag" appHideOnError />
+    </ng-container>
+
+    <!-- Team + Logo -->
+    <ng-container matColumnDef="team">
+      <th mat-header-cell *matHeaderCellDef>Team</th>
+      <td mat-cell *matCellDef="let driver" class="dt-team">
+        <img [src]="getConstructorLogo(driver.Constructors[0].constructorId)" alt="dt-team-logo" class="dt-team-logo" appHideOnError />
+        <strong>{{ getConstructorName(driver.Constructors[0].constructorId) }}</strong>
+      </td>
+    </ng-container>
+
+    <!-- Punten -->
+    <ng-container matColumnDef="points">
+      <th mat-header-cell *matHeaderCellDef>Punten</th>
+      <td mat-cell *matCellDef="let driver">
+        <strong>{{ driver.points }}</strong>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="row-link" matRipple
+    [routerLink]="getDriverLink(row.Driver.driverId)"></tr>
+  </table>
+</div>

@@ -36,10 +36,10 @@
         <table mat-table [dataSource]="userPoules" class="poules-table">
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>Poule</th>
-            <td mat-cell *matCellDef="let poule">{{ poule.name }}</td>
+            <td mat-cell *matCellDef="let poule"><strong>{{ poule.name }}</strong></td>
           </ng-container>
           <ng-container matColumnDef="members">
-            <th mat-header-cell *matHeaderCellDef>Deelnemers</th>
+            <th mat-header-cell *matHeaderCellDef>Leden</th>
             <td mat-cell *matCellDef="let poule">{{ poule.members.length }}</td>
           </ng-container>
           <ng-container matColumnDef="status">

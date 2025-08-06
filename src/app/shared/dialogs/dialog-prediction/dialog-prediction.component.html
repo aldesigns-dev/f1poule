@@ -1,0 +1,53 @@
+<h3 mat-dialog-title>Voorspelling voor {{ data.race.Circuit.circuitName }}</h3>
+<mat-divider></mat-divider>
+
+<form [formGroup]="racePredictionForm" class="pr-form" (ngSubmit)="onSubmit()">
+  <h4>Top 5 Coureurs</h4>
+  @for (i of [1, 2, 3, 4, 5]; track i) {
+    <mat-form-field appearance="fill">
+      <mat-label>Positie {{ i }}</mat-label>
+      <mat-select [formControlName]="'driver' + i">
+        @for (standing of driverStandings; track standing.Driver.driverId) {
+          <mat-option [value]="standing.Driver.driverId">
+            {{ standing.Driver.givenName }} {{ standing.Driver.familyName }}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  }
+
+  <h4>Snelste ronde</h4>
+  <mat-form-field>
+    <mat-label>Snelste ronde</mat-label>
+    <mat-select formControlName="fastestLap">
+      @for (standing of driverStandings; track standing.Driver.driverId) {
+        <mat-option [value]="standing.Driver.driverId">
+          {{ standing.Driver.givenName }} {{ standing.Driver.familyName }}
+        </mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <h4>Snelste pitstop</h4>
+  <mat-form-field>
+    <mat-label>Snelste pitstop</mat-label>
+    <mat-select formControlName="fastestPitStop">
+      @for (standing of constructorStandings; track standing.Constructor.constructorId) {
+        <mat-option [value]="standing.Constructor.constructorId">
+          {{ standing.Constructor.name }}
+        </mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-divider></mat-divider>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" mat-dialog-close class="mat-close-button">Annuleren</button>
+    <button mat-button type="submit" [disabled]="racePredictionForm.invalid" class="submit-button">Opslaan</button>
+  </mat-dialog-actions>
+</form>
+
+    <!-- @if (fieldIsInvalid('top5Drivers')) {
+      <mat-error>Naam is verplicht</mat-error>
+    } -->
