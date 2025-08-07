@@ -8,8 +8,8 @@
       <mat-label>Positie {{ i }}</mat-label>
       <mat-select [formControlName]="'driver' + i">
         @for (standing of driverStandings; track standing.Driver.driverId) {
-          <mat-option [value]="standing.Driver.driverId">
-            {{ standing.Driver.givenName }} {{ standing.Driver.familyName }}
+          <mat-option [value]="standing.Driver.driverId" [disabled]="shouldDriverBeDisabled(standing.Driver.driverId, i)">
+            {{ standing.Driver.givenName }} <strong>{{ standing.Driver.familyName }}</strong>
           </mat-option>
         }
       </mat-select>
@@ -22,19 +22,7 @@
     <mat-select formControlName="fastestLap">
       @for (standing of driverStandings; track standing.Driver.driverId) {
         <mat-option [value]="standing.Driver.driverId">
-          {{ standing.Driver.givenName }} {{ standing.Driver.familyName }}
-        </mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
-
-  <h4>Snelste pitstop</h4>
-  <mat-form-field>
-    <mat-label>Snelste pitstop</mat-label>
-    <mat-select formControlName="fastestPitStop">
-      @for (standing of constructorStandings; track standing.Constructor.constructorId) {
-        <mat-option [value]="standing.Constructor.constructorId">
-          {{ standing.Constructor.name }}
+          {{ standing.Driver.givenName }} <strong>{{ standing.Driver.familyName }}</strong>
         </mat-option>
       }
     </mat-select>
@@ -47,7 +35,3 @@
     <button mat-button type="submit" [disabled]="racePredictionForm.invalid" class="submit-button">Opslaan</button>
   </mat-dialog-actions>
 </form>
-
-    <!-- @if (fieldIsInvalid('top5Drivers')) {
-      <mat-error>Naam is verplicht</mat-error>
-    } -->

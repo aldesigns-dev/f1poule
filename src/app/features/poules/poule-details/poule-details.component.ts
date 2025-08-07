@@ -24,6 +24,9 @@ import { JolpicaF1Service } from '../../../core/services/jolpica-f1.service';
 import { getTrackSvg } from '../../../shared/utils/track-utils';
 import { getCountryFlagImage } from '../../../shared/utils/flag-utils';
 import { DialogPredictionComponent } from '../../../shared/dialogs/dialog-prediction/dialog-prediction.component';
+import { DriverStanding } from '../../../core/models/driver-standing.model';
+import { ConstructorStanding } from '../../../core/models/constructor-standing.model';
+import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-poule-details',
@@ -60,6 +63,9 @@ export class PouleDetailsComponent implements OnInit {
   raceInfo: { label: string; date: string; startTime: string; endTime: string }[] = [];
   dateRange: string = '';
   safeSvg: SafeHtml | null = null;
+  predictions: any[] = [];
+  driverStandings: DriverStanding[] = [];
+  constructorStandings: ConstructorStanding[] = [];
 
   getCountryFlagImage = getCountryFlagImage;
 
@@ -78,6 +84,8 @@ export class PouleDetailsComponent implements OnInit {
       this.currentUser.set(user);
     });
     this.loadNextRace();
+    this.loadDriverStandingsSeason();
+    this.loadConstructorStandingsSeason();
   }
 
   private loadMembers(pouleId: string) {
@@ -281,6 +289,36 @@ export class PouleDetailsComponent implements OnInit {
     })
   }
 
+  private loadDriverStandingsSeason() {
+    this.jolpicaF1Service.getDriverStandingsSeason()
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe({
+      next: (data) => {
+        this.driverStandings = data.standings;
+        console.log('[DriversComponent] DriverStandings:', this.driverStandings);
+      },
+      error: (err) => {
+        this.snackbar.open('Fout bij ophalen van coureurs. Probeer het later opnieuw', 'Sluiten', { duration: 3000} );
+        console.error('[DriversComponent] Fout bij ophalen van driver standings:', err);
+      }
+    });
+  }
+
+  private loadConstructorStandingsSeason() {
+    this.jolpicaF1Service.getConstructorStandingsSeason()
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe({
+      next: (data) => {
+        this.constructorStandings = data;
+        console.log('[DialogPredictionComponent] ConstructorStandings:', this.constructorStandings);
+      },
+      error: (err) => {
+        this.snackbar.open('Fout bij ophalen van teams. Probeer het later opnieuw.', 'Sluiten', { duration: 3000 });
+        console.error('[DialogPredictionComponent] Fout bij ophalen constructor standings:', err);
+      }
+    });
+  }
+
   private formatDate(date: string): string {
     return this.datePipe.transform(new Date(date), 'dd-MM-yyyy', 'nl') ?? '';
   }
@@ -312,11 +350,22 @@ export class PouleDetailsComponent implements OnInit {
   openPredictionDialog() {
     if (!this.nextRace || !this.poule()) return;
 
-    this.dialog.open(DialogPredictionComponent, {
+    const dialogRef = this.dialog.open(DialogPredictionComponent, {
       data: {
         race: this.nextRace,
         pouleId: this.pouleId,
-        user: this.currentUser()
+        user: this.currentUser(),
+        driverStandings: this.driverStandings,
+        constructorStandings: this.constructorStandings
+      }
+    });
+    
+    dialogRef.afterClosed()
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe((result) => {
+      if (result) {
+        this.predictions.push(result);
+        this.snackbar.open('Voorspelling succesvol opgeslagen!', 'Sluiten', { duration: 3000 });
       }
     });
   }
