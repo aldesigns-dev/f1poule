@@ -1,8 +1,9 @@
 import { inject, Injectable } from "@angular/core";
-import { addDoc, collection, collectionData, CollectionReference, deleteDoc, doc, docData, Firestore, getDoc, query, updateDoc, where } from "@angular/fire/firestore";
+import { addDoc, collection, collectionData, CollectionReference, deleteDoc, doc, docData, Firestore, getDoc, query, Timestamp, updateDoc, where } from "@angular/fire/firestore";
 import { catchError, combineLatest, map, Observable, of, tap } from "rxjs";
 
 import { Poule } from "../models/poule.model";
+import { Prediction } from "../models/prediction.model";
 
 @Injectable({
   providedIn: 'root'
@@ -10,12 +11,13 @@ import { Poule } from "../models/poule.model";
 export class PouleService {
   private readonly firestore = inject(Firestore);
   private readonly pouleCollection = collection(this.firestore, 'poules') as CollectionReference<Poule>;
+  private readonly predictionCollection = collection(this.firestore, 'predictions') as CollectionReference<Prediction>;
 
   async createPoule(data: {
     name: string,
     description: string,
     createdBy: string,
-    createdAt: string,
+    createdAt: Timestamp,
     isPublic: boolean
   }): Promise<void> {
     try {
@@ -129,6 +131,38 @@ export class PouleService {
       console.error('Fout bij updaten leden:', error);
       throw error;
     }
+  }
+
+  async savePrediction(prediction: Prediction): Promise<void> {
+    try {
+      await addDoc(this.predictionCollection, prediction);
+      console.log('[PouleService] Voorspelling succesvol opgeslagen:', prediction);
+    } catch (error) {
+      console.error('[PouleService] Fout bij opslaan voorspelling:', error);
+      throw error;
+    }
+  }
+
+  async updatePrediction(prediction: Prediction): Promise<void> {
+    try {
+      const { id, ...updateData } = prediction; // id eruit halen.
+      const predictionDocRef = doc(this.predictionCollection, id);
+      await updateDoc(predictionDocRef, updateData);
+      console.log('[PouleService] Voorspelling succesvol bijgewerkt:', prediction);
+    } catch (error) {
+      console.error('[PouleService] Fout bij bijwerken voorspelling:', error);
+      throw error;
+    }
+  }
+
+  getPredictionByUser$(uid: string, pouleId:string, raceId: string): Observable<Prediction[]> {
+    const predictionQuery = query(
+      this.predictionCollection, 
+      where('userId', '==', uid),
+      where('pouleId', '==', pouleId),
+      where('raceId', '==', raceId)
+    );
+    return collectionData(predictionQuery, { idField: 'id' }) as Observable<Prediction[]>;
   }
 
   getPoulesByUser$(uid: string): Observable<Poule[]> {

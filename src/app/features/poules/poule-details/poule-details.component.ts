@@ -11,7 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDivider } from '@angular/material/divider';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { map, switchMap } from 'rxjs';
+import { map } from 'rxjs';
 
 import { PouleService } from '../../../core/services/poule.service';
 import { AuthService } from '../../../core/services/auth.service';
@@ -26,7 +26,6 @@ import { getCountryFlagImage } from '../../../shared/utils/flag-utils';
 import { DialogPredictionComponent } from '../../../shared/dialogs/dialog-prediction/dialog-prediction.component';
 import { DriverStanding } from '../../../core/models/driver-standing.model';
 import { ConstructorStanding } from '../../../core/models/constructor-standing.model';
-import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-poule-details',
@@ -63,9 +62,11 @@ export class PouleDetailsComponent implements OnInit {
   raceInfo: { label: string; date: string; startTime: string; endTime: string }[] = [];
   dateRange: string = '';
   safeSvg: SafeHtml | null = null;
-  predictions: any[] = [];
   driverStandings: DriverStanding[] = [];
   constructorStandings: ConstructorStanding[] = [];
+  driverNameMap = new Map<string, string>();
+  prediction: any[] = [];
+  existingPrediction: any;
 
   getCountryFlagImage = getCountryFlagImage;
 
@@ -75,7 +76,7 @@ export class PouleDetailsComponent implements OnInit {
     .subscribe(params => {
       const pouleId = params.get('id');
       if (pouleId) {
-        this.loadMembers(pouleId);
+        this.loadPoule(pouleId);
       }
     });
     this.authService.currentUser$
@@ -83,119 +84,47 @@ export class PouleDetailsComponent implements OnInit {
     .subscribe(user => {
       this.currentUser.set(user);
     });
-    this.loadNextRace();
     this.loadDriverStandingsSeason();
     this.loadConstructorStandingsSeason();
   }
 
-  private loadMembers(pouleId: string) {
+  private loadPoule(pouleId: string) {
     this.pouleService.getPouleById$(pouleId)
-    .pipe(
-      switchMap(poule => {
-        this.poule.set(poule);
-        // Ophalen poule leden.
-        return this.authService.getUsersByUids$(poule.members ?? []).pipe(
-          map(users => {
-            const points = users.map(user => ({
-              ...user,
-              uid: user.uid,
-              points: Math.floor(Math.random() * 91) + 10
-            }));
-            return points.sort((a, b) => b.points - a.points).map((user, index) => ({
-              ...user,
-              position: index + 1
-            }));
-          })
-        );
-      }),
-      takeUntilDestroyed(this.destroyRef))
-    .subscribe(sortedMembers => {
-      this.members.set(sortedMembers);
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe(poule => {
+      this.poule.set(poule);
+      this.loadMembers();
+      this.loadNextRace();
     });
   }
 
-  get pouleId(): string {
-    const id = this.poule()?.id;
-    if (!id) {
-      throw new Error('Poule ID is unexpectedly undefined');
-    }
-    return id;
-  }
-
-  isPouleOwner(poule: Poule): boolean {
-    const user = this.currentUser();
-    return user?.uid === poule.createdBy;
-  }
-
-  leavePoule(pouleId: string) {
-    const user = this.currentUser();
-    if (!user) {
-      this.snackbar.open('Je moet ingelogd zijn om een poule te verlaten.', 'Sluiten', { duration: 3000 });
+  private loadMembers() {
+    const poule = this.poule();
+    if (!poule?.members?.length) {
+      this.members.set([]);
       return;
     }
 
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      data: { 
-        title: 'Bevestiging',
-        message: 'Weet je zeker dat je deze poule wilt verlaten?'
-      }
-    });
-
-    dialogRef.afterClosed()
-    .pipe(takeUntilDestroyed(this.destroyRef))
-    .subscribe(confirmed => {
-      if (!confirmed) return;
-      
-      this.pouleService.leavePoule(pouleId, user.uid)
-      .then(() => {
-        this.snackbar.open('Je hebt de poule verlaten.', 'Sluiten', { duration: 3000 });
-      })
-      .catch(err => {
-        this.snackbar.open('Fout bij het verlaten van de poule.', 'Sluiten', { duration: 3000 });
-        console.error(err);
+    this.authService.getUsersByUids$(poule.members)
+      .pipe(
+        map(users => {
+          const points = users.map(user => ({
+            ...user,
+            uid: user.uid,
+            points: Math.floor(Math.random() * 91) + 10 // tijdelijk random punten
+          }));
+          return points
+            .sort((a, b) => b.points - a.points)
+            .map((user, index) => ({
+              ...user,
+              position: index + 1
+            }));
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(sortedMembers => {
+        this.members.set(sortedMembers);
       });
-    });
-  }
-
-  removePouleMember(uid: string) {
-    const poule = this.poule();
-    if (!poule?.id) return;
-    if (uid === poule.createdBy) return;
-
-    const currentMembers = this.members();
-    console.log('[PouleDetailsComponent] Huidige leden members signal:', currentMembers);
-    const member = currentMembers.find(m => m.uid === uid);
-
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      data: { 
-        title: 'Bevestiging',
-        message: `Weet je zeker dat je "${member?.username ?? 'dit lid'}" wilt verwijderen uit de poule?`
-      }
-    });
-
-    dialogRef.afterClosed()
-    .pipe(takeUntilDestroyed(this.destroyRef))
-    .subscribe(confirmed => {
-      if (!confirmed) return;
-
-      const updatedMembers = currentMembers
-      .map(m => m.uid)
-      .filter(memberUid => memberUid !== uid);
-      console.log('[PouleDetailsComponent] UIDs na verwijdering:', updatedMembers);
-
-      this.pouleService.updatePouleMembers(poule.id!, updatedMembers)
-      .then(() => {
-        this.members.update(members => members.filter(member => member.uid !== uid));
-        this.poule.update(p => ({ ...p!, members: updatedMembers }));
-        this.snackbar.open('Lid succesvol verwijderd.', 'Sluiten', { duration: 3000 });
-        console.log('[PouleDetailsComponent] Lid succesvol verwijderd.');
-      })
-      .catch(err => {
-        console.error('[PouleDetailsComponent] Fout bij verwijderen lid:', err);
-        this.members.set(currentMembers);
-        this.snackbar.open('Fout bij verwijderen lid.', 'Sluiten', { duration: 3000 });
-      });
-    })
   }
 
   private loadNextRace() {
@@ -281,6 +210,7 @@ export class PouleDetailsComponent implements OnInit {
           startTime: this.formatTime(this.nextRace.date, this.nextRace.time),
           endTime: this.formatTimeWithOffset(this.nextRace.date, this.nextRace.time, 120),
         });
+        this.loadPrediction();
       },
       error: (err) => {
         console.error(err);
@@ -289,12 +219,39 @@ export class PouleDetailsComponent implements OnInit {
     })
   }
 
+  private loadPrediction() {
+    const user = this.currentUser();
+    const poule = this.poule();
+    const raceId = this.nextRace ? `${this.nextRace.season}-${this.nextRace.round}` : null;
+
+    if (!user || !poule?.id || !raceId) return;
+
+    this.pouleService.getPredictionByUser$(user.uid, poule.id, raceId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(prediction => {
+        this.prediction = prediction || [];
+        this.existingPrediction = this.prediction.length > 0 ? this.prediction[0] : null;
+
+        if (this.existingPrediction) {
+          console.log('[PouleDetailsComponent] Bestaande voorspelling gevonden:', this.existingPrediction);
+        } else {
+          console.log('[PouleDetailsComponent] Geen bestaande voorspelling gevonden.');
+        }
+      });
+  }
+
   private loadDriverStandingsSeason() {
     this.jolpicaF1Service.getDriverStandingsSeason()
     .pipe(takeUntilDestroyed(this.destroyRef))
     .subscribe({
       next: (data) => {
         this.driverStandings = data.standings;
+        this.driverNameMap = new Map(
+          data.standings.map(s => [
+            s.Driver.driverId,
+            `${s.Driver.givenName} ${s.Driver.familyName}`
+          ])
+        );
         console.log('[DriversComponent] DriverStandings:', this.driverStandings);
       },
       error: (err) => {
@@ -347,6 +304,90 @@ export class PouleDetailsComponent implements OnInit {
     return `${startDay} ${month} - ${endDay} ${month}`;
   }
 
+  get pouleId(): string {
+    const id = this.poule()?.id;
+    if (!id) {
+      throw new Error('Poule Id niet gevonden');
+    }
+    return id;
+  }
+
+  isPouleOwner(poule: Poule): boolean {
+    const user = this.currentUser();
+    return user?.uid === poule.createdBy;
+  }
+
+  leavePoule(pouleId: string) {
+    const user = this.currentUser();
+    if (!user) {
+      this.snackbar.open('Je moet ingelogd zijn om een poule te verlaten.', 'Sluiten', { duration: 3000 });
+      return;
+    }
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: { 
+        title: 'Bevestiging',
+        message: 'Weet je zeker dat je deze poule wilt verlaten?'
+      }
+    });
+
+    dialogRef.afterClosed()
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe(confirmed => {
+      if (!confirmed) return;
+      
+      this.pouleService.leavePoule(pouleId, user.uid)
+      .then(() => {
+        this.snackbar.open('Je hebt de poule verlaten.', 'Sluiten', { duration: 3000 });
+      })
+      .catch(err => {
+        this.snackbar.open('Fout bij het verlaten van de poule.', 'Sluiten', { duration: 3000 });
+        console.error(err);
+      });
+    });
+  }
+
+  removePouleMember(uid: string) {
+    const poule = this.poule();
+    if (!poule?.id) return;
+    if (uid === poule.createdBy) return;
+
+    const currentMembers = this.members();
+    console.log('[PouleDetailsComponent] Huidige leden members signal:', currentMembers);
+    const member = currentMembers.find(m => m.uid === uid);
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: { 
+        title: 'Bevestiging',
+        message: `Weet je zeker dat je "${member?.username ?? 'dit lid'}" wilt verwijderen uit de poule?`
+      }
+    });
+
+    dialogRef.afterClosed()
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe(confirmed => {
+      if (!confirmed) return;
+
+      const updatedMembers = currentMembers
+      .map(m => m.uid)
+      .filter(memberUid => memberUid !== uid);
+      console.log('[PouleDetailsComponent] UIDs na verwijdering:', updatedMembers);
+
+      this.pouleService.updatePouleMembers(poule.id!, updatedMembers)
+      .then(() => {
+        this.members.update(members => members.filter(member => member.uid !== uid));
+        this.poule.update(p => ({ ...p!, members: updatedMembers }));
+        this.snackbar.open('Lid succesvol verwijderd.', 'Sluiten', { duration: 3000 });
+        console.log('[PouleDetailsComponent] Lid succesvol verwijderd.');
+      })
+      .catch(err => {
+        console.error('[PouleDetailsComponent] Fout bij verwijderen lid:', err);
+        this.members.set(currentMembers);
+        this.snackbar.open('Fout bij verwijderen lid.', 'Sluiten', { duration: 3000 });
+      });
+    })
+  }
+
   openPredictionDialog() {
     if (!this.nextRace || !this.poule()) return;
 
@@ -356,7 +397,8 @@ export class PouleDetailsComponent implements OnInit {
         pouleId: this.pouleId,
         user: this.currentUser(),
         driverStandings: this.driverStandings,
-        constructorStandings: this.constructorStandings
+        constructorStandings: this.constructorStandings,
+        prediction: this.existingPrediction
       }
     });
     
@@ -364,8 +406,21 @@ export class PouleDetailsComponent implements OnInit {
     .pipe(takeUntilDestroyed(this.destroyRef))
     .subscribe((result) => {
       if (result) {
-        this.predictions.push(result);
-        this.snackbar.open('Voorspelling succesvol opgeslagen!', 'Sluiten', { duration: 3000 });
+        const userId = this.currentUser()?.uid;
+        result.userId = userId;
+        result.pouleId = this.poule()?.id;
+        result.raceId = `${this.nextRace?.season}-${this.nextRace?.round}`;
+
+        this.pouleService.savePrediction(result)
+          .then(() => {
+            this.prediction = [result];
+            this.existingPrediction = result;
+            this.snackbar.open('Voorspelling succesvol opgeslagen!', 'Sluiten', { duration: 3000 });
+          })
+          .catch(err => {
+            console.error('Fout bij opslaan voorspelling:', err);
+            this.snackbar.open('Opslaan mislukt.', 'Sluiten', { duration: 3000 });
+          });
       }
     });
   }

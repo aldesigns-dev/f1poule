@@ -76,19 +76,24 @@
         </div>
       </div>
       <div class="predictions">
-        <button mat-button (click)="openPredictionDialog()">Doe een voorspelling</button>
+        @if (!existingPrediction) {
+          <button mat-button (click)="openPredictionDialog()">Doe een voorspelling</button>
+        } @else {
+          <button mat-button (click)="openPredictionDialog()">Wijzig voorspelling</button>
+        }
         <div class="predictions-list">
-          @if (predictions.length > 0) {
+          @if (prediction.length > 0) {
             <div class="prediction">
               <h4>Jouw voorspelling</h4>
               <div class="prediction-details">
                 <p>Top 5 Coureurs:</p>
                 <ul>
                   @for (i of [1, 2, 3, 4, 5]; track i) {
-                    <li>{{ i }}: {{ (predictions[0]['driver' + i]) }}</li>
+                    <li>{{ i }}: {{ driverNameMap.get(prediction[0]['driver' + i]) }}</li>
                   }
                 </ul>
-                <p>Snelste ronde: {{ (predictions[0].fastestLap) }}</p>
+                <p>Snelste ronde:</p>
+                 {{ driverNameMap.get(prediction[0].fastestLap) }}
             </div>
             </div>
           }

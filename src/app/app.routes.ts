@@ -15,6 +15,7 @@ import { PoulesComponent } from './features/poules/poules.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { JoinPouleComponent } from './features/poules/join-poule/join-poule.component';
 import { PouleDetailsComponent } from './features/poules/poule-details/poule-details.component';
+import { SpeluitlegComponent } from './pages/speluitleg/speluitleg.component';
 
 export const routes: Routes = [
   {
@@ -81,6 +82,14 @@ export const routes: Routes = [
     title: 'Dashboard',
     data: {
       pageTitle: 'Dashboard'
+    }
+  },
+  {
+    path: 'speluitleg',
+    component: SpeluitlegComponent,
+    title: 'Speluitleg',
+    data: {
+      pageTitle: 'Speluitleg'
     }
   },
   {

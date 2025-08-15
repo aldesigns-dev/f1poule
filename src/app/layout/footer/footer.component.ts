@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { MatDivider } from '@angular/material/divider';
 
 import { HideOnErrorDirective } from '../../shared/directives/hide-on-error.directive';
@@ -6,7 +7,7 @@ import { HideOnErrorDirective } from '../../shared/directives/hide-on-error.dire
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [HideOnErrorDirective, MatDivider],
+  imports: [HideOnErrorDirective, MatDivider, RouterLink],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.scss'
 })

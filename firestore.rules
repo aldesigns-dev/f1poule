@@ -51,5 +51,13 @@ service cloud.firestore {
       allow delete: if request.auth != null
                     && request.auth.uid == resource.data.createdBy;
     }
+
+    // Rules for 'predictions' collection:
+    match /predictions/{predictionId} {
+      // Only authenticated users can create, edit and delete a prediction.
+      allow create, update, delete: if request.auth != null && request.auth.uid == request.resource.data.userId;
+      // All users may see predictions.
+      allow read: if true;
+    }
   }
 }

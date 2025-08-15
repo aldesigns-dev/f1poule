@@ -22,6 +22,7 @@ import { Poule } from '../../core/models/poule.model';
 import { DialogNewPouleComponent } from '../../shared/dialogs/dialog-new-poule/dialog-new-poule.component';
 import { DialogEditPouleComponent } from '../../shared/dialogs/dialog-edit-poule/dialog-edit-poule.component';
 import { ConfirmDialogComponent } from '../../shared/dialogs/dialog-confirm/dialog-confirm.component';
+import { Timestamp } from 'firebase/firestore';
 
 @Component({
   selector: 'app-poules',
@@ -66,8 +67,7 @@ export class PoulesComponent {
         description,
         isPublic,
         createdBy: user.uid,
-        createdAt: new Date().toISOString(),
-        members: [user.uid]
+        createdAt: Timestamp.now(),
       };
 
       try {
